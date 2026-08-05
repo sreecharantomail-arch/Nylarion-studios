@@ -1,6 +1,6 @@
-/* -------------------------------------------------------------
+/* =============================================================
    1. LOADING SCREEN ANIMATION LOGIC
-------------------------------------------------------------- */
+============================================================= */
 window.addEventListener('DOMContentLoaded', () => {
   const loader = document.getElementById('loader-screen');
   const bar = document.getElementById('loader-bar');
@@ -20,11 +20,11 @@ window.addEventListener('DOMContentLoaded', () => {
     progress += Math.floor(Math.random() * 12) + 5;
     if (progress > 100) progress = 100;
 
-    bar.style.width = progress + '%';
-    percentText.textContent = progress + '%';
+    if (bar) bar.style.width = progress + '%';
+    if (percentText) percentText.textContent = progress + '%';
 
     const statusIdx = Math.min(Math.floor((progress / 100) * statuses.length), statuses.length - 1);
-    statusText.textContent = statuses[statusIdx];
+    if (statusText) statusText.textContent = statuses[statusIdx];
 
     if (progress >= 100) {
       clearInterval(interval);
@@ -35,9 +35,9 @@ window.addEventListener('DOMContentLoaded', () => {
   }, 120);
 });
 
-/* -------------------------------------------------------------
-   2. THREE.JS 100% COLOR-ACCURATE 3D FLOATING EMBLEM
-------------------------------------------------------------- */
+/* =============================================================
+   2. THREE.JS SCENE & 100% COLOR-ACCURATE 3D LOGO
+============================================================= */
 (function init3DLogo() {
   const container = document.getElementById('canvas-container');
   if (!container) return;
@@ -144,7 +144,9 @@ window.addEventListener('DOMContentLoaded', () => {
 
   scene.add(mainGroup);
 
-  // Vibrant Pure Cyan & Metallic Gold Floating Color Dots (280 Particles)
+  /* =============================================================
+     3. PARTICLES & FLOATING COLOR DOTS
+  ============================================================= */
   const particlesGeo = new THREE.BufferGeometry();
   const count = 280;
   const positions = new Float32Array(count * 3);
@@ -177,7 +179,9 @@ window.addEventListener('DOMContentLoaded', () => {
   const particles = new THREE.Points(particlesGeo, particlesMat);
   scene.add(particles);
 
-  // Pointer & Drag Interactions
+  /* =============================================================
+     4. MOUSE & TOUCH INTERACTION HANDLERS
+  ============================================================= */
   let isDragging = false;
   let previousMousePosition = { x: 0, y: 0 };
   let targetRotationY = 0;
@@ -233,7 +237,9 @@ window.addEventListener('DOMContentLoaded', () => {
 
   window.addEventListener('touchend', () => { isDragging = false; });
 
-  // Resize Listener
+  /* =============================================================
+     5. SMOOTH SCROLL & RESIZE LISTENERS
+  ============================================================= */
   window.addEventListener('resize', () => {
     const newW = container.clientWidth;
     const newH = container.clientHeight;
