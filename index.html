@@ -64,14 +64,24 @@
         </div>
       </a>
 
-      <ul class="nav-links">
+      <!-- Mobile Hamburger Toggle Button -->
+      <button class="mobile-nav-toggle" id="mobile-toggle" aria-label="Toggle Navigation Menu">
+        <span class="bar"></span>
+        <span class="bar"></span>
+        <span class="bar"></span>
+      </button>
+
+      <ul class="nav-links" id="nav-menu">
         <li><a href="#about">About</a></li>
         <li><a href="#games">Portfolio</a></li>
         <li><a href="#about">Philosophy</a></li>
         <li><a href="#careers">Updates</a></li>
+        <li class="mobile-only-item">
+          <a href="#games" class="btn btn-primary nav-mobile-btn">Our Projects</a>
+        </li>
       </ul>
 
-      <a href="#games" class="nav-cta">Our Projects</a>
+      <a href="#games" class="nav-cta desktop-cta">Our Projects</a>
     </nav>
   </header>
 
@@ -84,7 +94,7 @@
 
       <!-- Interactive 3D Seamless Floating Emblem Canvas -->
       <div id="canvas-container">
-        <div class="canvas-hint">Drag or Move Mouse to Rotate 3D Emblem</div>
+        <div class="canvas-hint">Drag or Touch to Rotate 3D Emblem</div>
       </div>
 
       <!-- Hero Typography & Slogan -->

@@ -240,13 +240,28 @@ window.addEventListener('DOMContentLoaded', () => {
   /* =============================================================
      5. SMOOTH SCROLL & RESIZE LISTENERS
   ============================================================= */
-  window.addEventListener('resize', () => {
+  function updateCameraForViewport() {
     const newW = container.clientWidth;
     const newH = container.clientHeight;
     camera.aspect = newW / newH;
+    
+    // Scale camera distance on smaller screens so the emblem fits nicely
+    if (newW <= 480) {
+      camera.position.z = 7.8;
+    } else if (newW <= 768) {
+      camera.position.z = 7.2;
+    } else {
+      camera.position.z = 6.8;
+    }
+
     camera.updateProjectionMatrix();
     renderer.setSize(newW, newH);
-  });
+  }
+
+  // Initial camera setup
+  updateCameraForViewport();
+
+  window.addEventListener('resize', updateCameraForViewport);
 
   // Animation Loop
   let clock = new THREE.Clock();
@@ -269,3 +284,40 @@ window.addEventListener('DOMContentLoaded', () => {
 
   animate();
 })();
+
+/* =============================================================
+   6. MOBILE NAVIGATION DRAWER TOGGLE
+============================================================= */
+document.addEventListener('DOMContentLoaded', () => {
+  const mobileToggle = document.getElementById('mobile-toggle');
+  const navMenu = document.getElementById('nav-menu');
+
+  if (mobileToggle && navMenu) {
+    const toggleMenu = () => {
+      const isOpen = navMenu.classList.contains('active');
+      mobileToggle.classList.toggle('active');
+      navMenu.classList.toggle('active');
+
+      if (!isOpen) {
+        document.body.style.overflow = 'hidden';
+      } else {
+        document.body.style.overflow = '';
+      }
+    };
+
+    mobileToggle.addEventListener('click', toggleMenu);
+
+    // Close mobile menu when a nav link is clicked
+    const links = navMenu.querySelectorAll('a');
+    links.forEach(link => {
+      link.addEventListener('click', () => {
+        if (navMenu.classList.contains('active')) {
+          mobileToggle.classList.remove('active');
+          navMenu.classList.remove('active');
+          document.body.style.overflow = '';
+        }
+      });
+    });
+  }
+});
+

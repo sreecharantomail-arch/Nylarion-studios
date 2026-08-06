@@ -33,10 +33,15 @@ html {
   background: var(--bg-void);
   color: var(--text-hi);
   font-family: var(--font-body);
+  overflow-x: hidden;
+  max-width: 100vw;
+  width: 100%;
 }
 
 body {
   overflow-x: hidden;
+  max-width: 100vw;
+  width: 100%;
   line-height: 1.6;
 }
 
@@ -275,6 +280,52 @@ nav {
 
 .nav-links a:hover::after {
   width: 100%;
+}
+
+/* Mobile Navigation Hamburger Toggle Button */
+.mobile-nav-toggle {
+  display: none;
+  flex-direction: column;
+  justify-content: space-around;
+  width: 40px;
+  height: 40px;
+  padding: 9px 8px;
+  background: rgba(0, 240, 255, 0.08);
+  border: 1px solid var(--line-strong);
+  border-radius: 6px;
+  cursor: pointer;
+  z-index: 105;
+  transition: all 0.3s ease;
+}
+
+.mobile-nav-toggle .bar {
+  width: 100%;
+  height: 2px;
+  background: var(--cyan);
+  border-radius: 2px;
+  transition: all 0.3s ease;
+  box-shadow: 0 0 8px var(--cyan-glow);
+}
+
+.mobile-nav-toggle.active {
+  background: rgba(0, 240, 255, 0.22);
+  border-color: var(--cyan);
+}
+
+.mobile-nav-toggle.active .bar:nth-child(1) {
+  transform: translateY(7px) rotate(45deg);
+}
+
+.mobile-nav-toggle.active .bar:nth-child(2) {
+  opacity: 0;
+}
+
+.mobile-nav-toggle.active .bar:nth-child(3) {
+  transform: translateY(-7px) rotate(-45deg);
+}
+
+.mobile-only-item {
+  display: none;
 }
 
 .nav-cta {
@@ -966,7 +1017,7 @@ footer {
 }
 
 /* =============================================================
-   11. RESPONSIVE DESIGN
+   11. RESPONSIVE DESIGN & MOBILE OPTIMIZATION
 ============================================================= */
 @media (max-width: 992px) {
   .about-grid {
@@ -975,7 +1026,7 @@ footer {
   }
 
   .about-visual {
-    max-width: 380px;
+    max-width: 340px;
     margin: 0 auto;
   }
 
@@ -997,9 +1048,283 @@ footer {
   }
 }
 
-@media (max-width: 640px) {
-  .nav-links {
+@media (max-width: 768px) {
+  header nav {
+    padding: 12px 18px;
+  }
+
+  .desktop-cta {
     display: none;
+  }
+
+  .mobile-nav-toggle {
+    display: flex;
+  }
+
+  .nav-links {
+    position: fixed;
+    top: 0;
+    right: -100%;
+    width: 82vw;
+    max-width: 320px;
+    height: 100vh;
+    background: rgba(6, 9, 18, 0.96);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-left: 1px solid var(--line-strong);
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 24px;
+    padding: 40px 24px;
+    z-index: 104;
+    transition: right 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    box-shadow: -12px 0 40px rgba(0, 0, 0, 0.85);
+  }
+
+  .nav-links.active {
+    right: 0;
+  }
+
+  .nav-links a {
+    font-size: 17px;
+    letter-spacing: 0.18em;
+  }
+
+  .mobile-only-item {
+    display: block;
+    width: 100%;
+    margin-top: 12px;
+    text-align: center;
+  }
+
+  .nav-mobile-btn {
+    width: 100%;
+    justify-content: center;
+    padding: 14px 24px;
+  }
+
+  /* Hero Mobile Section Adjustments */
+  .hero-section {
+    padding: 85px 16px 36px;
+    min-height: auto;
+  }
+
+  #canvas-container {
+    height: 270px;
+    max-width: 100%;
+    margin-top: 0px;
+    margin-bottom: 12px;
+  }
+
+  .canvas-hint {
+    font-size: 10px;
+    padding: 4px 14px;
+    letter-spacing: 0.15em;
+    bottom: -4px;
+  }
+
+  .hero-label {
+    font-size: 11px;
+    letter-spacing: 0.22em;
+    margin-bottom: 10px;
+  }
+
+  .hero-label::before,
+  .hero-label::after {
+    margin: 0 6px;
+  }
+
+  .hero-title {
+    font-size: clamp(26px, 7.5vw, 48px);
+    margin-bottom: 14px;
+    line-height: 1.1;
+  }
+
+  .hero-description {
+    font-size: 14.5px;
+    line-height: 1.6;
+    margin-bottom: 26px;
+    padding: 0 4px;
+  }
+
+  .hero-actions {
+    flex-direction: column;
+    width: 100%;
+    gap: 12px;
+    margin-bottom: 28px;
+  }
+
+  .hero-actions .btn {
+    width: 100%;
+    justify-content: center;
+    padding: 14px 24px;
+    font-size: 14px;
+  }
+
+  .scroll-cue {
+    position: relative;
+    bottom: auto;
+    left: auto;
+    transform: none;
+    margin-top: 8px;
+  }
+
+  /* About section mobile */
+  section {
+    padding: 56px 16px;
+  }
+
+  .about-grid {
+    grid-template-columns: 1fr;
+    gap: 32px;
+  }
+
+  .about-text-block p {
+    font-size: 14.5px;
+    line-height: 1.65;
+    margin-bottom: 16px;
+  }
+
+  .about-visual {
+    max-width: 270px;
+    width: 100%;
+    margin: 0 auto;
+  }
+
+  .visual-core {
+    width: 65%;
+    height: 65%;
+  }
+
+  .core-number {
+    font-size: 34px;
+  }
+
+  .core-label {
+    font-size: 10px;
+    letter-spacing: 0.18em;
+  }
+
+  .pillars-grid {
+    grid-template-columns: 1fr;
+    gap: 14px;
+  }
+
+  .pillar-card {
+    padding: 18px 16px;
+  }
+
+  /* Portfolio/Games section mobile */
+  .games-grid {
+    grid-template-columns: 1fr;
+    gap: 20px;
+    margin-top: 32px;
+  }
+
+  .game-card {
+    padding: 22px 18px;
+  }
+
+  .game-media-placeholder {
+    height: 140px;
+    margin-bottom: 16px;
+  }
+
+  .game-card h3 {
+    font-size: 19px;
+  }
+
+  .game-card p {
+    font-size: 13.5px;
+  }
+
+  /* Stats Banner mobile */
+  .stats-banner {
+    padding: 36px 16px;
+  }
+
+  .stats-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+  }
+
+  .stat-item {
+    border-right: none;
+    border-bottom: 1px solid var(--line);
+    padding: 10px 6px;
+  }
+
+  .stat-item:nth-child(3),
+  .stat-item:nth-child(4) {
+    border-bottom: none;
+  }
+
+  .stat-val {
+    font-size: 26px;
+  }
+
+  .stat-desc {
+    font-size: 11px;
+    letter-spacing: 0.12em;
+  }
+
+  /* Updates banner mobile */
+  .careers-banner h2 {
+    font-size: clamp(22px, 5.5vw, 36px);
+  }
+
+  .careers-banner p {
+    font-size: 14.5px;
+  }
+
+  /* Footer mobile */
+  footer {
+    padding: 48px 16px 24px;
+  }
+
+  .footer-grid {
+    grid-template-columns: 1fr;
+    gap: 28px;
+    margin-bottom: 36px;
+  }
+
+  .footer-col a {
+    word-break: break-word;
+  }
+
+  .footer-bottom {
+    flex-direction: column;
+    text-align: center;
+    gap: 8px;
+  }
+}
+
+@media (max-width: 480px) {
+  header nav {
+    padding: 10px 14px;
+  }
+
+  .brand-text {
+    font-size: 14px;
+  }
+
+  .brand-text span {
+    font-size: 9px;
+    letter-spacing: 0.3em;
+  }
+
+  .brand-icon {
+    width: 36px;
+    height: 36px;
+  }
+
+  #canvas-container {
+    height: 240px;
+  }
+
+  .hero-title {
+    font-size: clamp(22px, 7vw, 38px);
   }
 
   .stats-grid {
@@ -1007,15 +1332,11 @@ footer {
   }
 
   .stat-item {
-    border-right: none;
     border-bottom: 1px solid var(--line);
   }
 
-  .footer-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .pillars-grid {
-    grid-template-columns: 1fr;
+  .stat-item:last-child {
+    border-bottom: none;
   }
 }
+
