@@ -4,7 +4,34 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Nylarion Studios — Play Beyond Reality</title>
+  <title>Nylarion Studios — Play Beyond Reality | Independent Game Development</title>
+
+  <!-- SEO Meta -->
+  <meta name="description"
+    content="Nylarion Studios is an independent game development studio creating immersive games and innovative digital experiences. Guided by creativity, quality, and innovation.">
+  <meta name="keywords" content="Nylarion Studios, indie games, game development, interactive experiences, play beyond reality">
+  <meta name="author" content="Nylarion Studios">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://nylarionstudios.com">
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Nylarion Studios — Play Beyond Reality">
+  <meta property="og:description"
+    content="Independent game development studio crafting immersive games and innovative digital experiences.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://nylarionstudios.com">
+  <meta property="og:image" content="assets/images/center-logo.png">
+  <meta property="og:site_name" content="Nylarion Studios">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Nylarion Studios — Play Beyond Reality">
+  <meta name="twitter:description"
+    content="Independent game development studio crafting immersive games and innovative digital experiences.">
+  <meta name="twitter:image" content="assets/images/center-logo.png">
+
+  <!-- Theme Color -->
+  <meta name="theme-color" content="#0a0e1a">
 
   <!-- Favicon -->
   <link rel="icon" href="assets/images/favicon.ico" type="image/x-icon">
@@ -17,7 +44,7 @@
     rel="stylesheet">
 
   <!-- Custom CSS Stylesheet -->
-  <link rel="stylesheet" href="css/styles.css">
+  <link rel="stylesheet" href="css/styles.css?v=2.1">
 
   <!-- Three.js CDN -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
@@ -28,11 +55,11 @@
   <!-- =============================================================
        1. LOADING SCREEN
   ============================================================= -->
-  <div id="loader-screen">
+  <div id="loader-screen" role="status" aria-label="Loading Nylarion Studios">
     <div class="loader-bg-glow"></div>
     <div class="loader-content">
       <div class="loader-mark">
-        <img src="assets/images/logo.png" alt="Nylarion Studios Logo" loading="eager">
+        <img src="assets/images/logo.png" alt="Nylarion Studios Logo" loading="eager" width="110" height="110">
       </div>
       <div class="loader-title">NYLARION STUDIOS</div>
       <div class="loader-subtitle">PLAY BEYOND REALITY</div>
@@ -48,15 +75,17 @@
     </div>
   </div>
 
-  <!-- Background Canvas Grid & Ambient Elements -->
-  <div class="bg-grid-pattern"></div>
+  <!-- Subtle ambient background -->
+  <div class="bg-ambient" aria-hidden="true"></div>
 
-  <!-- NAVIGATION -->
-  <header>
-    <nav>
-      <a href="#top" class="brand">
+  <!-- =============================================================
+       2. NAVIGATION
+  ============================================================= -->
+  <header id="site-header">
+    <nav aria-label="Main Navigation">
+      <a href="#hero" class="brand" id="nav-brand">
         <div class="brand-icon">
-          <img src="assets/images/logo.png" alt="Nylarion Studios Logo" loading="eager">
+          <img src="assets/images/logo.png" alt="Nylarion Studios" loading="eager" width="44" height="44">
         </div>
         <div class="brand-text">
           NYLARION
@@ -64,162 +93,167 @@
         </div>
       </a>
 
-      <!-- Mobile Hamburger Toggle Button -->
-      <button class="mobile-nav-toggle" id="mobile-toggle" aria-label="Toggle Navigation Menu">
+      <!-- Mobile Hamburger Toggle -->
+      <button class="mobile-nav-toggle" id="mobile-toggle" aria-label="Toggle Navigation Menu"
+        aria-expanded="false" aria-controls="nav-menu">
         <span class="bar"></span>
         <span class="bar"></span>
         <span class="bar"></span>
       </button>
 
-      <ul class="nav-links" id="nav-menu">
-        <li><a href="#about">About</a></li>
-        <li><a href="#games">Portfolio</a></li>
-        <li><a href="#about">Philosophy</a></li>
-        <li><a href="#careers">Updates</a></li>
-        <li class="mobile-only-item">
-          <a href="#games" class="btn btn-primary nav-mobile-btn">Our Projects</a>
+      <ul class="nav-links" id="nav-menu" role="menubar">
+        <li role="none"><a href="#about" role="menuitem">About</a></li>
+        <li role="none"><a href="#games" role="menuitem">Games</a></li>
+        <li role="none"><a href="#technology" role="menuitem">Technology</a></li>
+        <li role="none"><a href="#contact" role="menuitem">Contact</a></li>
+        <li class="mobile-only-item" role="none">
+          <a href="#games" class="btn btn-primary nav-mobile-btn" role="menuitem">Explore Our Games</a>
         </li>
       </ul>
 
-      <a href="#games" class="nav-cta desktop-cta">Our Projects</a>
+      <div class="nav-actions">
+        <button type="button" class="btn-nav-ai" id="nav-ai-btn" aria-label="Open Nylarion AI Assistant">
+          <span class="ai-sparkle" aria-hidden="true">✦</span> Ask AI
+        </button>
+        <a href="#games" class="nav-cta desktop-cta" id="nav-cta-btn">Explore Our Games</a>
+      </div>
     </nav>
   </header>
 
-  <main id="top">
-    <!-- =============================================================
-         2. HERO SECTION: 3D INTERLOCKING LOGO & PLAY BEYOND REALITY
-    ============================================================= -->
-    <section class="hero-section">
-      <div class="hero-glow-orb"></div>
+  <!-- =============================================================
+       3. MAIN CONTENT
+  ============================================================= -->
+  <main>
 
-      <!-- Interactive 3D Seamless Floating Emblem Canvas -->
-      <div id="canvas-container">
-        <!-- Reliable center-logo fallback: shown if WebGL/Three.js cannot load the 3D emblem. -->
+    <!-- ===================== HERO SECTION ===================== -->
+    <section class="hero-section" id="hero">
+      <div class="hero-glow-orb" aria-hidden="true"></div>
+
+      <!-- 3D Emblem Canvas -->
+      <div id="canvas-container" aria-label="Interactive 3D Nylarion Studios emblem">
         <img class="hero-center-logo" src="assets/images/center-logo.png" alt="Nylarion Studios emblem">
-        <div class="canvas-hint">Drag or Touch to Rotate 3D Emblem</div>
+        <div class="canvas-hint">Drag or Touch to Rotate</div>
       </div>
 
-      <!-- Hero Typography & Slogan -->
-      <div class="hero-content">
+      <!-- Hero Content -->
+      <div class="hero-content" data-reveal>
         <span class="hero-label">INDEPENDENT GAME DEVELOPMENT STUDIO</span>
         <h1 class="hero-title">PLAY <span>BEYOND REALITY.</span></h1>
         <p class="hero-description">
-          Creating immersive games and innovative digital experiences. Guided by creativity, quality, and innovation, we
-          are building experiences that inspire players and shape the future of interactive entertainment.
+          Creating immersive games and innovative digital experiences.
+          Guided by creativity, quality, and innovation — building worlds that inspire players.
         </p>
 
         <div class="hero-actions">
-          <a href="#about" class="btn btn-primary">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+          <a href="#games" class="btn btn-primary" id="hero-cta-primary">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
               <path d="M8 5v14l11-7z" />
             </svg>
-            Discover Studio
+            Explore Our Games
           </a>
-          <a href="#games" class="btn btn-secondary">
-            Our Projects
+          <a href="#about" class="btn btn-secondary" id="hero-cta-secondary">
+            Discover Studio
           </a>
         </div>
       </div>
 
-      <!-- SCROLL DOWN INDICATOR -->
-      <a href="#about" class="scroll-cue">
-        <span>SCROLL DOWN</span>
+      <!-- Scroll Indicator -->
+      <a href="#about" class="scroll-cue" aria-label="Scroll down to About section">
+        <span>SCROLL</span>
         <div class="scroll-line"></div>
       </a>
     </section>
 
-    <!-- =============================================================
-         3. ABOUT NYLARION STUDIOS
-    ============================================================= -->
+    <!-- ===================== ABOUT SECTION ===================== -->
     <section class="about-section" id="about">
       <div class="container">
         <div class="about-grid">
-          <div class="about-text-block">
+          <div class="about-text-block" data-reveal>
             <span class="section-tag">WHO WE ARE</span>
             <h2 class="section-title">Crafting Games with Passion & Purpose</h2>
             <p>
               Nylarion Studios is an independent game development studio dedicated to building immersive games and
               creative digital experiences. We believe that great games begin with raw creativity, meticulous attention
-              to detail, and a commitment to continuous learning. As a growing team of creators, we focus on developing
-              memorable titles across mobile, PC, and innovative platforms.
+              to detail, and a commitment to continuous learning.
             </p>
             <p>
-              <strong>Mission:</strong> Our mission is to create engaging and memorable games that combine creativity,
-              technology, and meaningful player experiences.
-              <br><br>
-              <strong>Vision:</strong> Our vision is to grow into a globally recognized independent game development
-              studio known for quality, innovation, and unforgettable experiences.
-              <br><br>
-              <strong>Development Philosophy:</strong> We believe in quality over quantity. Every game we craft is built
-              with clean design, technical precision, and authentic player feedback. We embrace new technologies while
-              keeping player experience at the heart of everything we create.
+              As a growing studio, we focus on developing memorable titles across mobile, PC, and innovative platforms —
+              where every project reflects our vision, creativity, and dedication to quality.
             </p>
 
-            <div class="pillars-grid">
-              <div class="pillar-card">
-                <div class="pillar-icon">
-                  <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                    <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" />
-                  </svg>
-                </div>
-                <h4>Creativity</h4>
-                <p>We push artistic boundaries to design unique worlds, compelling mechanics, and stories that resonate
-                  with players.</p>
+            <div class="about-values">
+              <div class="about-value-item" data-reveal>
+                <h4>Our Mission</h4>
+                <p>Create engaging and memorable games that combine creativity, technology, and meaningful player experiences.</p>
               </div>
-
-              <div class="pillar-card">
-                <div class="pillar-icon">
-                  <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                    <circle cx="12" cy="12" r="10" />
-                    <path d="M12 6v6l4 2" />
-                  </svg>
-                </div>
-                <h4>Innovation</h4>
-                <p>We continuously explore new game engines, interactive technologies, and concepts to deliver fresh
-                  experiences.</p>
-              </div>
-
-              <div class="pillar-card">
-                <div class="pillar-icon">
-                  <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                    <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" />
-                  </svg>
-                </div>
-                <h4>Quality</h4>
-                <p>We prioritize clean code, polished presentation, and thoughtful game design over rushed production
-                  cycles.</p>
-              </div>
-
-              <div class="pillar-card">
-                <div class="pillar-icon">
-                  <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                    <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
-                  </svg>
-                </div>
-                <h4>Community</h4>
-                <p>We build transparent relationships with our players, listening to feedback to evolve and improve our
-                  games.</p>
+              <div class="about-value-item" data-reveal>
+                <h4>Our Vision</h4>
+                <p>Grow into a globally recognized independent game development studio known for quality, innovation, and unforgettable experiences.</p>
               </div>
             </div>
           </div>
 
-          <!-- Interactive Studio Visual Element -->
-          <div class="about-visual">
-            <div class="visual-frame outer"></div>
-            <div class="visual-frame inner"></div>
+          <!-- Visual Element -->
+          <div class="about-visual" data-reveal>
+            <div class="visual-frame outer" aria-hidden="true"></div>
+            <div class="visual-frame inner" aria-hidden="true"></div>
             <div class="visual-core">
               <div class="core-number">2026</div>
               <div class="core-label">FOUNDED & GROWING</div>
             </div>
           </div>
         </div>
+
+        <!-- Values / Pillars Grid -->
+        <div class="pillars-grid">
+          <div class="pillar-card" data-reveal>
+            <div class="pillar-icon">
+              <svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" />
+              </svg>
+            </div>
+            <h4>Creativity</h4>
+            <p>Pushing artistic boundaries to design unique worlds, compelling mechanics, and stories that resonate with players.</p>
+          </div>
+
+          <div class="pillar-card" data-reveal>
+            <div class="pillar-icon">
+              <svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24" aria-hidden="true">
+                <circle cx="12" cy="12" r="10" />
+                <path d="M12 6v6l4 2" />
+              </svg>
+            </div>
+            <h4>Innovation</h4>
+            <p>Exploring new game engines, interactive technologies, and concepts to deliver fresh experiences.</p>
+          </div>
+
+          <div class="pillar-card" data-reveal>
+            <div class="pillar-icon">
+              <svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" />
+              </svg>
+            </div>
+            <h4>Quality</h4>
+            <p>Prioritizing clean code, polished presentation, and thoughtful game design over rushed production cycles.</p>
+          </div>
+
+          <div class="pillar-card" data-reveal>
+            <div class="pillar-icon">
+              <svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+              </svg>
+            </div>
+            <h4>Community</h4>
+            <p>Building transparent relationships with players, listening to feedback to evolve and improve our games.</p>
+          </div>
+        </div>
       </div>
     </section>
 
-    <!-- STATS BANNER -->
-    <div class="stats-banner">
+    <!-- ===================== STATS BANNER ===================== -->
+    <div class="stats-banner" aria-label="Studio at a glance">
       <div class="container">
-        <div class="stats-grid">
+        <div class="stats-grid" data-reveal>
           <div class="stat-item">
             <div class="stat-val">Indie</div>
             <div class="stat-desc">Studio Type</div>
@@ -240,119 +274,229 @@
       </div>
     </div>
 
-    <!-- GAMES SHOWCASE -->
-    <section id="games">
+    <!-- ===================== GAMES SHOWCASE ===================== -->
+    <section class="games-section" id="games">
       <div class="container">
-        <span class="section-tag">PORTFOLIO</span>
-        <h2 class="section-title">Coming Soon</h2>
-        <p class="section-subtitle">Our upcoming games and interactive experiences will be announced here.</p>
+        <div class="section-header" data-reveal>
+          <span class="section-tag">PORTFOLIO</span>
+          <h2 class="section-title">Our Games & Projects</h2>
+          <p class="section-subtitle">Upcoming games and interactive experiences — each crafted with passion.</p>
+        </div>
 
         <div class="games-grid">
-          <article class="game-card">
-            <span class="game-genre">Mobile & PC Games</span>
-            <div class="game-media-placeholder">
-              <svg fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
-                <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" />
-              </svg>
+          <article class="game-card" data-reveal>
+            <div class="game-media">
+              <img src="assets/images/game-debut.jpg" alt="Debut Titles concept art — futuristic cityscape" loading="lazy" width="600" height="338">
+              <span class="game-badge">Coming Soon</span>
             </div>
-            <h3>Debut Titles</h3>
-            <p>The first chapter of Nylarion Studios begins soon. We are hard at work crafting our debut titles focused
-              on engaging gameplay and original worlds.</p>
-            <a href="#about" class="game-link">Stay Tuned &rarr;</a>
+            <div class="game-body">
+              <span class="game-genre">Mobile & PC Games</span>
+              <h3>Debut Titles</h3>
+              <p>The first chapter of Nylarion Studios — focused on engaging gameplay and original worlds that immerse players in unforgettable adventures.</p>
+              <span class="game-link">Stay Tuned <span aria-hidden="true">→</span></span>
+            </div>
           </article>
 
-          <article class="game-card">
-            <span class="game-genre">Creative Tech</span>
-            <div class="game-media-placeholder">
-              <svg fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
-                <circle cx="12" cy="12" r="10" />
-                <path d="M12 8v8M8 12h8" />
-              </svg>
+          <article class="game-card" data-reveal>
+            <div class="game-media">
+              <img src="assets/images/game-interactive.jpg" alt="Interactive Experiences concept art — digital technology" loading="lazy" width="600" height="338">
+              <span class="game-badge">In Development</span>
             </div>
-            <h3>Interactive Experiences</h3>
-            <p>Exploring original digital concepts, clean design architectures, and experimental mechanics that push
-              creative boundaries.</p>
-            <a href="#about" class="game-link">In Development &rarr;</a>
+            <div class="game-body">
+              <span class="game-genre">Creative Tech</span>
+              <h3>Interactive Experiences</h3>
+              <p>Exploring original digital concepts, clean design architectures, and experimental mechanics that push creative boundaries.</p>
+              <span class="game-link">In Development <span aria-hidden="true">→</span></span>
+            </div>
           </article>
 
-          <article class="game-card">
-            <span class="game-genre">Future Roadmap</span>
-            <div class="game-media-placeholder">
-              <svg fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
-                <path d="M12 21l-9-9 9-9 9 9-9 9z" />
-              </svg>
+          <article class="game-card" data-reveal>
+            <div class="game-media">
+              <img src="assets/images/game-horizons.jpg" alt="Expanding Horizons concept art — alien landscape" loading="lazy" width="600" height="338">
+              <span class="game-badge">Future</span>
             </div>
-            <h3>Expanding Horizons</h3>
-            <p>Building a solid foundation for player-first gaming experiences designed to entertain and inspire players
-              everywhere.</p>
-            <a href="#about" class="game-link">Future Focus &rarr;</a>
+            <div class="game-body">
+              <span class="game-genre">Future Roadmap</span>
+              <h3>Expanding Horizons</h3>
+              <p>Building a solid foundation for player-first gaming experiences designed to entertain and inspire players everywhere.</p>
+              <span class="game-link">Future Focus <span aria-hidden="true">→</span></span>
+            </div>
           </article>
         </div>
       </div>
     </section>
 
-    <!-- CAREERS BANNER -->
-    <section class="careers-banner" id="careers">
+    <!-- ===================== TECHNOLOGY SECTION ===================== -->
+    <section class="tech-section" id="technology">
       <div class="container">
+        <div class="section-header" data-reveal>
+          <span class="section-tag">TECHNOLOGY</span>
+          <h2 class="section-title">Built with Modern Tools</h2>
+          <p class="section-subtitle">The technologies and tools powering our games and interactive experiences.</p>
+        </div>
+
+        <div class="tech-grid">
+          <div class="tech-card" data-reveal>
+            <div class="tech-icon">
+              <svg width="28" height="28" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24" aria-hidden="true">
+                <rect x="2" y="3" width="20" height="14" rx="2" />
+                <path d="M8 21h8M12 17v4" />
+              </svg>
+            </div>
+            <h4>Game Engines</h4>
+            <p>Leveraging modern game engines for building cross-platform experiences on Mobile and PC.</p>
+          </div>
+
+          <div class="tech-card" data-reveal>
+            <div class="tech-icon">
+              <svg width="28" height="28" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" />
+              </svg>
+            </div>
+            <h4>WebGL & Three.js</h4>
+            <p>Interactive 3D web experiences with real-time rendering, particle systems, and responsive emblem visualization.</p>
+          </div>
+
+          <div class="tech-card" data-reveal>
+            <div class="tech-icon">
+              <svg width="28" height="28" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M12 2a4 4 0 0 0-4 4v4a4 4 0 0 0 8 0V6a4 4 0 0 0-4-4z" />
+                <path d="M18 10a6 6 0 0 1-12 0" />
+                <path d="M12 18v4M8 22h8" />
+              </svg>
+            </div>
+            <h4>AI & Voice</h4>
+            <p>OpenAI-powered conversational AI with speech synthesis and recognition for natural voice-first interactions.</p>
+          </div>
+
+          <div class="tech-card" data-reveal>
+            <div class="tech-icon">
+              <svg width="28" height="28" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M16 18l6-6-6-6M8 6l-6 6 6 6" />
+              </svg>
+            </div>
+            <h4>Clean Architecture</h4>
+            <p>Node.js backend with Express, secure API design, grounded knowledge base, and deployment-ready infrastructure.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== UPDATES BANNER ===================== -->
+    <section class="updates-banner" id="updates">
+      <div class="container" data-reveal>
         <span class="section-tag">OUR JOURNEY</span>
         <h2>More Exciting Updates Coming Soon</h2>
         <p>We are currently focusing our energy on game development. Join us on our journey as we prepare to share our
           first projects with the world.</p>
+        <a href="#contact" class="btn btn-primary">Get In Touch</a>
       </div>
     </section>
+
+    <!-- ===================== CONTACT SECTION ===================== -->
+    <section class="contact-section" id="contact">
+      <div class="container">
+        <div class="contact-grid">
+          <div class="contact-info" data-reveal>
+            <span class="section-tag">CONTACT</span>
+            <h2 class="section-title">Let's Connect</h2>
+            <p>Interested in collaborating, learning more about our projects, or just saying hello? We'd love to hear from you.</p>
+
+            <div class="contact-details">
+              <a href="mailto:nylarionstudios@gmail.com" class="contact-link" id="contact-email-link">
+                <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
+                  <polyline points="22,6 12,13 2,6" />
+                </svg>
+                nylarionstudios@gmail.com
+              </a>
+            </div>
+          </div>
+
+          <div class="contact-form-wrap" data-reveal>
+            <form class="contact-form" id="contact-form" novalidate>
+              <div class="form-group">
+                <label for="contact-name">Name</label>
+                <input type="text" id="contact-name" name="name" placeholder="Your name" required autocomplete="name"
+                  maxlength="100">
+              </div>
+              <div class="form-group">
+                <label for="contact-email">Email</label>
+                <input type="email" id="contact-email" name="email" placeholder="you@example.com" required
+                  autocomplete="email" maxlength="200">
+              </div>
+              <div class="form-group">
+                <label for="contact-subject">Subject</label>
+                <input type="text" id="contact-subject" name="subject" placeholder="What's this about?"
+                  maxlength="200">
+              </div>
+              <div class="form-group">
+                <label for="contact-message">Message</label>
+                <textarea id="contact-message" name="message" placeholder="Tell us about your idea or inquiry..." rows="5"
+                  required minlength="5" maxlength="2000"></textarea>
+              </div>
+              <button type="submit" class="btn btn-primary contact-submit" id="contact-submit-btn">
+                Send Message
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                  <path d="m4 4 16 8-16 8 3-8-3-8zm3 8h13" />
+                </svg>
+              </button>
+              <div class="form-feedback" id="form-feedback" role="status" aria-live="polite"></div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </section>
+
   </main>
 
-  <!-- FOOTER -->
+  <!-- =============================================================
+       4. FOOTER
+  ============================================================= -->
   <footer>
     <div class="container">
       <div class="footer-grid">
-        <div class="footer-col">
-          <div class="brand" style="margin-bottom:16px;">
+        <div class="footer-col footer-brand-col">
+          <div class="brand footer-brand-mark">
             <div class="brand-icon">
-              <img src="assets/images/logo.png" alt="Nylarion Studios Logo" loading="lazy">
+              <img src="assets/images/logo.png" alt="Nylarion Studios" loading="lazy" width="44" height="44">
             </div>
             <div class="brand-text">
               NYLARION
               <span>STUDIOS</span>
             </div>
           </div>
-          <p style="color:var(--text-mid); font-size:14px; line-height:1.6;">
-            Nylarion Studios is driven by a passion for creating interactive experiences that entertain, inspire, and
-            leave a lasting impression. From concept to completion, we focus on thoughtful design, technical excellence,
-            and continuous innovation to deliver games that players truly enjoy. As an independent studio, every project
-            reflects our vision, creativity, and dedication to quality.
+          <p class="footer-desc">
+            Driven by a passion for creating interactive experiences that entertain, inspire, and leave a lasting
+            impression. From concept to completion, we focus on thoughtful design, technical excellence, and continuous
+            innovation.
           </p>
         </div>
 
         <div class="footer-col">
           <h5>Navigation</h5>
           <ul>
-            <li><a href="#top">Home</a></li>
+            <li><a href="#hero">Home</a></li>
             <li><a href="#about">About</a></li>
-            <li><a href="#games">Portfolio</a></li>
-            <li><a href="#careers">Updates</a></li>
+            <li><a href="#games">Games</a></li>
+            <li><a href="#technology">Technology</a></li>
+            <li><a href="#contact">Contact</a></li>
           </ul>
         </div>
 
         <div class="footer-col">
           <h5>Studio</h5>
-          <ul style="display:grid; gap:10px; list-style:none; padding:0;">
-            <li style="color:var(--text-mid); font-size:13.5px; line-height:1.5; position:relative; padding-left:16px;">
-              <span style="position:absolute; left:0; color:var(--cyan);">&#8226;</span>
-              Crafting immersive games and innovative digital experiences.
-            </li>
-            <li style="color:var(--text-mid); font-size:13.5px; line-height:1.5; position:relative; padding-left:16px;">
-              <span style="position:absolute; left:0; color:var(--cyan);">&#8226;</span>
-              Independent game development studio creating memorable interactive experiences.
-            </li>
+          <ul class="footer-studio-list">
+            <li>Independent game development</li>
+            <li>Immersive digital experiences</li>
+            <li>Quality over quantity</li>
           </ul>
         </div>
 
         <div class="footer-col">
-          <h5>Contact</h5>
-          <a href="mailto:nylarionstudios@gmail.com"
-            style="display:inline-flex; align-items:center; gap:8px; color:var(--cyan); font-size:14px; font-weight:600; text-decoration:none;">
-            <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+          <h5>Get In Touch</h5>
+          <a href="mailto:nylarionstudios@gmail.com" class="footer-email-link">
+            <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24" aria-hidden="true">
               <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
               <polyline points="22,6 12,13 2,6" />
             </svg>
@@ -363,64 +507,87 @@
 
       <div class="footer-bottom">
         <div>&copy; 2026 Nylarion Studios. All Rights Reserved.</div>
-        <div style="color:var(--text-lo); font-size:13px;">Play Beyond Reality.</div>
+        <div class="footer-tagline">Play Beyond Reality.</div>
       </div>
     </div>
   </footer>
 
-  <!-- Main JavaScript File -->
-  <script src="js/main.js" defer></script>
+  <!-- =============================================================
+       5. NYLARION AI — CHAT WINDOW (VIEWPORT FIXED)
+  ============================================================= -->
+  <div class="ny-ai-window" id="ny-ai-window" aria-live="polite">
+    <div class="ny-ai-head">
+      <div class="ny-ai-avatar-wrap">
+        <img class="ny-ai-avatar" src="assets/images/robot-avatar.png" alt="Nylarion AI Robot" width="42" height="42">
+        <span class="ny-ai-online-dot" aria-hidden="true"></span>
+      </div>
+      <div class="ny-ai-title">
+        <div class="ny-ai-brand-row"><strong>NYLARION AI</strong><span class="ny-ai-live-pill">LIVE</span></div>
+        <span id="ny-ai-status">Voice assistant online</span>
+      </div>
+      <button class="ny-ai-icon-btn ny-ai-voice" id="ny-ai-voice" type="button" aria-label="Speak greeting"
+        title="Voice">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M4 10v4h4l5 4V6l-5 4H4Zm12.2-2.2a6 6 0 0 1 0 8.4M18.9 5.3a10 10 0 0 1 0 13.4" />
+        </svg>
+      </button>
+      <button class="ny-ai-icon-btn ny-ai-close" id="ny-ai-close" type="button" aria-label="Close chat"
+        title="Close">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path d="m6 6 12 12M18 6 6 18" />
+        </svg>
+      </button>
+    </div>
+    <div class="ny-ai-command-bar" aria-hidden="true">
+      <span class="ny-ai-command-icon">✦</span>
+      <span>Ask anything about Nylarion</span>
+      <span class="ny-ai-command-key">AI</span>
+    </div>
+    <div class="ny-ai-quick-prompts" id="ny-ai-quick-prompts" aria-label="Suggested questions">
+      <button type="button" data-prompt="What games and projects are you building?">Explore projects <span
+          aria-hidden="true">↗</span></button>
+      <button type="button" data-prompt="Tell me about Nylarion Studios.">About the studio <span
+          aria-hidden="true">↗</span></button>
+      <button type="button" data-prompt="How can I contact Nylarion Studios?">Contact <span
+          aria-hidden="true">↗</span></button>
+    </div>
+    <div class="ny-ai-messages" id="ny-ai-messages" aria-label="Conversation"></div>
+    <div class="ny-ai-speaking" aria-hidden="true"><span class="ny-ai-speaking-dot"></span>
+      <div class="ny-ai-wave"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div><span>Voice-first
+        responses</span>
+    </div>
+    <form class="ny-ai-form" id="ny-ai-form">
+      <div class="ny-ai-input-wrap">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path
+            d="M12 3a5 5 0 0 0-5 5v4a5 5 0 0 0 10 0V8a5 5 0 0 0-5-5Zm-8 9a8 8 0 0 0 16 0M12 20v-3m-4 3h8" />
+        </svg>
+        <input class="ny-ai-input" id="ny-ai-input" autocomplete="off" maxlength="1000"
+          aria-label="Message Nylarion AI" placeholder="Ask Nylarion anything...">
+        <button class="ny-ai-mic" id="ny-ai-mic" type="button" aria-label="Speak your message"
+          title="Speak your message">🎙</button>
+        <kbd aria-hidden="true">↵</kbd>
+      </div>
+      <button class="ny-ai-send" type="submit" aria-label="Send message" title="Send">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path d="m4 4 16 8-16 8 3-8-3-8zm3 8h13" />
+        </svg>
+      </button>
+    </form>
+    <div class="ny-ai-footer-note" aria-hidden="true"><span>NYLARION // VOICE INTELLIGENCE</span><span>SECURE
+        CHANNEL</span></div>
+  </div>
 
   <!-- =============================================================
-       NYLARION AI — AUTONOMOUS FLYING ROBOT
+       6. NYLARION AI — PERMANENT BOTTOM-RIGHT ROBOT ASSISTANT
   ============================================================= -->
-  <div class="ny-ai-widget" id="ny-ai-widget">
-    <div class="ny-ai-window" id="ny-ai-window" aria-live="polite">
-      <div class="ny-ai-head">
-        <div class="ny-ai-avatar-wrap">
-          <img class="ny-ai-avatar" src="assets/images/logo.png" alt="Nylarion AI">
-          <span class="ny-ai-online-dot"></span>
-        </div>
-        <div class="ny-ai-title">
-          <div class="ny-ai-brand-row"><strong>NYLARION AI</strong><span class="ny-ai-live-pill">LIVE</span></div>
-          <span id="ny-ai-status">Voice assistant online</span>
-        </div>
-        <button class="ny-ai-icon-btn ny-ai-voice" id="ny-ai-voice" type="button" aria-label="Speak greeting" title="Voice">
-          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 10v4h4l5 4V6l-5 4H4Zm12.2-2.2a6 6 0 0 1 0 8.4M18.9 5.3a10 10 0 0 1 0 13.4"/></svg>
-        </button>
-        <button class="ny-ai-icon-btn ny-ai-close" id="ny-ai-close" type="button" aria-label="Close chat" title="Close">
-          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m6 6 12 12M18 6 6 18"/></svg>
-        </button>
-      </div>
-      <div class="ny-ai-command-bar">
-        <span class="ny-ai-command-icon">✦</span>
-        <span>Ask anything about Nylarion</span>
-        <span class="ny-ai-command-key">AI</span>
-      </div>
-      <div class="ny-ai-quick-prompts" id="ny-ai-quick-prompts" aria-label="Suggested questions">
-        <button type="button" data-prompt="What games and projects are you building?">Explore projects <span>↗</span></button>
-        <button type="button" data-prompt="Tell me about Nylarion Studios.">About the studio <span>↗</span></button>
-        <button type="button" data-prompt="How can I contact Nylarion Studios?">Contact <span>↗</span></button>
-      </div>
-      <div class="ny-ai-messages" id="ny-ai-messages" aria-label="Conversation"></div>
-      <div class="ny-ai-speaking"><span class="ny-ai-speaking-dot"></span><div class="ny-ai-wave" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div><span>Voice-first responses</span></div>
-      <form class="ny-ai-form" id="ny-ai-form">
-        <div class="ny-ai-input-wrap">
-          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3a5 5 0 0 0-5 5v4a5 5 0 0 0 10 0V8a5 5 0 0 0-5-5Zm-8 9a8 8 0 0 0 16 0M12 20v-3m-4 3h8"/></svg>
-          <input class="ny-ai-input" id="ny-ai-input" autocomplete="off" maxlength="1000" aria-label="Message Nylarion AI" placeholder="Ask Nylarion anything...">
-          <button class="ny-ai-mic" id="ny-ai-mic" type="button" aria-label="Speak your message" title="Speak your message">🎙</button>
-          <kbd>↵</kbd>
-        </div>
-        <button class="ny-ai-send" type="submit" aria-label="Send message" title="Send">
-          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m4 4 16 8-16 8 3-8-3-8Zm3 8h13"/></svg>
-        </button>
-      </form>
-      <div class="ny-ai-footer-note"><span>NYLARION // VOICE INTELLIGENCE</span><span>SECURE CHANNEL</span></div>
-    </div>
-    <button class="ny-ai-launch ny-ai-pulse" id="ny-ai-launch" type="button" aria-label="Open Nylarion AI flying robot">
+  <div class="ny-ai-widget" id="ny-ai-widget" role="complementary" aria-label="Nylarion AI Assistant">
+    <button class="ny-ai-launch ny-ai-pulse" id="ny-ai-launch" type="button"
+      aria-label="Open Nylarion AI Assistant" aria-expanded="false" aria-controls="ny-ai-window">
       <span class="ny-ai-robot" aria-hidden="true">
         <i class="robot-antenna"></i>
-        <i class="robot-head"><b class="robot-eye robot-eye-left"></b><b class="robot-eye robot-eye-right"></b><em class="robot-face"></em></i>
+        <i class="robot-head"><b class="robot-eye robot-eye-left"></b><b class="robot-eye robot-eye-right"></b><em
+            class="robot-face"></em></i>
         <i class="robot-body"><b class="robot-core"></b></i>
         <i class="robot-arm robot-arm-left"></i><i class="robot-arm robot-arm-right"></i>
         <i class="robot-thruster robot-thruster-left"></i><i class="robot-thruster robot-thruster-right"></i>
@@ -429,6 +596,8 @@
     </button>
   </div>
 
+  <!-- Main JavaScript Bundle -->
+  <script src="js/main.js" defer></script>
 </body>
 
 </html>
