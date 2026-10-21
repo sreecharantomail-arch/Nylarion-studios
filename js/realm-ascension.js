@@ -222,125 +222,34 @@
   }
 
   /**
-   * Load & Setup 3D Rigged Horse Model
+   * 3D Character Asset Validator & Presentation Engine
+   *
+   * Requirement:
+   * "The original horse image is the definitive visual reference.
+   * The horse must have:
+   * - A beautiful, realistic white coat.
+   * - A long, flowing, luminous golden mane and tail.
+   * - Elegant, highly detailed golden armour.
+   * - Deep navy-blue decorative fabric and armour details.
+   * - Glowing blue gemstones.
+   * - Realistic horse proportions and anatomy.
+   * - Premium materials, beautiful lighting, and cinematic detail.
+   * The current low-poly replacement is unacceptable. Do not use it as the final character model.
+   * If a suitable model or animation asset is unavailable, explain exactly what is missing
+   * and retain the original horse image as the visual fallback rather than leaving the ugly
+   * low-poly replacement on the website."
    */
   async function init3DHorse() {
-    if (!window.THREE || !THREE.GLTFLoader || !webgl.scene) return;
+    // Retain definitive original legendary horse visual presentation
+    // The low-poly mesh (1,436 vertices) is suppressed to protect visual fidelity.
+    webgl.is3DReady = false;
 
-    webgl.horseGroup = new THREE.Group();
-    webgl.horseGroup.name = 'LegendaryHorseRoot';
-    webgl.scene.add(webgl.horseGroup);
-
-    // Ethereal point aura attached to horse
-    webgl.horseAura = new THREE.PointLight(0x38d9e8, 1.8, 22);
-    webgl.horseAura.position.set(0, 1.2, 1.8);
-    webgl.horseGroup.add(webgl.horseAura);
-
-    const loader = new THREE.GLTFLoader();
-
-    // Enable meshoptimizer decompression for legendary-horse.glb
-    const decoder = window.MeshoptDecoder || (typeof MeshoptDecoder !== 'undefined' ? MeshoptDecoder : null);
-
-    if (decoder) {
-      try {
-        if (decoder.ready) {
-          await decoder.ready;
-        }
-        loader.setMeshoptDecoder(decoder);
-      } catch (e) {
-        console.warn('MeshoptDecoder setup notice:', e);
-      }
+    if (dom.character) {
+      dom.character.style.display = 'block';
+      dom.character.style.opacity = '1';
     }
 
-    loader.load(
-      'assets/models/legendary-horse.glb',
-      function (gltf) {
-        webgl.horseModel = gltf.scene;
-
-        // Custom AAA PBR Materials preserving Legendary Celestial Stallion aesthetic
-        const bodyMaterial = new THREE.MeshStandardMaterial({
-          color: 0xfbfdff, // Radiant pearlescent celestial white
-          roughness: 0.30,
-          metalness: 0.10,
-          skinning: true
-        });
-
-        const goldMaterial = new THREE.MeshStandardMaterial({
-          color: 0xffca28, // Radiant molten gold mane, tail & hooves
-          roughness: 0.22,
-          metalness: 0.88,
-          emissive: 0x885500, // Warm luminous inner glow
-          emissiveIntensity: 0.55,
-          skinning: true
-        });
-
-        // Apply materials to skinned mesh primitives:
-        // Primitive 0 is horse body/coat, Primitive 1 is mane, tail & hooves!
-        let meshIdx = 0;
-        webgl.horseModel.traverse((child) => {
-          if (child.isMesh || child.isSkinnedMesh) {
-            child.castShadow = true;
-            child.receiveShadow = true;
-            webgl.horseMesh = child;
-
-            const matName = child.material ? (child.material.name || '') : '';
-            if (matName.includes('006') || meshIdx === 1) {
-              child.material = goldMaterial;
-            } else {
-              child.material = bodyMaterial;
-            }
-            meshIdx++;
-          }
-        });
-
-        // Attach golden armor, blue decorations, and glowing sapphire gems
-        attachLegendaryArmor(webgl.horseModel);
-
-        // Position & orient horse in model group
-        // Raw model faces +Z; rotate -90 deg around Y to travel rightward (+X)
-        webgl.horseModel.rotation.y = -Math.PI * 0.5;
-        // Center horse vertically so origin is at horse body center rather than hooves
-        webgl.horseModel.position.set(0, -1.15, 0);
-        webgl.horseGroup.add(webgl.horseModel);
-
-        // Setup Animation Mixer & Skeletal Actions
-        if (gltf.animations && gltf.animations.length > 0) {
-          webgl.mixer = new THREE.AnimationMixer(webgl.horseModel);
-
-          gltf.animations.forEach((clip) => {
-            const action = webgl.mixer.clipAction(clip);
-            action.setLoop(THREE.LoopRepeat);
-            webgl.actions[clip.name] = action;
-          });
-
-          // Start in Idle breathing pose
-          if (webgl.actions['Idle']) {
-            webgl.actions['Idle'].play();
-            webgl.currentGait = 'Idle';
-          }
-        }
-
-        webgl.is3DReady = true;
-
-        // Gracefully hide the 2D cutout now that genuine 3D leg locomotion is active
-        if (dom.character) {
-          dom.character.style.opacity = '0';
-          dom.character.style.pointerEvents = 'none';
-          dom.character.style.display = 'none';
-        }
-
-        console.log('✓ Nylarion Legendary Horse: 3D Skeletal Locomotion Engine Online.');
-      },
-      undefined,
-      function (error) {
-        console.warn('Realm 3D Horse asset fallback to 2D cutout:', error);
-        webgl.is3DReady = false;
-        if (dom.character) {
-          dom.character.style.display = 'block';
-          dom.character.style.opacity = '1';
-        }
-      }
-    );
+    console.log('✓ Nylarion Studios: Original Legendary Steed restored as definitive visual presentation.');
   }
 
   /**
@@ -494,25 +403,29 @@
     let originY = -2;
     let originZ = 0;
 
-    if (webgl.is3DReady && webgl.horseGroup) {
-      originX = webgl.horseGroup.position.x - 2.8 + (Math.random() - 0.5) * 1.6;
-      originY = webgl.horseGroup.position.y + 0.6 + (Math.random() - 0.5) * 1.5;
-      originZ = webgl.horseGroup.position.z + (Math.random() - 0.5) * 1.5;
-    } else {
-      const charRect = dom.character ? dom.character.getBoundingClientRect() : null;
-      if (charRect && webgl.camera) {
-        const ndcX = ((charRect.left + charRect.width * 0.45) / window.innerWidth) * 2 - 1;
-        const ndcY = -((charRect.top + charRect.height * 0.35) / window.innerHeight) * 2 + 1;
-        originX = ndcX * 35;
-        originY = ndcY * 22;
-      }
+    const charRect = dom.character ? dom.character.getBoundingClientRect() : null;
+    if (charRect && webgl.camera) {
+      // Stream embers from luminous golden mane, withers & hooves
+      const maneX = charRect.left + charRect.width * (0.42 + Math.random() * 0.22);
+      const maneY = charRect.top + charRect.height * (0.28 + Math.random() * 0.28);
+      const ndcX = (maneX / window.innerWidth) * 2 - 1;
+      const ndcY = -((maneY / window.innerHeight) * 2 - 1);
+
+      const aspect = window.innerWidth / window.innerHeight;
+      const vFovRad = (webgl.camera.fov * Math.PI) / 180;
+      const frustumH = 2 * Math.tan(vFovRad / 2) * 50;
+      const frustumW = frustumH * aspect;
+
+      originX = ndcX * (frustumW * 0.5);
+      originY = ndcY * (frustumH * 0.5);
+      originZ = (Math.random() - 0.5) * 2.5;
     }
 
     webgl.emberPos[i3] = originX;
     webgl.emberPos[i3 + 1] = originY;
     webgl.emberPos[i3 + 2] = originZ;
 
-    webgl.emberVels[i3] = -(Math.random() * 0.20 + 0.08); // drifts backward (leftward)
+    webgl.emberVels[i3] = -(Math.random() * 0.22 + 0.08); // drifts backward (leftward)
     webgl.emberVels[i3 + 1] = (Math.random() * 0.16 + 0.04); // rises slightly
     webgl.emberVels[i3 + 2] = (Math.random() - 0.5) * 0.08;
 
@@ -661,9 +574,9 @@
       const t = progress / 0.20;
       sceneName = 'The Arrival — Celestial Horizon';
 
-      charX = isMobile ? lerp(50, 50, t) : lerp(62, 58, t);
-      charY = isMobile ? lerp(72, 70, t) : lerp(60, 56, t);
-      charScale = isMobile ? lerp(0.52, 0.56, t) : lerp(0.72, 0.78, t);
+      charX = isMobile ? lerp(50, 50, t) : lerp(60, 58, t);
+      charY = isMobile ? lerp(68, 66, t) : lerp(56, 54, t);
+      charScale = isMobile ? lerp(0.58, 0.60, t) : lerp(0.76, 0.80, t);
       charOpacity = 1.0;
 
       skyOpacity = 1.0;
@@ -676,9 +589,9 @@
       const t = (progress - 0.20) / 0.25;
       sceneName = 'The Awakening — Realm of Nylarion';
 
-      charX = isMobile ? lerp(50, 50, t) : lerp(64, 70, t);
-      charY = isMobile ? lerp(64, 62, t) : lerp(54, 52, t);
-      charScale = isMobile ? lerp(0.68, 0.70, t) : lerp(0.90, 0.96, t);
+      charX = isMobile ? lerp(50, 50, t) : lerp(58, 66, t);
+      charY = isMobile ? lerp(66, 64, t) : lerp(54, 52, t);
+      charScale = isMobile ? lerp(0.60, 0.64, t) : lerp(0.80, 0.84, t);
       charOpacity = 1.0;
 
       skyOpacity = lerp(1.0, 0.25, t);
@@ -691,10 +604,10 @@
       const t = (progress - 0.45) / 0.27;
       sceneName = 'Through the Forest — Games & Creations';
 
-      charX = isMobile ? lerp(50, 50, t) : lerp(70, 36, t);
-      charY = isMobile ? lerp(62, 60, t) : lerp(52, 50, t);
-      charScale = isMobile ? lerp(0.70, 0.66, t) : lerp(0.96, 0.86, t);
-      charOpacity = isMobile ? 0.85 : 0.95;
+      charX = isMobile ? lerp(50, 50, t) : lerp(66, 38, t);
+      charY = isMobile ? lerp(64, 62, t) : lerp(52, 50, t);
+      charScale = isMobile ? lerp(0.64, 0.62, t) : lerp(0.84, 0.80, t);
+      charOpacity = isMobile ? 0.88 : 0.95;
 
       skyOpacity = 0.15;
       forestOpacity = lerp(1.0, 0.2, t);
@@ -706,9 +619,9 @@
       const t = (progress - 0.72) / 0.16;
       sceneName = 'The Ancient Kingdom — Technology Citadel';
 
-      charX = isMobile ? lerp(50, 50, t) : lerp(36, 30, t);
-      charY = isMobile ? lerp(60, 58, t) : lerp(50, 48, t);
-      charScale = isMobile ? lerp(0.66, 0.68, t) : lerp(0.86, 0.84, t);
+      charX = isMobile ? lerp(50, 50, t) : lerp(38, 32, t);
+      charY = isMobile ? lerp(62, 60, t) : lerp(50, 48, t);
+      charScale = isMobile ? lerp(0.62, 0.64, t) : lerp(0.80, 0.78, t);
       charOpacity = 1.0;
 
       skyOpacity = lerp(0.15, 0.65, t);
@@ -721,9 +634,9 @@
       const t = (progress - 0.88) / 0.12;
       sceneName = 'The Invitation — Play Beyond Reality';
 
-      charX = isMobile ? lerp(50, 50, t) : lerp(30, 72, t);
-      charY = isMobile ? lerp(58, 62, t) : lerp(48, 56, t);
-      charScale = isMobile ? lerp(0.68, 0.66, t) : lerp(0.84, 0.88, t);
+      charX = isMobile ? lerp(50, 50, t) : lerp(32, 64, t);
+      charY = isMobile ? lerp(60, 64, t) : lerp(48, 54, t);
+      charScale = isMobile ? lerp(0.64, 0.62, t) : lerp(0.78, 0.82, t);
       charOpacity = 1.0;
 
       skyOpacity = lerp(0.65, 0.95, t);
@@ -771,22 +684,22 @@
       }
     }
 
-    // 2. FALLBACK 2D CHARACTER POSITIONING (active only if 3D is not ready)
+    // 2. DEFINITIVE LEGENDARY STEED CHARACTER POSITIONING
     if (dom.character && !webgl.is3DReady) {
       let breathingY = 0;
       let trotBob = 0;
 
       if (!state.reducedMotion) {
-        breathingY = Math.sin(state.time * 1.8) * 5;
+        breathingY = Math.sin(state.time * 1.8) * 4;
         const speed = Math.abs(state.scrollVelocity);
         if (speed > 0.4) {
-          trotBob = Math.sin(state.time * 8.5) * Math.min(4.5, speed * 0.35);
-          charTilt = Math.sin(state.time * 8.5) * Math.min(1.2, speed * 0.06);
+          trotBob = Math.sin(state.time * 8.5) * Math.min(3.5, speed * 0.28);
+          charTilt = Math.sin(state.time * 8.5) * Math.min(1.0, speed * 0.05);
         }
       }
 
-      const posX = charX + (state.mouseX * 1.4);
-      const posY = charY + (state.mouseY * 1.2);
+      const posX = charX + (state.mouseX * 1.2);
+      const posY = charY + (state.mouseY * 1.0);
 
       dom.character.style.left = `${posX}vw`;
       dom.character.style.top = `calc(${posY}vh + ${(breathingY + trotBob).toFixed(1)}px)`;
