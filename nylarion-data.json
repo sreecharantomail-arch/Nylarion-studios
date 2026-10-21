@@ -1,0 +1,66 @@
+{
+  "studio": {
+    "name": "Nylarion Studios",
+    "type": "Independent game development studio",
+    "tagline": "Play Beyond Reality.",
+    "established": 2026,
+    "status": "Growing",
+    "primary_focus": "Games",
+    "description": "Nylarion Studios is an independent game development studio dedicated to building immersive games and creative digital experiences.",
+    "purpose": "Creating immersive games and innovative digital experiences guided by creativity, quality, and innovation.",
+    "mission": "Create engaging and memorable games that combine creativity, technology, and meaningful player experiences.",
+    "vision": "Grow into a globally recognized independent game development studio known for quality, innovation, and unforgettable experiences.",
+    "development_philosophy": "Quality over quantity. Games are built with clean design, technical precision, authentic player feedback, and player experience at the heart of development.",
+    "platforms": ["Mobile", "PC", "innovative platforms"]
+  },
+  "values": [
+    {
+      "name": "Creativity",
+      "description": "Pushing artistic boundaries to design unique worlds, compelling mechanics, and stories that resonate with players."
+    },
+    {
+      "name": "Innovation",
+      "description": "Exploring new game engines, interactive technologies, and concepts to deliver fresh experiences."
+    },
+    {
+      "name": "Quality",
+      "description": "Prioritizing clean code, polished presentation, and thoughtful game design over rushed production cycles."
+    },
+    {
+      "name": "Community",
+      "description": "Building transparent relationships with players and using feedback to evolve and improve games."
+    }
+  ],
+  "portfolio": [
+    {
+      "title": "Debut Titles",
+      "category": "Mobile & PC Games",
+      "status": "Coming soon / in development",
+      "description": "The first chapter of Nylarion Studios, focused on engaging gameplay and original worlds."
+    },
+    {
+      "title": "Interactive Experiences",
+      "category": "Creative Tech",
+      "status": "In development",
+      "description": "Original digital concepts, clean design architectures, and experimental mechanics that push creative boundaries."
+    },
+    {
+      "title": "Expanding Horizons",
+      "category": "Future Roadmap",
+      "status": "Future focus",
+      "description": "Building a solid foundation for player-first gaming experiences designed to entertain and inspire players everywhere."
+    }
+  ],
+  "journey": {
+    "current_update": "Nylarion Studios is currently focusing its energy on game development and preparing to share its first projects with the world.",
+    "announcements": "Upcoming games and interactive experiences will be announced on the website."
+  },
+  "contact": {
+    "email": "nylarionstudios@gmail.com"
+  },
+  "website_navigation": {
+    "sections": ["Home", "About", "Portfolio", "Philosophy", "Updates", "Contact"],
+    "project_cta": "Our Projects"
+  },
+  "footer_description": "Nylarion Studios is driven by a passion for creating interactive experiences that entertain, inspire, and leave a lasting impression. From concept to completion, the studio focuses on thoughtful design, technical excellence, and continuous innovation."
+}
