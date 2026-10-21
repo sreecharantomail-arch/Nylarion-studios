@@ -43,8 +43,12 @@
     href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;600;700;800;900&family=Rajdhani:wght@500;600;700&family=Inter:wght@300;400;500;600;700&display=swap"
     rel="stylesheet">
 
+  <!-- Preload Critical Character & Environment Assets -->
+  <link rel="preload" href="assets/images/legendary-horse-cutout.png" as="image">
+  <link rel="preload" href="assets/images/realm-celestial-horizon.jpg" as="image">
+
   <!-- Custom CSS Stylesheet -->
-  <link rel="stylesheet" href="css/styles.css?v=2.1">
+  <link rel="stylesheet" href="css/styles.css?v=3.2">
 
   <!-- Three.js CDN -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
@@ -77,6 +81,49 @@
 
   <!-- Subtle ambient background -->
   <div class="bg-ambient" aria-hidden="true"></div>
+
+  <!-- =============================================================
+       REALM OF NYLARION — CINEMATIC VIEWPORT STAGE & SCROLL STORY
+  ============================================================= -->
+  <div id="realm-stage" aria-hidden="true">
+    <!-- Layer 1: Celestial Horizon Sky -->
+    <div class="realm-layer realm-sky" id="realm-sky" style="background-image: url('assets/images/realm-celestial-horizon.jpg');"></div>
+
+    <!-- Layer 2: Three.js WebGL Volumetric & Particle Canvas -->
+    <canvas id="realm-webgl-canvas"></canvas>
+
+    <!-- Layer 3: The Living Forest -->
+    <div class="realm-layer realm-forest" id="realm-forest" style="background-image: url('assets/images/realm-living-forest.jpg');"></div>
+
+    <!-- Layer 4: The Forgotten Kingdom -->
+    <div class="realm-layer realm-kingdom" id="realm-kingdom" style="background-image: url('assets/images/realm-forgotten-kingdom.jpg');"></div>
+
+    <!-- Layer 5: Atmospheric Volumetric Fog -->
+    <div class="realm-fog-layer" id="realm-fog">
+      <div class="fog-band fog-band-1"></div>
+      <div class="fog-band fog-band-2"></div>
+    </div>
+
+    <!-- Layer 6: The Legendary Horse Character Stage -->
+    <div class="realm-character-wrapper" id="realm-character">
+      <div class="horse-glow-radial"></div>
+      <div class="horse-shadow-ellipse"></div>
+      <img src="assets/images/legendary-horse-cutout.png" alt="Legendary Celestial Warhorse" class="horse-sprite" id="horse-sprite" loading="eager" width="1024" height="682">
+      <div class="horse-rim-aura"></div>
+    </div>
+
+    <!-- Layer 7: Foreground Parallax Foliage -->
+    <div class="realm-layer realm-foreground" id="realm-foreground" style="background-image: url('assets/images/realm-forest-foreground.png');"></div>
+
+    <!-- Cinematic Ambient Lighting Scrim -->
+    <div class="realm-vignette"></div>
+  </div>
+
+  <!-- Floating Cinematic Scene Indicator Pill -->
+  <aside class="ascension-hud-pill" aria-label="Current story chapter">
+    <span class="hud-pip" aria-hidden="true"></span>
+    <span class="hud-label" id="ascension-scene-tag">The Arrival — Celestial Horizon</span>
+  </aside>
 
   <!-- =============================================================
        2. NAVIGATION
@@ -129,37 +176,52 @@
     <section class="hero-section" id="hero">
       <div class="hero-glow-orb" aria-hidden="true"></div>
 
-      <!-- 3D Emblem Canvas -->
-      <div id="canvas-container" aria-label="Interactive 3D Nylarion Studios emblem">
-        <img class="hero-center-logo" src="assets/images/center-logo.png" alt="Nylarion Studios emblem">
-        <div class="canvas-hint">Drag or Touch to Rotate</div>
-      </div>
+      <div class="hero-container">
+        <!-- Hero Content (Left Column) -->
+        <div class="hero-content" data-reveal>
+          <span class="hero-label">INDEPENDENT GAME DEVELOPMENT STUDIO</span>
+          <h1 class="hero-title">PLAY <span>BEYOND REALITY.</span></h1>
+          <p class="hero-description">
+            Step into the Realm of Nylarion. Creating immersive games and innovative digital experiences.
+            Guided by creativity, quality, and innovation — building worlds that inspire players.
+          </p>
 
-      <!-- Hero Content -->
-      <div class="hero-content" data-reveal>
-        <span class="hero-label">INDEPENDENT GAME DEVELOPMENT STUDIO</span>
-        <h1 class="hero-title">PLAY <span>BEYOND REALITY.</span></h1>
-        <p class="hero-description">
-          Creating immersive games and innovative digital experiences.
-          Guided by creativity, quality, and innovation — building worlds that inspire players.
-        </p>
+          <div class="hero-actions">
+            <a href="#games" class="btn btn-primary" id="hero-cta-primary">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                <path d="M8 5v14l11-7z" />
+              </svg>
+              Explore Our Games
+            </a>
+            <a href="#about" class="btn btn-secondary" id="hero-cta-secondary">
+              Discover Studio
+            </a>
+          </div>
 
-        <div class="hero-actions">
-          <a href="#games" class="btn btn-primary" id="hero-cta-primary">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-              <path d="M8 5v14l11-7z" />
-            </svg>
-            Explore Our Games
-          </a>
-          <a href="#about" class="btn btn-secondary" id="hero-cta-secondary">
-            Discover Studio
-          </a>
+          <!-- 3D Emblem Seal -->
+          <div class="hero-emblem-seal">
+            <div id="canvas-container" aria-label="Interactive 3D Nylarion Studios emblem">
+              <img class="hero-center-logo" src="assets/images/center-logo.png" alt="Nylarion Studios emblem">
+              <div class="canvas-hint">Drag or Touch to Rotate Crest</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Hero Right Column: Character Stage Viewport Callout -->
+        <div class="hero-character-anchor" aria-hidden="true">
+          <div class="horse-hero-callout">
+            <span class="callout-rune">✦</span>
+            <div class="callout-text">
+              <span class="callout-name">THE CELESTIAL STEED</span>
+              <span class="callout-sub">GUARDIAN OF THE REALM</span>
+            </div>
+          </div>
         </div>
       </div>
 
       <!-- Scroll Indicator -->
-      <a href="#about" class="scroll-cue" aria-label="Scroll down to About section">
-        <span>SCROLL</span>
+      <a href="#about" class="scroll-cue" aria-label="Scroll down to explore The Realm">
+        <span>SCROLL TO EXPLORE THE REALM</span>
         <div class="scroll-line"></div>
       </a>
     </section>
@@ -169,7 +231,7 @@
       <div class="container">
         <div class="about-grid">
           <div class="about-text-block" data-reveal>
-            <span class="section-tag">WHO WE ARE</span>
+            <span class="section-tag"><span class="tag-rune" aria-hidden="true">✦</span> WHO WE ARE // CHAPTER II — THE AWAKENING</span>
             <h2 class="section-title">Crafting Games with Passion & Purpose</h2>
             <p>
               Nylarion Studios is an independent game development studio dedicated to building immersive games and
@@ -278,7 +340,7 @@
     <section class="games-section" id="games">
       <div class="container">
         <div class="section-header" data-reveal>
-          <span class="section-tag">PORTFOLIO</span>
+          <span class="section-tag"><span class="tag-rune" aria-hidden="true">✦</span> PORTFOLIO // CHAPTER III — THROUGH THE LIVING FOREST</span>
           <h2 class="section-title">Our Games & Projects</h2>
           <p class="section-subtitle">Upcoming games and interactive experiences — each crafted with passion.</p>
         </div>
@@ -330,7 +392,7 @@
     <section class="tech-section" id="technology">
       <div class="container">
         <div class="section-header" data-reveal>
-          <span class="section-tag">TECHNOLOGY</span>
+          <span class="section-tag"><span class="tag-rune" aria-hidden="true">✦</span> TECHNOLOGY // CHAPTER IV — THE ANCIENT CITADEL</span>
           <h2 class="section-title">Built with Modern Tools</h2>
           <p class="section-subtitle">The technologies and tools powering our games and interactive experiences.</p>
         </div>
@@ -398,7 +460,7 @@
       <div class="container">
         <div class="contact-grid">
           <div class="contact-info" data-reveal>
-            <span class="section-tag">CONTACT</span>
+            <span class="section-tag"><span class="tag-rune" aria-hidden="true">✦</span> CONTACT // CHAPTER V & VI — THE INVITATION</span>
             <h2 class="section-title">Let's Connect</h2>
             <p>Interested in collaborating, learning more about our projects, or just saying hello? We'd love to hear from you.</p>
 
@@ -596,8 +658,10 @@
     </button>
   </div>
 
+  <!-- Realm Ascension Cinematic Engine -->
+  <script src="js/realm-ascension.js?v=3.2" defer></script>
   <!-- Main JavaScript Bundle -->
-  <script src="js/main.js" defer></script>
+  <script src="js/main.js?v=3.2" defer></script>
 </body>
 
 </html>

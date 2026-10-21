@@ -256,16 +256,212 @@ ul {
 }
 
 /* =============================================================
-   4. AMBIENT BACKGROUND
+   4. REALM OF NYLARION — CINEMATIC STAGE & STORY ENGINE
    ============================================================= */
-.bg-ambient {
+#realm-stage {
   position: fixed;
   inset: 0;
+  width: 100vw;
+  height: 100vh;
   z-index: 0;
   pointer-events: none;
-  background:
-    radial-gradient(ellipse 60% 50% at 20% 10%, rgba(56, 217, 232, 0.04), transparent),
-    radial-gradient(ellipse 50% 40% at 80% 90%, rgba(212, 168, 83, 0.03), transparent);
+  overflow: hidden;
+  background: #080c16;
+}
+
+.realm-layer {
+  position: absolute;
+  inset: -4% -4% -4% -4%;
+  width: 108%;
+  height: 108%;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  pointer-events: none;
+  will-change: transform, opacity;
+  transition: opacity 0.6s cubic-bezier(0.2, 0, 0.2, 1);
+}
+
+.realm-sky {
+  z-index: 1;
+  opacity: 1;
+  filter: brightness(0.92) contrast(1.08);
+}
+
+#realm-webgl-canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 2;
+  pointer-events: none;
+}
+
+.realm-forest {
+  z-index: 3;
+  opacity: 0;
+  filter: brightness(0.88) saturate(1.15) contrast(1.1);
+}
+
+.realm-kingdom {
+  z-index: 4;
+  opacity: 0;
+  filter: brightness(0.85) contrast(1.15);
+}
+
+.realm-fog-layer {
+  position: absolute;
+  inset: 0;
+  z-index: 5;
+  pointer-events: none;
+  opacity: 0.55;
+  mix-blend-mode: screen;
+}
+
+.fog-band {
+  position: absolute;
+  left: -50%;
+  width: 200%;
+  height: 48%;
+  bottom: 0;
+  background: radial-gradient(ellipse at 50% 100%, rgba(56, 217, 232, 0.14), rgba(212, 168, 83, 0.08) 40%, transparent 75%);
+  animation: realmFogDrift 32s ease-in-out infinite alternate;
+  filter: blur(28px);
+}
+
+.fog-band-2 {
+  bottom: 15%;
+  height: 38%;
+  opacity: 0.65;
+  animation: realmFogDrift2 42s ease-in-out infinite alternate;
+  background: radial-gradient(ellipse at 50% 100%, rgba(255, 210, 75, 0.1), rgba(56, 217, 232, 0.05) 50%, transparent 80%);
+}
+
+@keyframes realmFogDrift {
+  0% { transform: translateX(0) scaleY(1); }
+  50% { transform: translateX(6%) scaleY(1.1); }
+  100% { transform: translateX(-6%) scaleY(0.95); }
+}
+
+@keyframes realmFogDrift2 {
+  0% { transform: translateX(4%) scaleY(1); }
+  50% { transform: translateX(-5%) scaleY(1.12); }
+  100% { transform: translateX(3%) scaleY(0.92); }
+}
+
+/* The Legendary Horse Character Stage */
+.realm-character-wrapper {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: min(720px, 54vw);
+  height: min(480px, 38vw);
+  margin-left: calc(min(720px, 54vw) * -0.5);
+  margin-top: calc(min(480px, 38vw) * -0.5);
+  z-index: 6;
+  pointer-events: none;
+  will-change: transform, opacity;
+  transition: opacity 0.5s ease-out;
+}
+
+.horse-sprite {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  filter: drop-shadow(0 20px 32px rgba(0, 0, 0, 0.8))
+          drop-shadow(0 0 50px rgba(255, 215, 80, 0.4))
+          drop-shadow(0 0 75px rgba(56, 217, 232, 0.3));
+  user-select: none;
+  pointer-events: none;
+}
+
+.horse-glow-radial {
+  position: absolute;
+  inset: 12% 16% 16% 16%;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255, 210, 75, 0.25) 0%, rgba(56, 217, 232, 0.14) 45%, transparent 75%);
+  filter: blur(32px);
+  z-index: -1;
+  pointer-events: none;
+  animation: horseAuraPulse 3.8s ease-in-out infinite alternate;
+}
+
+.horse-shadow-ellipse {
+  position: absolute;
+  left: 18%;
+  right: 18%;
+  bottom: 2%;
+  height: 32px;
+  border-radius: 50%;
+  background: radial-gradient(ellipse, rgba(0, 0, 0, 0.75) 0%, rgba(0, 0, 0, 0.3) 55%, transparent 75%);
+  filter: blur(10px);
+  z-index: -1;
+}
+
+@keyframes horseAuraPulse {
+  0% { transform: scale(0.94); opacity: 0.7; }
+  100% { transform: scale(1.1); opacity: 1; }
+}
+
+/* Foreground Parallax Foliage */
+.realm-foreground {
+  z-index: 7;
+  opacity: 0;
+  filter: brightness(0.95) contrast(1.1);
+  transform-origin: center center;
+}
+
+/* Cinematic Vignette Overlay */
+.realm-vignette {
+  position: absolute;
+  inset: 0;
+  z-index: 8;
+  pointer-events: none;
+  background: radial-gradient(circle at 50% 50%, transparent 45%, rgba(6, 9, 15, 0.6) 82%, rgba(4, 6, 12, 0.94) 100%);
+}
+
+/* Floating Story HUD Pill */
+.ascension-hud-pill {
+  position: fixed;
+  top: 86px;
+  left: 28px;
+  z-index: 999;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 7px 16px;
+  border-radius: 999px;
+  border: 1px solid rgba(56, 217, 232, 0.26);
+  background: rgba(10, 14, 26, 0.76);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  box-shadow: 0 4px 22px rgba(0, 0, 0, 0.5), 0 0 16px rgba(56, 217, 232, 0.12);
+  pointer-events: none;
+  transition: all 0.35s ease;
+}
+
+.hud-pip {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--accent);
+  box-shadow: 0 0 12px var(--accent);
+  animation: hudPipPulse 2s infinite;
+}
+
+@keyframes hudPipPulse {
+  0%, 100% { transform: scale(1); opacity: 0.75; }
+  50% { transform: scale(1.4); opacity: 1; }
+}
+
+.hud-label {
+  font-family: var(--font-body);
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--text-primary);
+  text-shadow: 0 0 12px rgba(56, 217, 232, 0.4);
 }
 
 /* =============================================================
@@ -486,7 +682,222 @@ nav {
 }
 
 /* =============================================================
-   6. HERO SECTION
+   5.5. REALM OF NYLARION — CINEMATIC VIEWPORT STAGE & SCROLL STORY
+   ============================================================= */
+#realm-stage {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 0;
+  pointer-events: none;
+  overflow: hidden;
+  contain: strict;
+  user-select: none;
+  background-color: #05070d;
+}
+
+.realm-layer {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  background-position: center center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  will-change: transform, opacity;
+  pointer-events: none;
+}
+
+.realm-sky {
+  z-index: 1;
+  opacity: 1;
+  transform: scale(1.05);
+  filter: brightness(0.92) contrast(1.08);
+}
+
+#realm-webgl-canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 2;
+  pointer-events: none;
+  display: block;
+}
+
+.realm-forest {
+  z-index: 3;
+  opacity: 0;
+  transform: scale(1.06);
+  filter: brightness(0.88) contrast(1.1) saturate(1.15);
+}
+
+.realm-kingdom {
+  z-index: 4;
+  opacity: 0;
+  transform: scale(1.04);
+  filter: brightness(0.9) contrast(1.15);
+}
+
+/* Atmospheric Volumetric Fog Bands */
+.realm-fog-layer {
+  position: absolute;
+  inset: 0;
+  z-index: 5;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.fog-band {
+  position: absolute;
+  width: 200%;
+  height: 40%;
+  bottom: 0;
+  left: -50%;
+  background: radial-gradient(ellipse 60% 50% at 50% 100%, rgba(56, 217, 232, 0.08) 0%, rgba(10, 20, 36, 0.05) 50%, transparent 80%);
+  filter: blur(24px);
+  will-change: transform;
+  animation: fogDrift 28s ease-in-out infinite alternate;
+}
+
+.fog-band-2 {
+  bottom: 12%;
+  height: 30%;
+  background: radial-gradient(ellipse 70% 60% at 60% 100%, rgba(212, 168, 83, 0.06) 0%, transparent 75%);
+  animation: fogDrift2 36s ease-in-out infinite alternate;
+}
+
+@keyframes fogDrift {
+  0% { transform: translateX(-4%) translateY(0); }
+  100% { transform: translateX(4%) translateY(-8px); }
+}
+
+@keyframes fogDrift2 {
+  0% { transform: translateX(5%) translateY(-5px); }
+  100% { transform: translateX(-5%) translateY(4px); }
+}
+
+/* Layer 6: The Legendary Horse Character Stage */
+.realm-character-wrapper {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: clamp(320px, 44vw, 720px);
+  aspect-ratio: 1024 / 682;
+  z-index: 6;
+  pointer-events: none;
+  will-change: transform, opacity;
+  transform-origin: center center;
+}
+
+.horse-sprite {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+  user-select: none;
+  -webkit-user-drag: none;
+  filter: drop-shadow(0 20px 45px rgba(0, 0, 0, 0.85)) drop-shadow(0 0 35px rgba(212, 168, 83, 0.38));
+  will-change: transform;
+}
+
+.horse-glow-radial {
+  position: absolute;
+  width: 130%;
+  height: 130%;
+  top: -15%;
+  left: -15%;
+  background: radial-gradient(ellipse at 48% 45%, rgba(255, 230, 140, 0.22) 0%, rgba(56, 217, 232, 0.12) 35%, transparent 70%);
+  pointer-events: none;
+  filter: blur(28px);
+}
+
+.horse-shadow-ellipse {
+  position: absolute;
+  bottom: 0%;
+  left: 15%;
+  width: 70%;
+  height: 36px;
+  background: radial-gradient(ellipse at 50% 50%, rgba(0, 0, 0, 0.75) 0%, rgba(0, 0, 0, 0.3) 50%, transparent 80%);
+  border-radius: 50%;
+  filter: blur(10px);
+  pointer-events: none;
+}
+
+.horse-rim-aura {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(circle at 65% 25%, rgba(255, 240, 180, 0.18) 0%, transparent 40%);
+  mix-blend-mode: screen;
+}
+
+/* Layer 7: Foreground Parallax Foliage */
+.realm-foreground {
+  z-index: 7;
+  opacity: 0;
+  transform: scale(1.08);
+  filter: brightness(0.85) contrast(1.15);
+}
+
+/* Layer 8: Cinematic Ambient Lighting & Vignette Scrim */
+.realm-vignette {
+  position: absolute;
+  inset: 0;
+  z-index: 8;
+  pointer-events: none;
+  background: radial-gradient(circle at 50% 45%, transparent 40%, rgba(5, 7, 13, 0.55) 75%, rgba(3, 4, 8, 0.9) 100%);
+}
+
+/* Floating Cinematic Scene Indicator Pill */
+.ascension-hud-pill {
+  position: fixed;
+  top: 82px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 95;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 20px;
+  border-radius: 999px;
+  background: rgba(8, 12, 22, 0.78);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(212, 168, 83, 0.35);
+  box-shadow: 0 4px 22px rgba(0, 0, 0, 0.45), 0 0 16px rgba(212, 168, 83, 0.16);
+  pointer-events: none;
+  white-space: nowrap;
+  transition: all 0.4s var(--ease-out);
+}
+
+.ascension-hud-pill .hud-pip {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--gold);
+  box-shadow: 0 0 10px var(--gold), 0 0 18px rgba(56, 217, 232, 0.8);
+  animation: hudPulse 2s infinite ease-in-out;
+}
+
+@keyframes hudPulse {
+  0%, 100% { transform: scale(1); opacity: 0.9; }
+  50% { transform: scale(1.35); opacity: 1; }
+}
+
+.ascension-hud-pill .hud-label {
+  font-family: var(--font-heading);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: #f5eed8;
+  text-shadow: 0 0 10px rgba(0, 0, 0, 0.8);
+}
+
+/* =============================================================
+   6. HERO SECTION — CINEMATIC TWO-COLUMN COMPOSITION
    ============================================================= */
 .hero-section {
   position: relative;
@@ -494,34 +905,150 @@ nav {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: flex-start;
-  padding: 80px var(--space-lg) 60px;
-  overflow: hidden;
-  z-index: 1;
+  justify-content: center;
+  padding: 124px var(--space-lg) 60px;
+  overflow: visible;
+  z-index: 2;
 }
 
 .hero-glow-orb {
   position: absolute;
-  top: 40%;
-  left: 50%;
+  top: 45%;
+  left: 45%;
   transform: translate(-50%, -50%);
   width: 900px;
   height: 900px;
-  background: radial-gradient(circle, rgba(56, 217, 232, 0.1) 0%, rgba(212, 168, 83, 0.05) 40%, transparent 70%);
+  background: radial-gradient(circle, rgba(56, 217, 232, 0.12) 0%, rgba(212, 168, 83, 0.06) 40%, transparent 70%);
   pointer-events: none;
   z-index: 0;
 }
 
-/* 3D Canvas Container */
+.hero-container {
+  max-width: var(--container-max);
+  width: 100%;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1.15fr 0.85fr;
+  gap: 40px;
+  align-items: center;
+  position: relative;
+  z-index: 2;
+}
+
+.hero-content {
+  position: relative;
+  z-index: 3;
+  text-align: left;
+  max-width: 680px;
+}
+
+.hero-chapter-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 14px;
+  border-radius: 999px;
+  background: rgba(12, 17, 30, 0.7);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(212, 168, 83, 0.35);
+  color: var(--gold);
+  font-family: var(--font-heading);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  margin-bottom: var(--space-md);
+}
+
+.hero-chapter-pill .chapter-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--accent);
+  box-shadow: 0 0 8px var(--accent);
+}
+
+.hero-label {
+  font-family: var(--font-heading);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.3em;
+  color: var(--accent);
+  text-transform: uppercase;
+  margin-bottom: var(--space-sm);
+  display: block;
+}
+
+.hero-title {
+  font-family: var(--font-display);
+  font-size: clamp(34px, 5.2vw, 68px);
+  font-weight: 900;
+  line-height: 1.08;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  background: linear-gradient(180deg, #ffffff 15%, #d5e0ee 90%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  margin-bottom: var(--space-md);
+  text-shadow: 0 4px 30px rgba(0, 0, 0, 0.7);
+}
+
+.hero-title span {
+  color: var(--accent);
+  background: none;
+  -webkit-background-clip: initial;
+  background-clip: initial;
+  display: inline;
+  text-shadow: 0 0 28px rgba(56, 217, 232, 0.45);
+}
+
+.hero-description {
+  font-size: clamp(15px, 1.4vw, 17px);
+  color: #cbd5e1;
+  max-width: 580px;
+  margin: 0 0 var(--space-xl) 0;
+  font-weight: 400;
+  line-height: 1.75;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.8);
+}
+
+.hero-actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: var(--space-md);
+  flex-wrap: wrap;
+  margin-bottom: var(--space-2xl);
+}
+
+/* 3D Emblem Seal Container (Refined & Compact) */
+.hero-emblem-seal {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+  margin-top: var(--space-xs);
+}
+
 #canvas-container {
   position: relative;
-  width: 100%;
-  max-width: 520px;
-  height: 380px;
+  width: 220px;
+  height: 140px;
   z-index: 2;
   cursor: grab;
-  margin-bottom: var(--space-md);
+  background: rgba(10, 15, 26, 0.4);
+  border: 1px solid rgba(56, 217, 232, 0.2);
+  border-radius: var(--radius-md);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  overflow: hidden;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+  transition: border-color var(--duration-normal) var(--ease-smooth);
+}
+
+#canvas-container:hover {
+  border-color: rgba(56, 217, 232, 0.45);
 }
 
 #canvas-container:active {
@@ -538,14 +1065,14 @@ nav {
   position: absolute;
   left: 50%;
   top: 50%;
-  width: min(75%, 440px);
+  width: min(80%, 140px);
   height: auto;
   transform: translate(-50%, -50%);
   z-index: 3;
   opacity: 0;
   pointer-events: none;
   transition: opacity 0.4s ease;
-  filter: drop-shadow(0 0 18px rgba(56, 217, 232, 0.2));
+  filter: drop-shadow(0 0 14px rgba(56, 217, 232, 0.3));
   mix-blend-mode: screen;
 }
 
@@ -555,94 +1082,83 @@ nav {
 
 .canvas-hint {
   position: absolute;
-  bottom: 8px;
+  bottom: 4px;
   left: 50%;
   transform: translateX(-50%);
   font-family: var(--font-heading);
-  font-size: 10px;
-  letter-spacing: 0.2em;
+  font-size: 8.5px;
+  letter-spacing: 0.16em;
   color: var(--accent-muted);
   text-transform: uppercase;
-  background: rgba(8, 9, 15, 0.8);
-  padding: 5px 14px;
-  border-radius: 20px;
+  background: rgba(8, 9, 15, 0.85);
+  padding: 3px 10px;
+  border-radius: 12px;
   border: 1px solid var(--border-accent);
   pointer-events: none;
   white-space: nowrap;
-  animation: floatHint 3s ease-in-out infinite;
 }
 
-@keyframes floatHint {
-  0%, 100% { transform: translate(-50%, 0); }
-  50% { transform: translate(-50%, -4px); }
-}
-
-/* Hero Content */
-.hero-content {
-  position: relative;
-  z-index: 2;
-  text-align: center;
-  max-width: 860px;
-}
-
-.hero-label {
-  font-family: var(--font-heading);
-  font-size: 12px;
-  font-weight: 700;
-  letter-spacing: 0.3em;
-  color: var(--gold);
-  text-transform: uppercase;
-  margin-bottom: var(--space-md);
-  display: inline-block;
-}
-
-.hero-label::before,
-.hero-label::after {
-  content: '—';
-  color: var(--gold-muted);
-  margin: 0 10px;
-  opacity: 0.5;
-}
-
-.hero-title {
-  font-family: var(--font-display);
-  font-size: clamp(36px, 6.5vw, 78px);
-  font-weight: 900;
-  line-height: 1.08;
-  letter-spacing: 0.02em;
-  text-transform: uppercase;
-  background: linear-gradient(180deg, #ffffff 10%, #c8d0dc 90%);
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
-  margin-bottom: var(--space-lg);
-}
-
-.hero-title span {
-  color: var(--accent);
-  background: none;
-  -webkit-background-clip: initial;
-  background-clip: initial;
-  display: inline;
-  text-shadow: 0 0 24px rgba(56, 217, 232, 0.25);
-}
-
-.hero-description {
-  font-size: clamp(15px, 1.8vw, 18px);
-  color: var(--text-secondary);
-  max-width: 580px;
-  margin: 0 auto var(--space-xl);
-  font-weight: 400;
-  line-height: 1.75;
-}
-
-.hero-actions {
+/* Hero Right Column: Character Anchor */
+.hero-character-anchor {
   display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  justify-content: flex-end;
+  min-height: 480px;
+  pointer-events: none;
+  position: relative;
+}
+
+.horse-hero-callout {
+  display: inline-flex;
   align-items: center;
-  justify-content: center;
-  gap: var(--space-md);
-  flex-wrap: wrap;
-  margin-bottom: var(--space-3xl);
+  gap: 12px;
+  padding: 10px 18px;
+  border-radius: 12px;
+  background: rgba(8, 12, 22, 0.65);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1px solid rgba(212, 168, 83, 0.32);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5), 0 0 18px rgba(212, 168, 83, 0.12);
+  margin-top: auto;
+  pointer-events: auto;
+}
+
+.callout-rune {
+  color: var(--gold);
+  font-size: 16px;
+  filter: drop-shadow(0 0 8px var(--gold));
+  animation: runeGlow 2.5s ease-in-out infinite alternate;
+}
+
+@keyframes runeGlow {
+  0% { transform: scale(0.9); opacity: 0.7; }
+  100% { transform: scale(1.15); opacity: 1; }
+}
+
+.callout-text {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  text-align: left;
+}
+
+.callout-name {
+  font-family: var(--font-heading);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: #faecc7;
+}
+
+.callout-sub {
+  font-family: var(--font-heading);
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--accent);
 }
 
 /* =============================================================
@@ -772,7 +1288,9 @@ section {
    9. ABOUT SECTION
    ============================================================= */
 .about-section {
-  background: linear-gradient(180deg, var(--bg-deep) 0%, var(--bg-primary) 40%, var(--bg-deep) 100%);
+  background: linear-gradient(180deg, rgba(8, 9, 15, 0.72) 0%, rgba(10, 14, 26, 0.65) 40%, rgba(8, 9, 15, 0.78) 100%);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
   border-top: 1px solid var(--border-subtle);
 }
 
@@ -801,8 +1319,10 @@ section {
 
 .about-value-item {
   padding: var(--space-lg);
-  background: var(--bg-card);
-  border: 1px solid var(--border-subtle);
+  background: rgba(14, 20, 36, 0.78);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(148, 163, 184, 0.14);
   border-radius: var(--radius-md);
   transition: all var(--duration-normal) var(--ease-smooth);
 }
@@ -810,6 +1330,7 @@ section {
 .about-value-item:hover {
   border-color: var(--border-accent);
   transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4), 0 0 16px rgba(56, 217, 232, 0.15);
 }
 
 .about-value-item h4 {
@@ -837,8 +1358,10 @@ section {
 }
 
 .pillar-card {
-  background: var(--bg-card);
-  border: 1px solid var(--border-subtle);
+  background: rgba(14, 20, 36, 0.78);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(148, 163, 184, 0.14);
   border-radius: var(--radius-md);
   padding: var(--space-xl) var(--space-lg);
   transition: all var(--duration-normal) var(--ease-smooth);
@@ -847,7 +1370,7 @@ section {
 .pillar-card:hover {
   border-color: var(--border-accent);
   transform: translateY(-4px);
-  box-shadow: var(--shadow-glow);
+  box-shadow: var(--shadow-glow), 0 12px 30px rgba(0, 0, 0, 0.45);
 }
 
 .pillar-icon {
@@ -972,9 +1495,11 @@ section {
 .stats-banner {
   position: relative;
   z-index: 2;
-  background: var(--bg-elevated);
-  border-top: 1px solid var(--border-subtle);
-  border-bottom: 1px solid var(--border-subtle);
+  background: rgba(12, 17, 30, 0.76);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border-top: 1px solid rgba(56, 217, 232, 0.15);
+  border-bottom: 1px solid rgba(56, 217, 232, 0.15);
   padding: var(--space-3xl) var(--space-lg);
 }
 
@@ -1021,7 +1546,9 @@ section {
    11. GAMES SHOWCASE
    ============================================================= */
 .games-section {
-  background: linear-gradient(180deg, var(--bg-deep) 0%, var(--bg-primary) 50%, var(--bg-deep) 100%);
+  background: linear-gradient(180deg, rgba(8, 9, 15, 0.74) 0%, rgba(10, 14, 26, 0.65) 50%, rgba(8, 9, 15, 0.78) 100%);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
 }
 
 .games-grid {
@@ -1031,8 +1558,10 @@ section {
 }
 
 .game-card {
-  background: var(--bg-card);
-  border: 1px solid var(--border-subtle);
+  background: rgba(12, 17, 30, 0.82);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1px solid rgba(148, 163, 184, 0.15);
   border-radius: var(--radius-lg);
   overflow: hidden;
   transition: all 0.4s var(--ease-out);
@@ -1043,7 +1572,7 @@ section {
 .game-card:hover {
   transform: translateY(-6px);
   border-color: var(--border-accent);
-  box-shadow: var(--shadow-xl), var(--shadow-glow);
+  box-shadow: var(--shadow-xl), 0 0 24px rgba(56, 217, 232, 0.25);
 }
 
 .game-media {
@@ -1136,7 +1665,9 @@ section {
    ============================================================= */
 .tech-section {
   border-top: 1px solid var(--border-subtle);
-  background: var(--bg-primary);
+  background: linear-gradient(180deg, rgba(8, 9, 15, 0.75) 0%, rgba(10, 14, 26, 0.68) 50%, rgba(8, 9, 15, 0.8) 100%);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
 }
 
 .tech-grid {
@@ -1147,8 +1678,10 @@ section {
 
 .tech-card {
   padding: var(--space-xl);
-  background: var(--bg-card);
-  border: 1px solid var(--border-subtle);
+  background: rgba(14, 20, 36, 0.8);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(148, 163, 184, 0.14);
   border-radius: var(--radius-md);
   text-align: center;
   transition: all var(--duration-normal) var(--ease-smooth);
@@ -1157,7 +1690,7 @@ section {
 .tech-card:hover {
   border-color: var(--border-accent);
   transform: translateY(-4px);
-  box-shadow: var(--shadow-glow);
+  box-shadow: var(--shadow-glow), 0 10px 28px rgba(0, 0, 0, 0.4);
 }
 
 .tech-icon {
@@ -1192,8 +1725,10 @@ section {
    13. UPDATES BANNER
    ============================================================= */
 .updates-banner {
-  background: radial-gradient(ellipse 70% 80% at 50% 0%, rgba(56, 217, 232, 0.06), transparent 60%),
-              var(--bg-elevated);
+  background: radial-gradient(ellipse 70% 80% at 50% 0%, rgba(56, 217, 232, 0.1), transparent 60%),
+              rgba(12, 17, 30, 0.78);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
   border-top: 1px solid var(--border-subtle);
   text-align: center;
 }
@@ -1218,7 +1753,9 @@ section {
    14. CONTACT SECTION
    ============================================================= */
 .contact-section {
-  background: linear-gradient(180deg, var(--bg-deep) 0%, var(--bg-primary) 100%);
+  background: linear-gradient(180deg, rgba(8, 9, 15, 0.82) 0%, rgba(10, 14, 26, 0.88) 100%);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
   border-top: 1px solid var(--border-subtle);
 }
 
@@ -1283,7 +1820,9 @@ section {
   font-family: var(--font-body);
   font-size: 14px;
   color: var(--text-primary);
-  background: var(--bg-card);
+  background: rgba(14, 20, 36, 0.75);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
   border: 1px solid var(--border-default);
   border-radius: var(--radius-sm);
   outline: none;
@@ -1326,7 +1865,9 @@ section {
    15. FOOTER
    ============================================================= */
 footer {
-  background: var(--bg-deep);
+  background: rgba(6, 8, 14, 0.92);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
   border-top: 1px solid var(--border-subtle);
   padding: var(--space-4xl) var(--space-lg) var(--space-xl);
 }
@@ -1437,6 +1978,51 @@ footer {
    17. RESPONSIVE DESIGN
    ============================================================= */
 @media (max-width: 1024px) {
+  .hero-container {
+    grid-template-columns: 1fr;
+    gap: var(--space-xl);
+    text-align: center;
+  }
+
+  .hero-content {
+    text-align: center;
+    margin: 0 auto;
+    max-width: 720px;
+  }
+
+  .hero-description {
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .hero-actions {
+    justify-content: center;
+  }
+
+  .hero-emblem-seal {
+    justify-content: center;
+  }
+
+  .hero-character-anchor {
+    min-height: auto;
+    align-items: center;
+    justify-content: center;
+    margin-top: var(--space-md);
+  }
+
+  .ascension-hud-pill {
+    top: 76px;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 6px 14px;
+    max-width: 90vw;
+  }
+
+  .ascension-hud-pill .hud-label {
+    font-size: 9.5px;
+    letter-spacing: 0.16em;
+  }
+
   .about-grid {
     grid-template-columns: 1fr;
     gap: var(--space-2xl);
@@ -1542,19 +2128,29 @@ footer {
 
   /* Hero mobile */
   .hero-section {
-    padding: 76px var(--space-md) 36px;
+    padding: 130px var(--space-md) 40px;
     min-height: auto;
   }
 
   #canvas-container {
-    height: 260px;
+    width: 200px;
+    height: 120px;
     max-width: 100%;
-    margin-bottom: var(--space-sm);
+    margin: 0 auto var(--space-sm);
   }
 
   .canvas-hint {
-    font-size: 9px;
-    bottom: 0;
+    font-size: 8px;
+    bottom: 2px;
+  }
+
+  .realm-character-wrapper {
+    width: 82vw;
+    max-width: 440px;
+  }
+
+  .hero-character-anchor {
+    display: none;
   }
 
   .hero-label {
