@@ -38,11 +38,16 @@ if (isClusterEnabled && cluster.isPrimary) {
 async function runWorker() {
   const app = express();
   const port = Number(process.env.PORT || 3000);
-  const model = process.env.OPENAI_MODEL || 'gpt-4o-mini';
+  const baseUrl = (process.env.OPENAI_BASE_URL || '').trim();
+  const model = process.env.OPENAI_MODEL || (baseUrl ? 'llama-3.3-70b-versatile' : 'gpt-4o-mini');
 
   const rawApiKey = (process.env.OPENAI_API_KEY || '').trim();
-  const hasRealKey = Boolean(rawApiKey && !rawApiKey.includes('your_openai_api_key') && rawApiKey.startsWith('sk-'));
-  const client = hasRealKey ? new OpenAI({ apiKey: rawApiKey, timeout: 10000 }) : null;
+  const hasRealKey = Boolean(rawApiKey && !rawApiKey.includes('your_openai_api_key') && (rawApiKey.startsWith('sk-') || rawApiKey.startsWith('gsk_') || rawApiKey.length > 20));
+  const client = hasRealKey ? new OpenAI({
+    apiKey: rawApiKey,
+    baseURL: baseUrl || undefined,
+    timeout: 10000
+  }) : null;
 
   // Track active connections for graceful shutdown
   let activeConnections = 0;
@@ -373,18 +378,32 @@ For general questions, answer normally. Understand typos and follow-up questions
           const controller = new AbortController();
           const timeout = setTimeout(() => controller.abort(), 10000);
 
-          const response = await client.responses.create({
-            model,
-            instructions: buildInstructions(),
-            input
-          }, { signal: controller.signal });
+          let reply = '';
+          if (client.responses && !baseUrl) {
+            const response = await client.responses.create({
+              model,
+              instructions: buildInstructions(),
+              input
+            }, { signal: controller.signal });
+            reply = response.output_text?.trim() || '';
+          } else {
+            const messages = [
+              { role: 'system', content: buildInstructions() },
+              ...safeHistory,
+              { role: 'user', content: cleanMessage }
+            ];
+            const response = await client.chat.completions.create({
+              model,
+              messages
+            }, { signal: controller.signal });
+            reply = response.choices?.[0]?.message?.content?.trim() || '';
+          }
 
           clearTimeout(timeout);
 
-          const reply = response.output_text?.trim();
           if (reply) {
             setCachedResponse(cleanMessage, reply);
-            return res.json({ reply, provider: 'openai', cached: false });
+            return res.json({ reply, provider: baseUrl ? 'openai-compatible' : 'openai', cached: false });
           }
         } catch (openAiError) {
           console.warn('OpenAI query failed or timed out; activating grounded KB:', openAiError?.message || openAiError);
