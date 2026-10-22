@@ -542,70 +542,6 @@ nav {
   100% { transform: translateX(-5%) translateY(4px); }
 }
 
-/* The Legendary Horse Character Stage */
-.realm-character-wrapper {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: clamp(280px, 36vw, 560px);
-  max-height: min(420px, 46vh);
-  aspect-ratio: 1024 / 682;
-  z-index: 20;
-  pointer-events: none;
-  will-change: transform, opacity;
-  transform-origin: 50% 95%;
-}
-
-.horse-sprite {
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
-  display: block;
-  user-select: none;
-  -webkit-user-drag: none;
-  image-rendering: -webkit-optimize-contrast;
-  filter: drop-shadow(0 18px 30px rgba(0, 0, 0, 0.88))
-          drop-shadow(0 0 40px rgba(212, 168, 83, 0.40))
-          drop-shadow(0 0 65px rgba(56, 217, 232, 0.25));
-  will-change: transform;
-}
-
-.horse-glow-radial {
-  position: absolute;
-  width: 125%;
-  height: 125%;
-  top: -12%;
-  left: -12%;
-  background: radial-gradient(ellipse at 48% 45%, rgba(255, 230, 140, 0.25) 0%, rgba(56, 217, 232, 0.12) 38%, transparent 70%);
-  pointer-events: none;
-  filter: blur(26px);
-  animation: horseAuraPulse 4.2s ease-in-out infinite alternate;
-}
-
-@keyframes horseAuraPulse {
-  0% { transform: scale(0.95); opacity: 0.72; }
-  100% { transform: scale(1.08); opacity: 1; }
-}
-
-.horse-shadow-ellipse {
-  position: absolute;
-  bottom: 2%;
-  left: 12%;
-  width: 76%;
-  height: 26px;
-  background: radial-gradient(ellipse at 50% 50%, rgba(0, 0, 0, 0.94) 0%, rgba(2, 6, 14, 0.72) 42%, rgba(2, 6, 14, 0.20) 68%, transparent 80%);
-  border-radius: 50%;
-  filter: blur(7px);
-  pointer-events: none;
-}
-
-.horse-rim-aura {
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  background: radial-gradient(circle at 65% 25%, rgba(255, 240, 180, 0.18) 0%, transparent 45%);
-  mix-blend-mode: screen;
-}
 
 /* Cinematic Ambient Lighting Scrim */
 .realm-vignette {
@@ -1178,31 +1114,7 @@ nav {
   white-space: nowrap;
 }
 
-/* Hero Right Column: Character Anchor */
-.hero-character-anchor {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-  justify-content: flex-end;
-  min-height: 480px;
-  pointer-events: none;
-  position: relative;
-}
 
-.horse-hero-callout {
-  display: inline-flex;
-  align-items: center;
-  gap: 12px;
-  padding: 10px 18px;
-  border-radius: 12px;
-  background: rgba(8, 12, 22, 0.65);
-  backdrop-filter: blur(14px);
-  -webkit-backdrop-filter: blur(14px);
-  border: 1px solid rgba(212, 168, 83, 0.32);
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5), 0 0 18px rgba(212, 168, 83, 0.12);
-  margin-top: auto;
-  pointer-events: auto;
-}
 
 .callout-rune {
   color: var(--gold);
@@ -3496,10 +3408,6 @@ body[data-fx="performance"] .realm-fog-layer {
   animation: none !important;
 }
 
-body[data-fx="performance"] .horse-glow-radial,
-body[data-fx="performance"] .horse-rim-aura {
-  display: none !important;
-}
 
 body[data-fx="performance"] .frosted-card {
   backdrop-filter: none !important;

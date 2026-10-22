@@ -138,8 +138,8 @@ async function main() {
 
   // Test 1: Static WebP Asset Delivery (CDN origin baseline)
   results.push(await runScenario(
-    'Static WebP Character Asset (/assets/images/legendary-horse-cutout.webp)',
-    'http://localhost:3000/assets/images/legendary-horse-cutout.webp',
+    'Static WebP Environment Asset (/assets/images/realm-celestial-horizon.webp)',
+    'http://localhost:3000/assets/images/realm-celestial-horizon.webp',
     'GET',
     null,
     50,

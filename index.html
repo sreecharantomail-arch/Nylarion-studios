@@ -43,8 +43,7 @@
     href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;600;700;800;900&family=Rajdhani:wght@500;600;700&family=Inter:wght@300;400;500;600;700&display=swap"
     rel="stylesheet">
 
-  <!-- Preload Critical Character & Environment Assets -->
-  <link rel="preload" href="assets/images/legendary-horse-cutout.webp" as="image" type="image/webp">
+  <!-- Preload Critical Environment Assets -->
   <link rel="preload" href="assets/images/realm-celestial-horizon.webp" as="image" type="image/webp">
   <link rel="preload" href="assets/images/realm-living-forest.webp" as="image" type="image/webp">
   <link rel="preload" href="assets/images/realm-forest-path.webp" as="image" type="image/webp">
@@ -56,10 +55,6 @@
 
   <!-- Three.js CDN -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-  <!-- Meshopt Decoder for compressed GLB -->
-  <script src="js/meshopt_decoder.js"></script>
-  <!-- Three.js GLTF Loader -->
-  <script src="js/GLTFLoader.js"></script>
 </head>
 
 <body>
@@ -106,16 +101,6 @@
       <div class="fog-band fog-band-2"></div>
     </div>
 
-    <!-- The Legendary Horse Character Stage -->
-    <div class="realm-character-wrapper" id="realm-character">
-      <div class="horse-glow-radial"></div>
-      <div class="horse-shadow-ellipse"></div>
-      <picture>
-        <source srcset="assets/images/legendary-horse-cutout.webp" type="image/webp">
-        <img src="assets/images/legendary-horse-cutout.png" alt="Legendary Celestial Warhorse" class="horse-sprite" id="horse-sprite" loading="eager" width="1024" height="682" decoding="async">
-      </picture>
-      <div class="horse-rim-aura"></div>
-    </div>
 
     <!-- Cinematic Ambient Lighting Scrim -->
     <div class="realm-vignette"></div>
@@ -229,16 +214,6 @@
             </div>
           </div>
 
-          <!-- Hero Right Column: Character Stage Viewport Callout -->
-          <div class="hero-character-anchor" aria-hidden="true">
-            <div class="horse-hero-callout">
-              <span class="callout-rune">✦</span>
-              <div class="callout-text">
-                <span class="callout-name">THE CELESTIAL STEED</span>
-                <span class="callout-sub">GUARDIAN OF THE REALM</span>
-              </div>
-            </div>
-          </div>
         </div>
 
         <!-- Scroll Indicator -->
