@@ -85,14 +85,12 @@
    */
   function initDOM() {
     dom.stage = document.getElementById('realm-stage');
-    dom.sky = document.getElementById('realm-sky');
-    dom.forest = document.getElementById('realm-forest');
-    dom.kingdom = document.getElementById('realm-kingdom');
-    dom.foreground = document.getElementById('realm-foreground');
     dom.character = document.getElementById('realm-character');
     dom.horseSprite = document.getElementById('horse-sprite');
     dom.canvas = document.getElementById('realm-webgl-canvas');
     dom.sceneTag = document.getElementById('ascension-scene-tag');
+    dom.scenes = Array.from(document.querySelectorAll('.world-scene'));
+    dom.sceneBackdrops = Array.from(document.querySelectorAll('.scene-backdrop'));
   }
 
   /**
@@ -559,97 +557,105 @@
   }
 
   /**
-   * Update Story Scenes & 3D Horse Trajectory across the Fantasy Landscape
+   * Update 5 Vertical Story Scenes & Coordinate The Legendary Horse Trajectory
+   * Scene 1: Celestial Arrival      [0.00 - 0.20]
+   * Scene 2: Enchanted Forest       [0.20 - 0.40]
+   * Scene 3: Legendary Forest Path  [0.40 - 0.60]
+   * Scene 4: Ancient Fantasy City   [0.60 - 0.80]
+   * Scene 5: Kingdom Reveal         [0.80 - 1.00]
    */
   function updateJourney(progress) {
-    // Define Waypoints for The Legendary Horse across Scenes
-    let charX, charY, charScale, charOpacity, charTilt = 0;
-    let skyOpacity, forestOpacity, kingdomOpacity, foregroundOpacity = 0;
-    let sceneName = 'The Arrival';
-
+    let charX, charY, charScale;
+    let charOpacity = 1;
+    let sceneName = 'Chapter I — Celestial Arrival';
     const isMobile = state.isMobile;
+    const viewH = window.innerHeight;
+    const viewCenter = viewH * 0.5;
 
-    if (progress <= 0.20) {
-      // Scene 1: The Arrival
-      const t = progress / 0.20;
-      sceneName = 'The Arrival — Celestial Horizon';
+    // Detect active scene from actual DOM bounding rects
+    let activeSceneIdx = 0;
+    let localT = 0;
 
-      charX = isMobile ? 50 : lerp(65, 62, t);
-      charY = isMobile ? 68 : lerp(58, 56, t);
-      charScale = isMobile ? lerp(0.58, 0.60, t) : lerp(0.76, 0.79, t);
-      charOpacity = 1.0;
-
-      skyOpacity = 1.0;
-      forestOpacity = lerp(0.0, 0.35, t);
-      kingdomOpacity = 0.0;
-      foregroundOpacity = 0.0;
-
-    } else if (progress <= 0.45) {
-      // Scene 2: The Awakening
-      const t = (progress - 0.20) / 0.25;
-      sceneName = 'The Awakening — Realm of Nylarion';
-
-      charX = isMobile ? lerp(50, 50, t) : lerp(58, 66, t);
-      charY = isMobile ? lerp(66, 64, t) : lerp(54, 52, t);
-      charScale = isMobile ? lerp(0.60, 0.64, t) : lerp(0.80, 0.84, t);
-      charOpacity = 1.0;
-
-      skyOpacity = lerp(1.0, 0.25, t);
-      forestOpacity = lerp(0.35, 1.0, t);
-      kingdomOpacity = 0.0;
-      foregroundOpacity = lerp(0.0, 0.65, t);
-
-    } else if (progress <= 0.72) {
-      // Scene 3: Through the Living Forest
-      const t = (progress - 0.45) / 0.27;
-      sceneName = 'Through the Forest — Games & Creations';
-
-      charX = isMobile ? lerp(50, 50, t) : lerp(66, 38, t);
-      charY = isMobile ? lerp(64, 62, t) : lerp(52, 50, t);
-      charScale = isMobile ? lerp(0.64, 0.62, t) : lerp(0.84, 0.80, t);
-      charOpacity = isMobile ? 0.88 : 0.95;
-
-      skyOpacity = 0.15;
-      forestOpacity = lerp(1.0, 0.2, t);
-      kingdomOpacity = lerp(0.0, 0.95, t);
-      foregroundOpacity = lerp(0.65, 0.1, t);
-
-    } else if (progress <= 0.88) {
-      // Scene 4: The Ancient Kingdom
-      const t = (progress - 0.72) / 0.16;
-      sceneName = 'The Ancient Kingdom — Technology Citadel';
-
-      charX = isMobile ? lerp(50, 50, t) : lerp(38, 32, t);
-      charY = isMobile ? lerp(62, 60, t) : lerp(50, 48, t);
-      charScale = isMobile ? lerp(0.62, 0.64, t) : lerp(0.80, 0.78, t);
-      charOpacity = 1.0;
-
-      skyOpacity = lerp(0.15, 0.65, t);
-      forestOpacity = 0.0;
-      kingdomOpacity = lerp(0.95, 0.4, t);
-      foregroundOpacity = 0.0;
-
-    } else {
-      // Scene 5 & 6: The Studio Revealed & The Invitation
-      const t = (progress - 0.88) / 0.12;
-      sceneName = 'The Invitation — Play Beyond Reality';
-
-      charX = isMobile ? lerp(50, 50, t) : lerp(32, 64, t);
-      charY = isMobile ? lerp(60, 64, t) : lerp(48, 54, t);
-      charScale = isMobile ? lerp(0.64, 0.62, t) : lerp(0.78, 0.82, t);
-      charOpacity = 1.0;
-
-      skyOpacity = lerp(0.65, 0.95, t);
-      forestOpacity = 0.0;
-      kingdomOpacity = lerp(0.4, 0.2, t);
-      foregroundOpacity = 0.0;
+    if (dom.scenes && dom.scenes.length > 0) {
+      for (let i = 0; i < dom.scenes.length; i++) {
+        const sc = dom.scenes[i];
+        const rect = sc.getBoundingClientRect();
+        if (rect.top <= viewCenter && rect.bottom >= viewCenter) {
+          activeSceneIdx = i;
+          localT = clamp((viewCenter - rect.top) / rect.height, 0, 1);
+          break;
+        } else if (rect.top > viewCenter && i === 0) {
+          activeSceneIdx = 0;
+          localT = 0;
+          break;
+        } else if (rect.bottom < viewCenter && i === dom.scenes.length - 1) {
+          activeSceneIdx = dom.scenes.length - 1;
+          localT = 1;
+        }
+      }
     }
 
-    // 1. POSITION 3D HORSE IN THREE.JS WORLD COORDINATES
+    if (activeSceneIdx === 0) {
+      // Scene 1: Celestial Arrival
+      sceneName = 'Chapter I — Celestial Arrival';
+      charX = isMobile ? 50 : lerp(68, 66, localT);
+      charY = isMobile ? 74 : lerp(57, 56, localT);
+      charScale = isMobile ? 0.46 : lerp(0.78, 0.80, localT);
+      charOpacity = isMobile ? 0.75 : 1;
+
+    } else if (activeSceneIdx === 1) {
+      // Scene 2: Enchanted Forest
+      sceneName = 'Chapter II — Enchanted Forest';
+      charX = isMobile ? 50 : lerp(70, 68, localT);
+      charY = isMobile ? 76 : lerp(58, 56, localT);
+      charScale = isMobile ? 0.44 : lerp(0.80, 0.82, localT);
+      charOpacity = isMobile ? 0.35 : 1;
+
+    } else if (activeSceneIdx === 2) {
+      // Scene 3: Legendary Forest Path
+      sceneName = 'Chapter III — Legendary Forest Path';
+      charX = isMobile ? 50 : lerp(68, 70, localT);
+      charY = isMobile ? 76 : lerp(56, 55, localT);
+      charScale = isMobile ? 0.44 : lerp(0.82, 0.82, localT);
+      charOpacity = isMobile ? 0.35 : 1;
+
+    } else if (activeSceneIdx === 3) {
+      // Scene 4: Ancient Fantasy City
+      sceneName = 'Chapter IV — Ancient Fantasy City';
+      charX = isMobile ? 50 : lerp(70, 68, localT);
+      charY = isMobile ? 76 : lerp(55, 54, localT);
+      charScale = isMobile ? 0.44 : lerp(0.82, 0.84, localT);
+      charOpacity = isMobile ? 0.35 : 1;
+
+    } else {
+      // Scene 5: Kingdom Reveal
+      sceneName = 'Chapter V — Kingdom Reveal';
+      charX = isMobile ? 50 : lerp(68, 70, localT);
+      charY = isMobile ? 76 : lerp(54, 52, localT);
+      charScale = isMobile ? 0.44 : lerp(0.84, 0.85, localT);
+
+      // Check distance to games showcase and contact section to prevent any overlap
+      const gamesEl = document.getElementById('games');
+      if (gamesEl) {
+        const gamesTop = gamesEl.getBoundingClientRect().top;
+        if (gamesTop <= viewH * 0.75) {
+          const fadeT = clamp((viewH * 0.75 - gamesTop) / 160, 0, 1);
+          charOpacity = 1 - fadeT;
+        } else {
+          charOpacity = isMobile ? 0.35 : 1;
+        }
+      } else {
+        charOpacity = isMobile ? 0.35 : 1;
+      }
+    }
+
+    state.charOpacity = charOpacity;
+
+    // 1. POSITION 3D HORSE IN THREE.JS WORLD COORDINATES (If 3D Model Enabled)
     if (webgl.is3DReady && webgl.horseGroup && webgl.camera) {
       const aspect = window.innerWidth / window.innerHeight;
       const vFovRad = (webgl.camera.fov * Math.PI) / 180;
-      const frustumH = 2 * Math.tan(vFovRad / 2) * 50; // ~46.63 units
+      const frustumH = 2 * Math.tan(vFovRad / 2) * 50;
       const frustumW = frustumH * aspect;
 
       const ndcX = (charX / 100) * 2 - 1;
@@ -658,24 +664,20 @@
       const targetX = ndcX * (frustumW * 0.5) + (state.mouseX * 1.5);
       const targetY = ndcY * (frustumH * 0.5) - (state.mouseY * 1.2);
 
-      // Smooth interpolation of 3D horse position
       webgl.horseGroup.position.x = lerp(webgl.horseGroup.position.x, targetX, 0.12);
       webgl.horseGroup.position.y = lerp(webgl.horseGroup.position.y, targetY, 0.12);
       webgl.horseGroup.position.z = 0;
+      webgl.horseGroup.visible = charOpacity > 0.05;
 
-      // Scale horse proportionally to viewport & scene depth
       const s = (isMobile ? 3.4 : 4.4) * charScale;
       webgl.horseGroup.scale.set(s, s, s);
 
-      // Facing orientation: base -Math.PI * 0.5 (traveling rightward along +X)
-      // When moving across Scene 3, angle slightly towards camera for dynamic perspective
       let targetYaw = -Math.PI * 0.5;
-      if (progress > 0.45 && progress <= 0.72) {
-        targetYaw = -Math.PI * 0.40;
+      if (progress > 0.40 && progress <= 0.80) {
+        targetYaw = -Math.PI * 0.42;
       }
       webgl.horseGroup.rotation.y = lerp(webgl.horseGroup.rotation.y, targetYaw, 0.08);
 
-      // Dynamic banking, pitch on acceleration/braking
       if (!state.reducedMotion) {
         const pitch = clamp(-state.scrollVelocity * 0.012, -0.15, 0.15);
         const roll = Math.sin(state.time * 5.5) * Math.min(0.04, Math.abs(state.scrollVelocity) * 0.008);
@@ -684,48 +686,47 @@
       }
     }
 
-    // 2. DEFINITIVE LEGENDARY STEED CHARACTER POSITIONING
+    // 2. DEFINITIVE LEGENDARY STEED CHARACTER POSITIONING & GROUNDING
     if (dom.character && !webgl.is3DReady) {
       let breathingY = 0;
       let trotBob = 0;
+      let charTilt = 0;
 
       if (!state.reducedMotion) {
-        breathingY = Math.sin(state.time * 1.8) * 4;
+        breathingY = Math.sin(state.time * 1.8) * 3.5;
         const speed = Math.abs(state.scrollVelocity);
-        if (speed > 0.4) {
+        if (speed > 0.3) {
           trotBob = Math.sin(state.time * 8.5) * Math.min(3.5, speed * 0.28);
           charTilt = Math.sin(state.time * 8.5) * Math.min(1.0, speed * 0.05);
         }
       }
 
       const posX = charX + (state.mouseX * 1.2);
-      const posY = charY + (state.mouseY * 1.0);
+      const posY = charY + (state.mouseY * 0.8);
 
       dom.character.style.left = `${posX}vw`;
       dom.character.style.top = `calc(${posY}vh + ${(breathingY + trotBob).toFixed(1)}px)`;
-      dom.character.style.transform = `translate3d(-50%, -50%, 0) scale(${charScale}) rotate(${charTilt.toFixed(2)}deg)`;
-      dom.character.style.opacity = `${charOpacity}`;
+      dom.character.style.transform = `translate3d(-50%, -95%, 0) scale(${charScale}) rotate(${charTilt.toFixed(2)}deg)`;
+      dom.character.style.opacity = `${charOpacity.toFixed(2)}`;
+      dom.character.style.pointerEvents = 'none';
     }
 
-    // 3. Update Environmental Layers
-    if (dom.sky) {
-      dom.sky.style.opacity = `${skyOpacity}`;
-      dom.sky.style.transform = `translate3d(${state.mouseX * -6}px, ${-progress * 40 + state.mouseY * -4}px, 0)`;
-    }
-    if (dom.forest) {
-      dom.forest.style.opacity = `${forestOpacity}`;
-      dom.forest.style.transform = `translate3d(${state.mouseX * 12}px, ${(progress - 0.3) * 60 + state.mouseY * 8}px, 0)`;
-    }
-    if (dom.kingdom) {
-      dom.kingdom.style.opacity = `${kingdomOpacity}`;
-      dom.kingdom.style.transform = `translate3d(${state.mouseX * -10}px, ${(progress - 0.6) * 50 + state.mouseY * -6}px, 0)`;
-    }
-    if (dom.foreground) {
-      dom.foreground.style.opacity = `${foregroundOpacity}`;
-      dom.foreground.style.transform = `translate3d(${state.mouseX * 24}px, ${(progress - 0.4) * 110 + state.mouseY * 16}px, 0)`;
+    // 3. SMOOTH PARALLAX DEPTH ON VERTICAL SCENE BACKDROPS
+    if (dom.scenes && dom.scenes.length > 0 && dom.sceneBackdrops && !state.reducedMotion) {
+      const viewH = window.innerHeight;
+      dom.scenes.forEach((sceneEl, idx) => {
+        const backdrop = dom.sceneBackdrops[idx];
+        if (!backdrop) return;
+        const rect = sceneEl.getBoundingClientRect();
+        if (rect.bottom > -50 && rect.top < viewH + 50) {
+          const centerOffset = (rect.top + rect.height * 0.5) - (viewH * 0.5);
+          const parallaxY = centerOffset * 0.10;
+          backdrop.style.transform = `translate3d(0, ${parallaxY.toFixed(1)}px, 0)`;
+        }
+      });
     }
 
-    // Update Scene Indicator Tag
+    // 4. UPDATE STORY HUD SCENE TAG
     if (dom.sceneTag && dom.sceneTag.textContent !== sceneName) {
       dom.sceneTag.textContent = sceneName;
     }

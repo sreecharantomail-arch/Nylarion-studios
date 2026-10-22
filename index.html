@@ -46,9 +46,13 @@
   <!-- Preload Critical Character & Environment Assets -->
   <link rel="preload" href="assets/images/legendary-horse-cutout.webp" as="image" type="image/webp">
   <link rel="preload" href="assets/images/realm-celestial-horizon.webp" as="image" type="image/webp">
+  <link rel="preload" href="assets/images/realm-living-forest.webp" as="image" type="image/webp">
+  <link rel="preload" href="assets/images/realm-forest-path.webp" as="image" type="image/webp">
+  <link rel="preload" href="assets/images/realm-forgotten-kingdom.webp" as="image" type="image/webp">
+  <link rel="preload" href="assets/images/realm-kingdom-reveal.webp" as="image" type="image/webp">
 
   <!-- Custom CSS Stylesheet -->
-  <link rel="stylesheet" href="css/styles.css?v=3.7">
+  <link rel="stylesheet" href="css/styles.css?v=4.0">
 
   <!-- Three.js CDN -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
@@ -90,25 +94,16 @@
        REALM OF NYLARION — CINEMATIC VIEWPORT STAGE & SCROLL STORY
   ============================================================= -->
   <div id="realm-stage" aria-hidden="true">
-    <!-- Layer 1: Celestial Horizon Sky -->
-    <div class="realm-layer realm-sky" id="realm-sky" style="background-image: url('assets/images/realm-celestial-horizon.webp');"></div>
-
-    <!-- Layer 2: Three.js WebGL Volumetric & Particle Canvas -->
+    <!-- WebGL Volumetric & Particle Canvas (Stardust & Golden Mane Embers) -->
     <canvas id="realm-webgl-canvas"></canvas>
 
-    <!-- Layer 3: The Living Forest -->
-    <div class="realm-layer realm-forest" id="realm-forest" style="background-image: url('assets/images/realm-living-forest.webp');"></div>
-
-    <!-- Layer 4: The Forgotten Kingdom -->
-    <div class="realm-layer realm-kingdom" id="realm-kingdom" style="background-image: url('assets/images/realm-forgotten-kingdom.webp');"></div>
-
-    <!-- Layer 5: Atmospheric Volumetric Fog -->
+    <!-- Atmospheric Volumetric Fog -->
     <div class="realm-fog-layer" id="realm-fog">
       <div class="fog-band fog-band-1"></div>
       <div class="fog-band fog-band-2"></div>
     </div>
 
-    <!-- Layer 6: The Legendary Horse Character Stage -->
+    <!-- The Legendary Horse Character Stage -->
     <div class="realm-character-wrapper" id="realm-character">
       <div class="horse-glow-radial"></div>
       <div class="horse-shadow-ellipse"></div>
@@ -119,9 +114,6 @@
       <div class="horse-rim-aura"></div>
     </div>
 
-    <!-- Layer 7: Foreground Parallax Foliage -->
-    <div class="realm-layer realm-foreground" id="realm-foreground" style="background-image: url('assets/images/realm-forest-foreground.webp');"></div>
-
     <!-- Cinematic Ambient Lighting Scrim -->
     <div class="realm-vignette"></div>
   </div>
@@ -129,7 +121,7 @@
   <!-- Floating Cinematic Scene Indicator Pill -->
   <aside class="ascension-hud-pill" aria-label="Current story chapter">
     <span class="hud-pip" aria-hidden="true"></span>
-    <span class="hud-label" id="ascension-scene-tag">The Arrival — Celestial Horizon</span>
+    <span class="hud-label" id="ascension-scene-tag">Chapter I — Celestial Arrival</span>
   </aside>
 
   <!-- =============================================================
@@ -157,8 +149,9 @@
 
       <ul class="nav-links" id="nav-menu" role="menubar">
         <li role="none"><a href="#about" role="menuitem">About</a></li>
-        <li role="none"><a href="#games" role="menuitem">Games</a></li>
+        <li role="none"><a href="#journey" role="menuitem">Journey</a></li>
         <li role="none"><a href="#technology" role="menuitem">Technology</a></li>
+        <li role="none"><a href="#games" role="menuitem">Games</a></li>
         <li role="none"><a href="#contact" role="menuitem">Contact</a></li>
         <li class="mobile-only-item" role="none">
           <a href="#games" class="btn btn-primary nav-mobile-btn" role="menuitem">Explore Our Games</a>
@@ -175,352 +168,481 @@
   </header>
 
   <!-- =============================================================
-       3. MAIN CONTENT
+       3. MAIN CONTENT — VERTICAL CINEMATIC WORLD JOURNEY
   ============================================================= -->
-  <main>
+  <main id="world-journey">
 
-    <!-- ===================== HERO SECTION ===================== -->
-    <section class="hero-section" id="hero">
-      <div class="hero-glow-orb" aria-hidden="true"></div>
+    <!-- =============================================================
+         SCENE 1: CELESTIAL ARRIVAL
+         ============================================================= -->
+    <section class="world-scene scene-1-celestial" id="scene-celestial" data-scene="1" data-scene-title="Chapter I — Celestial Arrival">
+      <div class="scene-backdrop" style="background-image: url('assets/images/realm-celestial-horizon.webp');" aria-hidden="true"></div>
+      <div class="scene-overlay" aria-hidden="true"></div>
 
-      <div class="hero-container">
-        <!-- Hero Content (Left Column) -->
-        <div class="hero-content" data-reveal>
-          <span class="hero-label">INDEPENDENT GAME DEVELOPMENT STUDIO</span>
-          <h1 class="hero-title">PLAY <span>BEYOND REALITY.</span></h1>
-          <p class="hero-description">
-            Step into the Realm of Nylarion. Creating immersive games and innovative digital experiences.
-            Guided by creativity, quality, and innovation — building worlds that inspire players.
-          </p>
+      <div class="hero-section" id="hero">
+        <div class="hero-glow-orb" aria-hidden="true"></div>
 
-          <div class="hero-actions">
-            <a href="#games" class="btn btn-primary" id="hero-cta-primary">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-                <path d="M8 5v14l11-7z" />
-              </svg>
-              Explore Our Games
-            </a>
-            <a href="#about" class="btn btn-secondary" id="hero-cta-secondary">
-              Discover Studio
-            </a>
-          </div>
-
-          <!-- 3D Emblem Seal -->
-          <div class="hero-emblem-seal">
-            <div id="canvas-container" aria-label="Interactive 3D Nylarion Studios emblem">
-              <img class="hero-center-logo" src="assets/images/center-logo.png" alt="Nylarion Studios emblem">
-              <div class="canvas-hint">Drag or Touch to Rotate Crest</div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Hero Right Column: Character Stage Viewport Callout -->
-        <div class="hero-character-anchor" aria-hidden="true">
-          <div class="horse-hero-callout">
-            <span class="callout-rune">✦</span>
-            <div class="callout-text">
-              <span class="callout-name">THE CELESTIAL STEED</span>
-              <span class="callout-sub">GUARDIAN OF THE REALM</span>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Scroll Indicator -->
-      <a href="#about" class="scroll-cue" aria-label="Scroll down to explore The Realm">
-        <span>SCROLL TO EXPLORE THE REALM</span>
-        <div class="scroll-line"></div>
-      </a>
-    </section>
-
-    <!-- ===================== ABOUT SECTION ===================== -->
-    <section class="about-section" id="about">
-      <div class="container">
-        <div class="about-grid">
-          <div class="about-text-block" data-reveal>
-            <span class="section-tag"><span class="tag-rune" aria-hidden="true">✦</span> WHO WE ARE // CHAPTER II — THE AWAKENING</span>
-            <h2 class="section-title">Crafting Games with Passion & Purpose</h2>
-            <p>
-              Nylarion Studios is an independent game development studio dedicated to building immersive games and
-              creative digital experiences. We believe that great games begin with raw creativity, meticulous attention
-              to detail, and a commitment to continuous learning.
-            </p>
-            <p>
-              As a growing studio, we focus on developing memorable titles across mobile, PC, and innovative platforms —
-              where every project reflects our vision, creativity, and dedication to quality.
+        <div class="hero-container">
+          <!-- Hero Content (Left Column) -->
+          <div class="hero-content" data-reveal>
+            <span class="hero-label">INDEPENDENT GAME DEVELOPMENT STUDIO</span>
+            <h1 class="hero-title">PLAY <span>BEYOND REALITY.</span></h1>
+            <p class="hero-description">
+              Step into the Realm of Nylarion. Creating immersive games and innovative digital experiences.
+              Guided by creativity, quality, and innovation — building worlds that inspire players.
             </p>
 
-            <div class="about-values">
-              <div class="about-value-item" data-reveal>
-                <h4>Our Mission</h4>
-                <p>Create engaging and memorable games that combine creativity, technology, and meaningful player experiences.</p>
-              </div>
-              <div class="about-value-item" data-reveal>
-                <h4>Our Vision</h4>
-                <p>Grow into a globally recognized independent game development studio known for quality, innovation, and unforgettable experiences.</p>
-              </div>
-            </div>
-          </div>
-
-          <!-- Visual Element -->
-          <div class="about-visual" data-reveal>
-            <div class="visual-frame outer" aria-hidden="true"></div>
-            <div class="visual-frame inner" aria-hidden="true"></div>
-            <div class="visual-core">
-              <div class="core-number">2026</div>
-              <div class="core-label">FOUNDED & GROWING</div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Values / Pillars Grid -->
-        <div class="pillars-grid">
-          <div class="pillar-card" data-reveal>
-            <div class="pillar-icon">
-              <svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24" aria-hidden="true">
-                <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" />
-              </svg>
-            </div>
-            <h4>Creativity</h4>
-            <p>Pushing artistic boundaries to design unique worlds, compelling mechanics, and stories that resonate with players.</p>
-          </div>
-
-          <div class="pillar-card" data-reveal>
-            <div class="pillar-icon">
-              <svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24" aria-hidden="true">
-                <circle cx="12" cy="12" r="10" />
-                <path d="M12 6v6l4 2" />
-              </svg>
-            </div>
-            <h4>Innovation</h4>
-            <p>Exploring new game engines, interactive technologies, and concepts to deliver fresh experiences.</p>
-          </div>
-
-          <div class="pillar-card" data-reveal>
-            <div class="pillar-icon">
-              <svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24" aria-hidden="true">
-                <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" />
-              </svg>
-            </div>
-            <h4>Quality</h4>
-            <p>Prioritizing clean code, polished presentation, and thoughtful game design over rushed production cycles.</p>
-          </div>
-
-          <div class="pillar-card" data-reveal>
-            <div class="pillar-icon">
-              <svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24" aria-hidden="true">
-                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
-              </svg>
-            </div>
-            <h4>Community</h4>
-            <p>Building transparent relationships with players, listening to feedback to evolve and improve our games.</p>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- ===================== STATS BANNER ===================== -->
-    <div class="stats-banner" aria-label="Studio at a glance">
-      <div class="container">
-        <div class="stats-grid" data-reveal>
-          <div class="stat-item">
-            <div class="stat-val">Indie</div>
-            <div class="stat-desc">Studio Type</div>
-          </div>
-          <div class="stat-item">
-            <div class="stat-val">2026</div>
-            <div class="stat-desc">Established</div>
-          </div>
-          <div class="stat-item">
-            <div class="stat-val">Games</div>
-            <div class="stat-desc">Primary Focus</div>
-          </div>
-          <div class="stat-item">
-            <div class="stat-val">Growing</div>
-            <div class="stat-desc">Current Status</div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- ===================== GAMES SHOWCASE ===================== -->
-    <section class="games-section" id="games">
-      <div class="container">
-        <div class="section-header" data-reveal>
-          <span class="section-tag"><span class="tag-rune" aria-hidden="true">✦</span> PORTFOLIO // CHAPTER III — THROUGH THE LIVING FOREST</span>
-          <h2 class="section-title">Our Games & Projects</h2>
-          <p class="section-subtitle">Upcoming games and interactive experiences — each crafted with passion.</p>
-        </div>
-
-        <div class="games-grid">
-          <article class="game-card" data-reveal>
-            <div class="game-media">
-              <picture>
-                <source srcset="assets/images/game-debut.webp" type="image/webp">
-                <img src="assets/images/game-debut.jpg" alt="Debut Titles concept art — futuristic cityscape" loading="lazy" decoding="async" width="600" height="338">
-              </picture>
-              <span class="game-badge">Coming Soon</span>
-            </div>
-            <div class="game-body">
-              <span class="game-genre">Mobile & PC Games</span>
-              <h3>Debut Titles</h3>
-              <p>The first chapter of Nylarion Studios — focused on engaging gameplay and original worlds that immerse players in unforgettable adventures.</p>
-              <span class="game-link">Stay Tuned <span aria-hidden="true">→</span></span>
-            </div>
-          </article>
-
-          <article class="game-card" data-reveal>
-            <div class="game-media">
-              <picture>
-                <source srcset="assets/images/game-interactive.webp" type="image/webp">
-                <img src="assets/images/game-interactive.jpg" alt="Interactive Experiences concept art — digital technology" loading="lazy" decoding="async" width="600" height="338">
-              </picture>
-              <span class="game-badge">In Development</span>
-            </div>
-            <div class="game-body">
-              <span class="game-genre">Creative Tech</span>
-              <h3>Interactive Experiences</h3>
-              <p>Exploring original digital concepts, clean design architectures, and experimental mechanics that push creative boundaries.</p>
-              <span class="game-link">In Development <span aria-hidden="true">→</span></span>
-            </div>
-          </article>
-
-          <article class="game-card" data-reveal>
-            <div class="game-media">
-              <picture>
-                <source srcset="assets/images/game-horizons.webp" type="image/webp">
-                <img src="assets/images/game-horizons.jpg" alt="Expanding Horizons concept art — alien landscape" loading="lazy" decoding="async" width="600" height="338">
-              </picture>
-              <span class="game-badge">Future</span>
-            </div>
-            <div class="game-body">
-              <span class="game-genre">Future Roadmap</span>
-              <h3>Expanding Horizons</h3>
-              <p>Building a solid foundation for player-first gaming experiences designed to entertain and inspire players everywhere.</p>
-              <span class="game-link">Future Focus <span aria-hidden="true">→</span></span>
-            </div>
-          </article>
-        </div>
-      </div>
-    </section>
-
-    <!-- ===================== TECHNOLOGY SECTION ===================== -->
-    <section class="tech-section" id="technology">
-      <div class="container">
-        <div class="section-header" data-reveal>
-          <span class="section-tag"><span class="tag-rune" aria-hidden="true">✦</span> TECHNOLOGY // CHAPTER IV — THE ANCIENT CITADEL</span>
-          <h2 class="section-title">Built with Modern Tools</h2>
-          <p class="section-subtitle">The technologies and tools powering our games and interactive experiences.</p>
-        </div>
-
-        <div class="tech-grid">
-          <div class="tech-card" data-reveal>
-            <div class="tech-icon">
-              <svg width="28" height="28" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24" aria-hidden="true">
-                <rect x="2" y="3" width="20" height="14" rx="2" />
-                <path d="M8 21h8M12 17v4" />
-              </svg>
-            </div>
-            <h4>Game Engines</h4>
-            <p>Leveraging modern game engines for building cross-platform experiences on Mobile and PC.</p>
-          </div>
-
-          <div class="tech-card" data-reveal>
-            <div class="tech-icon">
-              <svg width="28" height="28" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24" aria-hidden="true">
-                <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" />
-              </svg>
-            </div>
-            <h4>WebGL & Three.js</h4>
-            <p>Interactive 3D web experiences with real-time rendering, particle systems, and responsive emblem visualization.</p>
-          </div>
-
-          <div class="tech-card" data-reveal>
-            <div class="tech-icon">
-              <svg width="28" height="28" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24" aria-hidden="true">
-                <path d="M12 2a4 4 0 0 0-4 4v4a4 4 0 0 0 8 0V6a4 4 0 0 0-4-4z" />
-                <path d="M18 10a6 6 0 0 1-12 0" />
-                <path d="M12 18v4M8 22h8" />
-              </svg>
-            </div>
-            <h4>AI & Voice</h4>
-            <p>OpenAI-powered conversational AI with speech synthesis and recognition for natural voice-first interactions.</p>
-          </div>
-
-          <div class="tech-card" data-reveal>
-            <div class="tech-icon">
-              <svg width="28" height="28" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24" aria-hidden="true">
-                <path d="M16 18l6-6-6-6M8 6l-6 6 6 6" />
-              </svg>
-            </div>
-            <h4>Clean Architecture</h4>
-            <p>Node.js backend with Express, secure API design, grounded knowledge base, and deployment-ready infrastructure.</p>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- ===================== UPDATES BANNER ===================== -->
-    <section class="updates-banner" id="updates">
-      <div class="container" data-reveal>
-        <span class="section-tag">OUR JOURNEY</span>
-        <h2>More Exciting Updates Coming Soon</h2>
-        <p>We are currently focusing our energy on game development. Join us on our journey as we prepare to share our
-          first projects with the world.</p>
-        <a href="#contact" class="btn btn-primary">Get In Touch</a>
-      </div>
-    </section>
-
-    <!-- ===================== CONTACT SECTION ===================== -->
-    <section class="contact-section" id="contact">
-      <div class="container">
-        <div class="contact-grid">
-          <div class="contact-info" data-reveal>
-            <span class="section-tag"><span class="tag-rune" aria-hidden="true">✦</span> CONTACT // CHAPTER V & VI — THE INVITATION</span>
-            <h2 class="section-title">Let's Connect</h2>
-            <p>Interested in collaborating, learning more about our projects, or just saying hello? We'd love to hear from you.</p>
-
-            <div class="contact-details">
-              <a href="mailto:nylarionstudios@gmail.com" class="contact-link" id="contact-email-link">
-                <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24" aria-hidden="true">
-                  <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
-                  <polyline points="22,6 12,13 2,6" />
+            <div class="hero-actions">
+              <a href="#games" class="btn btn-primary" id="hero-cta-primary">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                  <path d="M8 5v14l11-7z" />
                 </svg>
-                nylarionstudios@gmail.com
+                Explore Our Games
+              </a>
+              <a href="#about" class="btn btn-secondary" id="hero-cta-secondary">
+                Discover Studio
               </a>
             </div>
+
+            <!-- 3D Emblem Seal -->
+            <div class="hero-emblem-seal">
+              <div id="canvas-container" aria-label="Interactive 3D Nylarion Studios emblem">
+                <img class="hero-center-logo" src="assets/images/center-logo.png" alt="Nylarion Studios emblem">
+                <div class="canvas-hint">Drag or Touch to Rotate Crest</div>
+              </div>
+            </div>
           </div>
 
-          <div class="contact-form-wrap" data-reveal>
-            <form class="contact-form" id="contact-form" novalidate>
-              <div class="form-group">
-                <label for="contact-name">Name</label>
-                <input type="text" id="contact-name" name="name" placeholder="Your name" required autocomplete="name"
-                  maxlength="100">
+          <!-- Hero Right Column: Character Stage Viewport Callout -->
+          <div class="hero-character-anchor" aria-hidden="true">
+            <div class="horse-hero-callout">
+              <span class="callout-rune">✦</span>
+              <div class="callout-text">
+                <span class="callout-name">THE CELESTIAL STEED</span>
+                <span class="callout-sub">GUARDIAN OF THE REALM</span>
               </div>
-              <div class="form-group">
-                <label for="contact-email">Email</label>
-                <input type="email" id="contact-email" name="email" placeholder="you@example.com" required
-                  autocomplete="email" maxlength="200">
+            </div>
+          </div>
+        </div>
+
+        <!-- Scroll Indicator -->
+        <a href="#about" class="scroll-cue" aria-label="Scroll down to explore The Realm">
+          <span>SCROLL TO ENTER THE LIVING REALM</span>
+          <div class="scroll-line"></div>
+        </a>
+      </div>
+    </section>
+
+    <!-- =============================================================
+         SCENE 2: ENCHANTED FOREST
+         ============================================================= -->
+    <section class="world-scene scene-2-forest" id="scene-forest" data-scene="2" data-scene-title="Chapter II — Enchanted Forest">
+      <div class="scene-backdrop" style="background-image: url('assets/images/realm-living-forest.webp');" aria-hidden="true"></div>
+      <div class="scene-overlay" aria-hidden="true"></div>
+
+      <div class="about-section" id="about">
+        <div class="container">
+          <div class="scene-split-layout">
+            <!-- Left Column: Content -->
+            <div class="scene-content-col" data-reveal>
+              <div class="about-text-block frosted-card">
+                <span class="section-tag"><span class="tag-rune" aria-hidden="true">✦</span> WHO WE ARE // CHAPTER II — ENCHANTED FOREST</span>
+                <h2 class="section-title">Crafting Games with Passion & Purpose</h2>
+                <p>
+                  Nylarion Studios is an independent game development studio dedicated to building immersive games and
+                  creative digital experiences. We believe that great games begin with raw creativity, meticulous attention
+                  to detail, and a commitment to continuous learning.
+                </p>
+                <p>
+                  As a growing studio, we focus on developing memorable titles across mobile, PC, and innovative platforms —
+                  where every project reflects our vision, creativity, and dedication to quality.
+                </p>
+
+                <div class="about-values">
+                  <div class="about-value-item">
+                    <h4>Our Mission</h4>
+                    <p>Create engaging and memorable games that combine creativity, technology, and meaningful player experiences.</p>
+                  </div>
+                  <div class="about-value-item">
+                    <h4>Our Vision</h4>
+                    <p>Grow into a globally recognized independent game development studio known for quality, innovation, and unforgettable experiences.</p>
+                  </div>
+                </div>
+
+                <div class="about-milestone-pill">
+                  <div class="milestone-badge">2026</div>
+                  <div class="milestone-info">
+                    <span class="milestone-title">FOUNDED & GROWING INDIE STUDIO</span>
+                    <span class="milestone-sub">FOCUSED ON WORLD-BUILDING & ORIGINAL IP</span>
+                  </div>
+                </div>
               </div>
-              <div class="form-group">
-                <label for="contact-subject">Subject</label>
-                <input type="text" id="contact-subject" name="subject" placeholder="What's this about?"
-                  maxlength="200">
+            </div>
+
+            <!-- Right Column: Character Stage Viewport Corridor Callout -->
+            <div class="scene-character-corridor" aria-hidden="true">
+              <div class="scene-corridor-callout">
+                <span class="callout-rune">✦</span>
+                <div class="callout-text">
+                  <span class="callout-name">THE ENCHANTED CANOPY</span>
+                  <span class="callout-sub">VENTURING INTO THE LIVING FOREST</span>
+                </div>
               </div>
-              <div class="form-group">
-                <label for="contact-message">Message</label>
-                <textarea id="contact-message" name="message" placeholder="Tell us about your idea or inquiry..." rows="5"
-                  required minlength="5" maxlength="2000"></textarea>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- =============================================================
+         SCENE 3: LEGENDARY FOREST PATH
+         ============================================================= -->
+    <section class="world-scene scene-3-path" id="scene-path" data-scene="3" data-scene-title="Chapter III — Legendary Forest Path">
+      <div class="scene-backdrop" style="background-image: url('assets/images/realm-forest-path.webp');" aria-hidden="true"></div>
+      <div class="scene-overlay" aria-hidden="true"></div>
+
+      <div class="journey-section" id="journey">
+        <div class="container">
+          <div class="scene-split-layout">
+            <!-- Left Column: Content -->
+            <div class="scene-content-col" data-reveal>
+              <div class="section-header left-aligned">
+                <span class="section-tag"><span class="tag-rune" aria-hidden="true">✦</span> STUDIO JOURNEY // CHAPTER III — LEGENDARY FOREST PATH</span>
+                <h2 class="section-title">The Pillars of Our Creative Journey</h2>
+                <p class="section-subtitle">Venturing deeper into uncharted realms, guided by foundational studio principles.</p>
               </div>
-              <button type="submit" class="btn btn-primary contact-submit" id="contact-submit-btn">
-                Send Message
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-                  <path d="m4 4 16 8-16 8 3-8-3-8zm3 8h13" />
-                </svg>
-              </button>
-              <div class="form-feedback" id="form-feedback" role="status" aria-live="polite"></div>
-            </form>
+
+              <!-- 2x2 Pillars Grid -->
+              <div class="pillars-grid pillars-split">
+                <div class="pillar-card frosted-card">
+                  <div class="pillar-icon">
+                    <svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24" aria-hidden="true">
+                      <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" />
+                    </svg>
+                  </div>
+                  <h4>Creativity</h4>
+                  <p>Pushing artistic boundaries to design unique worlds, compelling mechanics, and stories that resonate with players.</p>
+                </div>
+
+                <div class="pillar-card frosted-card">
+                  <div class="pillar-icon">
+                    <svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24" aria-hidden="true">
+                      <circle cx="12" cy="12" r="10" />
+                      <path d="M12 6v6l4 2" />
+                    </svg>
+                  </div>
+                  <h4>Innovation</h4>
+                  <p>Exploring new game engines, interactive technologies, and concepts to deliver fresh experiences.</p>
+                </div>
+
+                <div class="pillar-card frosted-card">
+                  <div class="pillar-icon">
+                    <svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24" aria-hidden="true">
+                      <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" />
+                    </svg>
+                  </div>
+                  <h4>Quality</h4>
+                  <p>Prioritizing clean code, polished presentation, and thoughtful game design over rushed production cycles.</p>
+                </div>
+
+                <div class="pillar-card frosted-card">
+                  <div class="pillar-icon">
+                    <svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24" aria-hidden="true">
+                      <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+                    </svg>
+                  </div>
+                  <h4>Community</h4>
+                  <p>Building transparent relationships with players, listening to feedback to evolve and improve our games.</p>
+                </div>
+              </div>
+
+              <!-- Stats Banner in Left Column -->
+              <div class="stats-banner frosted-card" aria-label="Studio at a glance">
+                <div class="stats-grid">
+                  <div class="stat-item">
+                    <div class="stat-val">Indie</div>
+                    <div class="stat-desc">Studio Type</div>
+                  </div>
+                  <div class="stat-item">
+                    <div class="stat-val">2026</div>
+                    <div class="stat-desc">Established</div>
+                  </div>
+                  <div class="stat-item">
+                    <div class="stat-val">Games</div>
+                    <div class="stat-desc">Primary Focus</div>
+                  </div>
+                  <div class="stat-item">
+                    <div class="stat-val">Growing</div>
+                    <div class="stat-desc">Current Status</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Right Column: Character Stage Viewport Corridor Callout -->
+            <div class="scene-character-corridor" aria-hidden="true">
+              <div class="scene-corridor-callout">
+                <span class="callout-rune">✦</span>
+                <div class="callout-text">
+                  <span class="callout-name">PATH OF ANCIENTS</span>
+                  <span class="callout-sub">CROSSING RUINED BRIDGES & CLIFFS</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- =============================================================
+         SCENE 4: ANCIENT FANTASY CITY
+         ============================================================= -->
+    <section class="world-scene scene-4-city" id="scene-city" data-scene="4" data-scene-title="Chapter IV — Ancient Fantasy City">
+      <div class="scene-backdrop" style="background-image: url('assets/images/realm-forgotten-kingdom.webp');" aria-hidden="true"></div>
+      <div class="scene-overlay" aria-hidden="true"></div>
+
+      <div class="tech-section" id="technology">
+        <div class="container">
+          <div class="scene-split-layout">
+            <!-- Left Column: Content -->
+            <div class="scene-content-col" data-reveal>
+              <div class="section-header left-aligned">
+                <span class="section-tag"><span class="tag-rune" aria-hidden="true">✦</span> TECHNOLOGY CITADEL // CHAPTER IV — ANCIENT FANTASY CITY</span>
+                <h2 class="section-title">Built with Modern Tools</h2>
+                <p class="section-subtitle">The technologies and tools powering our games and interactive experiences.</p>
+              </div>
+
+              <!-- 2x2 Tech Grid -->
+              <div class="tech-grid tech-split">
+                <div class="tech-card frosted-card">
+                  <div class="tech-icon">
+                    <svg width="28" height="28" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24" aria-hidden="true">
+                      <rect x="2" y="3" width="20" height="14" rx="2" />
+                      <path d="M8 21h8M12 17v4" />
+                    </svg>
+                  </div>
+                  <h4>Game Engines</h4>
+                  <p>Leveraging modern game engines for building cross-platform experiences on Mobile and PC.</p>
+                </div>
+
+                <div class="tech-card frosted-card">
+                  <div class="tech-icon">
+                    <svg width="28" height="28" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24" aria-hidden="true">
+                      <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" />
+                    </svg>
+                  </div>
+                  <h4>WebGL & Three.js</h4>
+                  <p>Interactive 3D web experiences with real-time rendering, particle systems, and responsive visualization.</p>
+                </div>
+
+                <div class="tech-card frosted-card">
+                  <div class="tech-icon">
+                    <svg width="28" height="28" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24" aria-hidden="true">
+                      <path d="M12 2a4 4 0 0 0-4 4v4a4 4 0 0 0 8 0V6a4 4 0 0 0-4-4z" />
+                      <path d="M18 10a6 6 0 0 1-12 0" />
+                      <path d="M12 18v4M8 22h8" />
+                    </svg>
+                  </div>
+                  <h4>AI & Voice</h4>
+                  <p>OpenAI-powered conversational AI with speech synthesis and recognition for voice-first interactions.</p>
+                </div>
+
+                <div class="tech-card frosted-card">
+                  <div class="tech-icon">
+                    <svg width="28" height="28" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24" aria-hidden="true">
+                      <path d="M16 18l6-6-6-6M8 6l-6 6 6 6" />
+                    </svg>
+                  </div>
+                  <h4>Clean Architecture</h4>
+                  <p>Node.js backend with Express, secure API design, grounded knowledge base, and production infrastructure.</p>
+                </div>
+              </div>
+
+              <!-- Updates Banner in Left Column -->
+              <div class="updates-banner frosted-card" id="updates">
+                <span class="section-tag">OUR HORIZONS</span>
+                <h3>More Exciting Updates Coming Soon</h3>
+                <p>We are currently focusing our energy on game development. Join us on our journey as we prepare to share our first projects with the world.</p>
+                <a href="#contact" class="btn btn-primary" style="margin-top: 14px;">Get In Touch</a>
+              </div>
+            </div>
+
+            <!-- Right Column: Character Stage Viewport Corridor Callout -->
+            <div class="scene-character-corridor" aria-hidden="true">
+              <div class="scene-corridor-callout">
+                <span class="callout-rune">✦</span>
+                <div class="callout-text">
+                  <span class="callout-name">THE ILLUMINATED CITADEL</span>
+                  <span class="callout-sub">APPROACHING TOWERS & WATERFALLS</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- =============================================================
+         SCENE 5: KINGDOM REVEAL
+         ============================================================= -->
+    <section class="world-scene scene-5-kingdom" id="scene-kingdom" data-scene="5" data-scene-title="Chapter V — Kingdom Reveal">
+      <div class="scene-backdrop" style="background-image: url('assets/images/realm-kingdom-reveal.webp');" aria-hidden="true"></div>
+      <div class="scene-overlay" aria-hidden="true"></div>
+
+      <!-- Kingdom Arrival Stage (Split layout with Character Corridor) -->
+      <div class="kingdom-arrival-stage" id="kingdom-arrival">
+        <div class="container">
+          <div class="scene-split-layout">
+            <!-- Left Column: Grand Arrival Card -->
+            <div class="scene-content-col" data-reveal>
+              <div class="kingdom-arrival-card frosted-card">
+                <span class="section-tag"><span class="tag-rune" aria-hidden="true">✦</span> THE GRAND FINALE // CHAPTER V — KINGDOM REVEAL</span>
+                <h2 class="section-title">The Grand Kingdom of Nylarion</h2>
+                <p>
+                  Ascending through starry heavens, enchanted canopies, ancient forest paths, and illuminated citadel towers,
+                  our journey reaches its grand destination. Here lies the thriving fantasy kingdom — the home of Nylarion Studios'
+                  game worlds, upcoming titles, and creative portfolio.
+                </p>
+                <div class="hero-actions" style="margin-top: 24px;">
+                  <a href="#games" class="btn btn-primary">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                      <path d="M8 5v14l11-7z" />
+                    </svg>
+                    Explore Our Games
+                  </a>
+                  <a href="#contact" class="btn btn-secondary">
+                    Citadel Contact
+                  </a>
+                </div>
+              </div>
+            </div>
+
+            <!-- Right Column: Final Destination Corridor Callout -->
+            <div class="scene-character-corridor" aria-hidden="true">
+              <div class="scene-corridor-callout">
+                <span class="callout-rune">✦</span>
+                <div class="callout-text">
+                  <span class="callout-name">THE GRAND KINGDOM</span>
+                  <span class="callout-sub">JOURNEY ASCENSION COMPLETE</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Games Showcase (Full Width within Kingdom Scene) -->
+      <div class="games-section" id="games">
+        <div class="container">
+          <div class="section-header" data-reveal>
+            <span class="section-tag"><span class="tag-rune" aria-hidden="true">✦</span> PORTFOLIO & REALM // CHAPTER V — KINGDOM REVEAL</span>
+            <h2 class="section-title">Our Games & Projects</h2>
+            <p class="section-subtitle">Upcoming games and interactive experiences — each crafted with passion.</p>
+          </div>
+
+          <div class="games-grid">
+            <article class="game-card frosted-card" data-reveal>
+              <div class="game-media">
+                <picture>
+                  <source srcset="assets/images/game-debut.webp" type="image/webp">
+                  <img src="assets/images/game-debut.jpg" alt="Debut Titles concept art — futuristic cityscape" loading="lazy" decoding="async" width="600" height="338">
+                </picture>
+                <span class="game-badge">Coming Soon</span>
+              </div>
+              <div class="game-body">
+                <span class="game-genre">Mobile & PC Games</span>
+                <h3>Debut Titles</h3>
+                <p>The first chapter of Nylarion Studios — focused on engaging gameplay and original worlds that immerse players in unforgettable adventures.</p>
+                <span class="game-link">Stay Tuned <span aria-hidden="true">→</span></span>
+              </div>
+            </article>
+
+            <article class="game-card frosted-card" data-reveal>
+              <div class="game-media">
+                <picture>
+                  <source srcset="assets/images/game-interactive.webp" type="image/webp">
+                  <img src="assets/images/game-interactive.jpg" alt="Interactive Experiences concept art — digital technology" loading="lazy" decoding="async" width="600" height="338">
+                </picture>
+                <span class="game-badge">In Development</span>
+              </div>
+              <div class="game-body">
+                <span class="game-genre">Creative Tech</span>
+                <h3>Interactive Experiences</h3>
+                <p>Exploring original digital concepts, clean design architectures, and experimental mechanics that push creative boundaries.</p>
+                <span class="game-link">In Development <span aria-hidden="true">→</span></span>
+              </div>
+            </article>
+
+            <article class="game-card frosted-card" data-reveal>
+              <div class="game-media">
+                <picture>
+                  <source srcset="assets/images/game-horizons.webp" type="image/webp">
+                  <img src="assets/images/game-horizons.jpg" alt="Expanding Horizons concept art — alien landscape" loading="lazy" decoding="async" width="600" height="338">
+                </picture>
+                <span class="game-badge">Future</span>
+              </div>
+              <div class="game-body">
+                <span class="game-genre">Future Roadmap</span>
+                <h3>Expanding Horizons</h3>
+                <p>Building a solid foundation for player-first gaming experiences designed to entertain and inspire players everywhere.</p>
+                <span class="game-link">Future Focus <span aria-hidden="true">→</span></span>
+              </div>
+            </article>
+          </div>
+        </div>
+      </div>
+
+      <!-- Contact Section -->
+      <div class="contact-section" id="contact">
+        <div class="container">
+          <div class="contact-grid">
+            <div class="contact-info frosted-card" data-reveal>
+              <span class="section-tag"><span class="tag-rune" aria-hidden="true">✦</span> LET'S CONNECT // CITADEL INVITATION</span>
+              <h2 class="section-title">Let's Connect</h2>
+              <p>Interested in collaborating, learning more about our projects, or just saying hello? We'd love to hear from you.</p>
+
+              <div class="contact-details">
+                <a href="mailto:nylarionstudios@gmail.com" class="contact-link" id="contact-email-link">
+                  <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24" aria-hidden="true">
+                    <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
+                    <polyline points="22,6 12,13 2,6" />
+                  </svg>
+                  nylarionstudios@gmail.com
+                </a>
+              </div>
+            </div>
+
+            <div class="contact-form-wrap frosted-card" data-reveal>
+              <form class="contact-form" id="contact-form" novalidate>
+                <div class="form-group">
+                  <label for="contact-name">Name</label>
+                  <input type="text" id="contact-name" name="name" placeholder="Your name" required autocomplete="name"
+                    maxlength="100">
+                </div>
+                <div class="form-group">
+                  <label for="contact-email">Email</label>
+                  <input type="email" id="contact-email" name="email" placeholder="you@example.com" required
+                    autocomplete="email" maxlength="200">
+                </div>
+                <div class="form-group">
+                  <label for="contact-subject">Subject</label>
+                  <input type="text" id="contact-subject" name="subject" placeholder="What's this about?"
+                    maxlength="200">
+                </div>
+                <div class="form-group">
+                  <label for="contact-message">Message</label>
+                  <textarea id="contact-message" name="message" placeholder="Tell us about your idea or inquiry..." rows="5"
+                    required minlength="5" maxlength="2000"></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary contact-submit" id="contact-submit-btn">
+                  Send Message
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                    <path d="m4 4 16 8-16 8 3-8-3-8zm3 8h13" />
+                  </svg>
+                </button>
+                <div class="form-feedback" id="form-feedback" role="status" aria-live="polite"></div>
+              </form>
+            </div>
           </div>
         </div>
       </div>
@@ -556,8 +678,9 @@
           <ul>
             <li><a href="#hero">Home</a></li>
             <li><a href="#about">About</a></li>
-            <li><a href="#games">Games</a></li>
+            <li><a href="#journey">Journey</a></li>
             <li><a href="#technology">Technology</a></li>
+            <li><a href="#games">Games</a></li>
             <li><a href="#contact">Contact</a></li>
           </ul>
         </div>
@@ -678,7 +801,7 @@
   </div>
 
   <!-- Realm Ascension Cinematic Engine -->
-  <script src="js/realm-ascension.js?v=3.7" defer></script>
+  <script src="js/realm-ascension.js?v=4.0" defer></script>
   <!-- Main JavaScript Bundle -->
   <script src="js/main.js?v=3.2" defer></script>
 </body>

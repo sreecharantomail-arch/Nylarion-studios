@@ -256,166 +256,9 @@ ul {
 }
 
 /* =============================================================
-   4. REALM OF NYLARION — CINEMATIC STAGE & STORY ENGINE
+   4. REALM ASCENSION STAGE
+   (Configured in Section 5.5 below)
    ============================================================= */
-#realm-stage {
-  position: fixed;
-  inset: 0;
-  width: 100vw;
-  height: 100vh;
-  z-index: 0;
-  pointer-events: none;
-  overflow: hidden;
-  background: #080c16;
-}
-
-.realm-layer {
-  position: absolute;
-  inset: -4% -4% -4% -4%;
-  width: 108%;
-  height: 108%;
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  pointer-events: none;
-  will-change: transform, opacity;
-  transition: opacity 0.6s cubic-bezier(0.2, 0, 0.2, 1);
-}
-
-.realm-sky {
-  z-index: 1;
-  opacity: 1;
-  filter: brightness(0.92) contrast(1.08);
-}
-
-#realm-webgl-canvas {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  z-index: 6;
-  pointer-events: none;
-}
-
-.realm-forest {
-  z-index: 3;
-  opacity: 0;
-  filter: brightness(0.88) saturate(1.15) contrast(1.1);
-}
-
-.realm-kingdom {
-  z-index: 4;
-  opacity: 0;
-  filter: brightness(0.85) contrast(1.15);
-}
-
-.realm-fog-layer {
-  position: absolute;
-  inset: 0;
-  z-index: 5;
-  pointer-events: none;
-  opacity: 0.55;
-  mix-blend-mode: screen;
-}
-
-.fog-band {
-  position: absolute;
-  left: -50%;
-  width: 200%;
-  height: 48%;
-  bottom: 0;
-  background: radial-gradient(ellipse at 50% 100%, rgba(56, 217, 232, 0.14), rgba(212, 168, 83, 0.08) 40%, transparent 75%);
-  animation: realmFogDrift 32s ease-in-out infinite alternate;
-  filter: blur(28px);
-}
-
-.fog-band-2 {
-  bottom: 15%;
-  height: 38%;
-  opacity: 0.65;
-  animation: realmFogDrift2 42s ease-in-out infinite alternate;
-  background: radial-gradient(ellipse at 50% 100%, rgba(255, 210, 75, 0.1), rgba(56, 217, 232, 0.05) 50%, transparent 80%);
-}
-
-@keyframes realmFogDrift {
-  0% { transform: translateX(0) scaleY(1); }
-  50% { transform: translateX(6%) scaleY(1.1); }
-  100% { transform: translateX(-6%) scaleY(0.95); }
-}
-
-@keyframes realmFogDrift2 {
-  0% { transform: translateX(4%) scaleY(1); }
-  50% { transform: translateX(-5%) scaleY(1.12); }
-  100% { transform: translateX(3%) scaleY(0.92); }
-}
-
-/* [Character stage styles defined in Cinematic Stage Layer 6 below] */
-
-@keyframes horseAuraPulse {
-  0% { transform: scale(0.95); opacity: 0.72; }
-  100% { transform: scale(1.08); opacity: 1; }
-}
-
-/* Foreground Parallax Foliage */
-.realm-foreground {
-  z-index: 7;
-  opacity: 0;
-  filter: brightness(0.95) contrast(1.1);
-  transform-origin: center center;
-}
-
-/* Cinematic Vignette Overlay */
-.realm-vignette {
-  position: absolute;
-  inset: 0;
-  z-index: 8;
-  pointer-events: none;
-  background: radial-gradient(circle at 50% 50%, transparent 45%, rgba(6, 9, 15, 0.6) 82%, rgba(4, 6, 12, 0.94) 100%);
-}
-
-/* Floating Story HUD Pill */
-.ascension-hud-pill {
-  position: fixed;
-  top: 86px;
-  left: 28px;
-  z-index: 999;
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
-  padding: 7px 16px;
-  border-radius: 999px;
-  border: 1px solid rgba(56, 217, 232, 0.26);
-  background: rgba(10, 14, 26, 0.76);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  box-shadow: 0 4px 22px rgba(0, 0, 0, 0.5), 0 0 16px rgba(56, 217, 232, 0.12);
-  pointer-events: none;
-  transition: all 0.35s ease;
-}
-
-.hud-pip {
-  width: 7px;
-  height: 7px;
-  border-radius: 50%;
-  background: var(--accent);
-  box-shadow: 0 0 12px var(--accent);
-  animation: hudPipPulse 2s infinite;
-}
-
-@keyframes hudPipPulse {
-  0%, 100% { transform: scale(1); opacity: 0.75; }
-  50% { transform: scale(1.4); opacity: 1; }
-}
-
-.hud-label {
-  font-family: var(--font-body);
-  font-size: 10.5px;
-  font-weight: 700;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: var(--text-primary);
-  text-shadow: 0 0 12px rgba(56, 217, 232, 0.4);
-}
 
 /* =============================================================
    5. NAVIGATION
@@ -635,38 +478,18 @@ nav {
 }
 
 /* =============================================================
-   5.5. REALM OF NYLARION — CINEMATIC VIEWPORT STAGE & SCROLL STORY
+   5.5. REALM OF NYLARION — VERTICAL CINEMATIC WORLD JOURNEY
    ============================================================= */
 #realm-stage {
   position: fixed;
   inset: 0;
   width: 100vw;
   height: 100vh;
-  z-index: 0;
+  z-index: 10;
   pointer-events: none;
   overflow: hidden;
   contain: strict;
   user-select: none;
-  background-color: #05070d;
-}
-
-.realm-layer {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  background-position: center center;
-  background-size: cover;
-  background-repeat: no-repeat;
-  will-change: transform, opacity;
-  pointer-events: none;
-}
-
-.realm-sky {
-  z-index: 1;
-  opacity: 1;
-  transform: scale(1.05);
-  filter: brightness(0.92) contrast(1.08);
 }
 
 #realm-webgl-canvas {
@@ -674,38 +497,26 @@ nav {
   inset: 0;
   width: 100%;
   height: 100%;
-  z-index: 6;
+  z-index: 12;
   pointer-events: none;
   display: block;
-}
-
-.realm-forest {
-  z-index: 3;
-  opacity: 0;
-  transform: scale(1.06);
-  filter: brightness(0.88) contrast(1.1) saturate(1.15);
-}
-
-.realm-kingdom {
-  z-index: 4;
-  opacity: 0;
-  transform: scale(1.04);
-  filter: brightness(0.9) contrast(1.15);
 }
 
 /* Atmospheric Volumetric Fog Bands */
 .realm-fog-layer {
   position: absolute;
   inset: 0;
-  z-index: 5;
+  z-index: 14;
   pointer-events: none;
   overflow: hidden;
+  opacity: 0.45;
+  mix-blend-mode: screen;
 }
 
 .fog-band {
   position: absolute;
   width: 200%;
-  height: 40%;
+  height: 38%;
   bottom: 0;
   left: -50%;
   background: radial-gradient(ellipse 60% 50% at 50% 100%, rgba(56, 217, 232, 0.08) 0%, rgba(10, 20, 36, 0.05) 50%, transparent 80%);
@@ -715,8 +526,8 @@ nav {
 }
 
 .fog-band-2 {
-  bottom: 12%;
-  height: 30%;
+  bottom: 10%;
+  height: 28%;
   background: radial-gradient(ellipse 70% 60% at 60% 100%, rgba(212, 168, 83, 0.06) 0%, transparent 75%);
   animation: fogDrift2 36s ease-in-out infinite alternate;
 }
@@ -731,15 +542,15 @@ nav {
   100% { transform: translateX(-5%) translateY(4px); }
 }
 
-/* Layer 6: The Legendary Horse Character Stage */
+/* The Legendary Horse Character Stage */
 .realm-character-wrapper {
-  position: absolute;
+  position: fixed;
   top: 0;
   left: 0;
-  width: clamp(320px, 42vw, 680px);
-  max-height: min(450px, 52vh);
+  width: clamp(280px, 36vw, 560px);
+  max-height: min(420px, 46vh);
   aspect-ratio: 1024 / 682;
-  z-index: 6;
+  z-index: 20;
   pointer-events: none;
   will-change: transform, opacity;
   transform-origin: 50% 95%;
@@ -753,33 +564,38 @@ nav {
   user-select: none;
   -webkit-user-drag: none;
   image-rendering: -webkit-optimize-contrast;
-  filter: drop-shadow(0 20px 35px rgba(0, 0, 0, 0.90))
-          drop-shadow(0 0 45px rgba(212, 168, 83, 0.42))
-          drop-shadow(0 0 75px rgba(56, 217, 232, 0.28));
+  filter: drop-shadow(0 18px 30px rgba(0, 0, 0, 0.88))
+          drop-shadow(0 0 40px rgba(212, 168, 83, 0.40))
+          drop-shadow(0 0 65px rgba(56, 217, 232, 0.25));
   will-change: transform;
 }
 
 .horse-glow-radial {
   position: absolute;
-  width: 130%;
-  height: 130%;
-  top: -15%;
-  left: -15%;
-  background: radial-gradient(ellipse at 48% 45%, rgba(255, 230, 140, 0.26) 0%, rgba(56, 217, 232, 0.14) 38%, transparent 70%);
+  width: 125%;
+  height: 125%;
+  top: -12%;
+  left: -12%;
+  background: radial-gradient(ellipse at 48% 45%, rgba(255, 230, 140, 0.25) 0%, rgba(56, 217, 232, 0.12) 38%, transparent 70%);
   pointer-events: none;
-  filter: blur(28px);
+  filter: blur(26px);
   animation: horseAuraPulse 4.2s ease-in-out infinite alternate;
+}
+
+@keyframes horseAuraPulse {
+  0% { transform: scale(0.95); opacity: 0.72; }
+  100% { transform: scale(1.08); opacity: 1; }
 }
 
 .horse-shadow-ellipse {
   position: absolute;
-  bottom: 1.5%;
+  bottom: 2%;
   left: 12%;
   width: 76%;
-  height: 28px;
+  height: 26px;
   background: radial-gradient(ellipse at 50% 50%, rgba(0, 0, 0, 0.94) 0%, rgba(2, 6, 14, 0.72) 42%, rgba(2, 6, 14, 0.20) 68%, transparent 80%);
   border-radius: 50%;
-  filter: blur(8px);
+  filter: blur(7px);
   pointer-events: none;
 }
 
@@ -787,25 +603,17 @@ nav {
   position: absolute;
   inset: 0;
   pointer-events: none;
-  background: radial-gradient(circle at 65% 25%, rgba(255, 240, 180, 0.20) 0%, transparent 45%);
+  background: radial-gradient(circle at 65% 25%, rgba(255, 240, 180, 0.18) 0%, transparent 45%);
   mix-blend-mode: screen;
 }
 
-/* Layer 7: Foreground Parallax Foliage */
-.realm-foreground {
-  z-index: 7;
-  opacity: 0;
-  transform: scale(1.08);
-  filter: brightness(0.85) contrast(1.15);
-}
-
-/* Layer 8: Cinematic Ambient Lighting & Vignette Scrim */
+/* Cinematic Ambient Lighting Scrim */
 .realm-vignette {
   position: absolute;
   inset: 0;
-  z-index: 8;
+  z-index: 25;
   pointer-events: none;
-  background: radial-gradient(circle at 50% 45%, transparent 40%, rgba(5, 7, 13, 0.55) 75%, rgba(3, 4, 8, 0.9) 100%);
+  background: radial-gradient(circle at 50% 50%, transparent 50%, rgba(5, 7, 13, 0.40) 80%, rgba(3, 4, 8, 0.85) 100%);
 }
 
 /* Floating Cinematic Scene Indicator Pill */
@@ -818,13 +626,13 @@ nav {
   display: inline-flex;
   align-items: center;
   gap: 10px;
-  padding: 8px 20px;
+  padding: 8px 22px;
   border-radius: 999px;
-  background: rgba(8, 12, 22, 0.78);
+  background: rgba(8, 12, 22, 0.82);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(212, 168, 83, 0.35);
-  box-shadow: 0 4px 22px rgba(0, 0, 0, 0.45), 0 0 16px rgba(212, 168, 83, 0.16);
+  border: 1px solid rgba(212, 168, 83, 0.38);
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.5), 0 0 16px rgba(212, 168, 83, 0.16);
   pointer-events: none;
   white-space: nowrap;
   transition: all 0.4s var(--ease-out);
@@ -853,6 +661,320 @@ nav {
   color: #f5eed8;
   text-shadow: 0 0 10px rgba(0, 0, 0, 0.8);
 }
+
+/* =============================================================
+   VERTICAL CINEMATIC WORLD JOURNEY (5 STACKED SCENES)
+   ============================================================= */
+#world-journey {
+  position: relative;
+  width: 100%;
+  overflow: visible;
+}
+
+.world-scene {
+  position: relative;
+  width: 100%;
+  min-height: 100vh;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  overflow: hidden;
+  padding: var(--space-4xl) 0;
+}
+
+.scene-1-celestial {
+  min-height: 100vh;
+  padding: 0;
+}
+
+.scene-backdrop {
+  position: absolute;
+  top: -8%;
+  left: 0;
+  width: 100%;
+  height: 116%;
+  background-size: cover;
+  background-position: center center;
+  background-repeat: no-repeat;
+  z-index: 1;
+  pointer-events: none;
+  will-change: transform;
+}
+
+.scene-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+  background: radial-gradient(circle at 50% 50%, rgba(6, 9, 16, 0.35) 0%, rgba(5, 7, 13, 0.68) 70%, rgba(3, 5, 10, 0.88) 100%);
+}
+
+/* Seamless Atmospheric Seam Blending between Scenes */
+.world-scene::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 180px;
+  background: linear-gradient(to bottom, rgba(5, 7, 13, 0.98) 0%, rgba(5, 7, 13, 0.65) 45%, transparent 100%);
+  pointer-events: none;
+  z-index: 3;
+}
+
+.world-scene::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 180px;
+  background: linear-gradient(to top, rgba(5, 7, 13, 0.98) 0%, rgba(5, 7, 13, 0.65) 45%, transparent 100%);
+  pointer-events: none;
+  z-index: 3;
+}
+
+/* First scene has no top seam */
+.scene-1-celestial::before {
+  display: none;
+}
+
+/* Last scene has no bottom seam because footer blends naturally */
+.scene-5-kingdom::after {
+  display: none;
+}
+
+/* Ensure inner section contents sit above backdrop and overlays */
+.world-scene .hero-section,
+.world-scene .about-section,
+.world-scene .journey-section,
+.world-scene .tech-section,
+.world-scene .games-section,
+.world-scene .contact-section {
+  position: relative;
+  z-index: 4;
+  width: 100%;
+  background: transparent !important;
+  border-top: none !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+
+/* High-Contrast Frosted Glass Cards for Crystal-Clear Readability */
+.frosted-card {
+  background: rgba(9, 14, 26, 0.78) !important;
+  backdrop-filter: blur(18px) saturate(120%) !important;
+  -webkit-backdrop-filter: blur(18px) saturate(120%) !important;
+  border: 1px solid rgba(56, 217, 232, 0.18) !important;
+  border-radius: 16px;
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.62), 0 0 24px rgba(56, 217, 232, 0.06);
+  transition: transform var(--duration-normal) var(--ease-spring),
+              border-color var(--duration-normal) var(--ease-smooth),
+              box-shadow var(--duration-normal) var(--ease-smooth);
+}
+
+.frosted-card:hover {
+  border-color: rgba(56, 217, 232, 0.38) !important;
+  box-shadow: 0 20px 48px rgba(0, 0, 0, 0.72), 0 0 32px rgba(56, 217, 232, 0.16);
+}
+
+.about-text-block.frosted-card {
+  padding: var(--space-2xl);
+}
+
+.journey-section {
+  padding: var(--space-4xl) 0;
+}
+
+.journey-section .section-header {
+  text-align: center;
+  max-width: 720px;
+  margin: 0 auto var(--space-3xl);
+}
+
+.journey-section .pillars-grid {
+  margin-bottom: var(--space-3xl);
+}
+
+.stats-banner.frosted-card {
+  background: rgba(9, 14, 26, 0.8) !important;
+  padding: var(--space-xl) var(--space-2xl);
+  border-radius: 16px;
+}
+
+.updates-banner.frosted-card {
+  background: rgba(9, 14, 26, 0.8) !important;
+  padding: var(--space-2xl);
+  margin-top: var(--space-3xl);
+  text-align: center;
+}
+
+/* =============================================================
+   5.6. RESPONSIVE SCENE SPLIT LAYOUT (60/40 ARCHITECTURAL SYSTEM)
+   Guarantees zero overlap between content and character corridor
+   ============================================================= */
+.scene-split-layout {
+  display: grid;
+  grid-template-columns: 1.15fr 0.85fr;
+  gap: 40px;
+  align-items: center;
+  max-width: var(--container-max);
+  width: 100%;
+  margin: 0 auto;
+  position: relative;
+  z-index: 4;
+}
+
+.scene-content-col {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xl);
+  min-width: 0;
+  width: 100%;
+}
+
+.scene-character-corridor {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  justify-content: flex-end;
+  min-height: 480px;
+  pointer-events: none;
+  position: relative;
+}
+
+.scene-corridor-callout {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 18px;
+  border-radius: 12px;
+  background: rgba(8, 12, 22, 0.65);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1px solid rgba(212, 168, 83, 0.32);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5), 0 0 18px rgba(212, 168, 83, 0.12);
+  margin-top: auto;
+  pointer-events: auto;
+  transition: all 0.3s ease;
+}
+
+.scene-corridor-callout:hover {
+  border-color: rgba(56, 217, 232, 0.45);
+  box-shadow: 0 10px 36px rgba(0, 0, 0, 0.6), 0 0 24px rgba(56, 217, 232, 0.2);
+}
+
+.section-header.left-aligned {
+  text-align: left;
+  margin: 0 0 var(--space-xl) 0;
+  max-width: 100%;
+}
+
+/* 2x2 Pillars Grid in Split Layout */
+.pillars-grid.pillars-split {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--space-lg);
+  margin-bottom: 0;
+}
+
+/* 2x2 Tech Grid in Split Layout */
+.tech-grid.tech-split {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--space-lg);
+  margin-bottom: 0;
+}
+
+/* Studio Milestone Pill in Scene 2 About Block */
+.about-milestone-pill {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-top: var(--space-xl);
+  padding: 14px 20px;
+  background: rgba(14, 20, 36, 0.85);
+  border: 1px solid rgba(56, 217, 232, 0.24);
+  border-radius: var(--radius-md);
+  box-shadow: inset 0 0 16px rgba(56, 217, 232, 0.08);
+}
+
+.milestone-badge {
+  font-family: var(--font-display);
+  font-size: 26px;
+  font-weight: 900;
+  color: var(--accent);
+  letter-spacing: 0.06em;
+  line-height: 1;
+  text-shadow: 0 0 12px rgba(56, 217, 232, 0.5);
+}
+
+.milestone-info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.milestone-title {
+  font-family: var(--font-heading);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: #faecc7;
+}
+
+.milestone-sub {
+  font-family: var(--font-heading);
+  font-size: 9.5px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--text-tertiary);
+}
+
+/* Kingdom Arrival Stage */
+.kingdom-arrival-stage {
+  padding: var(--space-4xl) 0 var(--space-3xl);
+  position: relative;
+  z-index: 4;
+}
+
+.kingdom-arrival-card {
+  padding: var(--space-2xl);
+}
+
+.kingdom-arrival-card p {
+  font-size: 15.5px;
+  color: var(--text-secondary);
+  line-height: 1.8;
+  margin-bottom: 0;
+}
+
+@media (max-width: 992px) {
+  .scene-split-layout {
+    grid-template-columns: 1fr;
+    gap: var(--space-2xl);
+  }
+
+  .scene-character-corridor {
+    min-height: auto;
+    align-items: center;
+    justify-content: center;
+    margin-top: var(--space-md);
+  }
+
+  .scene-corridor-callout {
+    margin: 0 auto;
+  }
+
+  .pillars-grid.pillars-split,
+  .tech-grid.tech-split {
+    grid-template-columns: 1fr;
+  }
+}
+
 
 /* =============================================================
    6. HERO SECTION — CINEMATIC TWO-COLUMN COMPOSITION
