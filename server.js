@@ -454,7 +454,7 @@ For general questions, answer normally. Understand typos and follow-up questions
 
   // Root and SPA Fallback (Express 5 compatible)
   app.use((req, res, next) => {
-    if (req.method === 'GET') {
+    if (req.method === 'GET' || req.method === 'HEAD') {
       if (req.path.startsWith('/api/')) {
         return res.status(404).json({ error: 'Endpoint not found' });
       }

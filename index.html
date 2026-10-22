@@ -52,7 +52,7 @@
   <link rel="preload" href="assets/images/realm-kingdom-reveal.webp" as="image" type="image/webp">
 
   <!-- Custom CSS Stylesheet -->
-  <link rel="stylesheet" href="css/styles.css?v=4.0">
+  <link rel="stylesheet" href="css/styles.css?v=5.0">
 
   <!-- Three.js CDN -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
@@ -90,6 +90,9 @@
   <!-- Subtle ambient background -->
   <div class="bg-ambient" aria-hidden="true"></div>
 
+  <!-- Top Scroll Progress Bar -->
+  <div id="scroll-progress-bar" class="scroll-progress-bar" role="progressbar" aria-label="Page scroll progress" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+
   <!-- =============================================================
        REALM OF NYLARION — CINEMATIC VIEWPORT STAGE & SCROLL STORY
   ============================================================= -->
@@ -123,6 +126,52 @@
     <span class="hud-pip" aria-hidden="true"></span>
     <span class="hud-label" id="ascension-scene-tag">Chapter I — Celestial Arrival</span>
   </aside>
+
+  <!-- Vertical Cinematic Chapter Navigator Rail -->
+  <nav class="realm-chapter-nav" id="realm-chapter-nav" aria-label="Cinematic Chapter Navigation">
+    <div class="chapter-nav-rail">
+      <div class="chapter-nav-line" aria-hidden="true">
+        <div class="chapter-nav-glow" id="chapter-nav-glow"></div>
+      </div>
+      <ul class="chapter-nav-list" role="tablist">
+        <li role="presentation">
+          <a href="#scene-celestial" class="chapter-nav-btn active" data-chapter="1" id="nav-ch-1" role="tab" aria-selected="true" aria-label="Chapter I: Celestial Arrival">
+            <span class="chapter-pip" aria-hidden="true"></span>
+            <span class="chapter-roman">I</span>
+            <span class="chapter-tooltip"><span class="tt-num">CHAPTER I</span><span class="tt-title">Celestial Arrival</span></span>
+          </a>
+        </li>
+        <li role="presentation">
+          <a href="#scene-forest" class="chapter-nav-btn" data-chapter="2" id="nav-ch-2" role="tab" aria-selected="false" aria-label="Chapter II: Enchanted Forest">
+            <span class="chapter-pip" aria-hidden="true"></span>
+            <span class="chapter-roman">II</span>
+            <span class="chapter-tooltip"><span class="tt-num">CHAPTER II</span><span class="tt-title">Enchanted Forest</span></span>
+          </a>
+        </li>
+        <li role="presentation">
+          <a href="#scene-path" class="chapter-nav-btn" data-chapter="3" id="nav-ch-3" role="tab" aria-selected="false" aria-label="Chapter III: Legendary Forest Path">
+            <span class="chapter-pip" aria-hidden="true"></span>
+            <span class="chapter-roman">III</span>
+            <span class="chapter-tooltip"><span class="tt-num">CHAPTER III</span><span class="tt-title">Legendary Forest Path</span></span>
+          </a>
+        </li>
+        <li role="presentation">
+          <a href="#scene-city" class="chapter-nav-btn" data-chapter="4" id="nav-ch-4" role="tab" aria-selected="false" aria-label="Chapter IV: Ancient Fantasy City">
+            <span class="chapter-pip" aria-hidden="true"></span>
+            <span class="chapter-roman">IV</span>
+            <span class="chapter-tooltip"><span class="tt-num">CHAPTER IV</span><span class="tt-title">Ancient Fantasy City</span></span>
+          </a>
+        </li>
+        <li role="presentation">
+          <a href="#scene-kingdom" class="chapter-nav-btn" data-chapter="5" id="nav-ch-5" role="tab" aria-selected="false" aria-label="Chapter V: Kingdom Reveal">
+            <span class="chapter-pip" aria-hidden="true"></span>
+            <span class="chapter-roman">V</span>
+            <span class="chapter-tooltip"><span class="tt-num">CHAPTER V</span><span class="tt-title">Kingdom Reveal</span></span>
+          </a>
+        </li>
+      </ul>
+    </div>
+  </nav>
 
   <!-- =============================================================
        2. NAVIGATION
@@ -159,6 +208,19 @@
       </ul>
 
       <div class="nav-actions">
+        <!-- Opt-in Ambient Soundscape Toggle (Default Muted) -->
+        <button type="button" class="btn-nav-control btn-sound-toggle" id="btn-sound-toggle" aria-label="Toggle cinematic ambient audio" aria-pressed="false" title="Cinematic Ambient Audio (Opt-in)">
+          <span class="sound-icon" aria-hidden="true">🔇</span>
+          <span class="sound-wave" aria-hidden="true"><i></i><i></i><i></i></span>
+          <span class="control-label">Audio</span>
+        </button>
+
+        <!-- Graphics Mode Toggle (Cinematic vs Performance) -->
+        <button type="button" class="btn-nav-control btn-effects-toggle" id="btn-effects-toggle" aria-label="Toggle between Cinematic and Performance graphics mode" title="Graphics Mode: Cinematic">
+          <span class="effects-icon" aria-hidden="true">✨</span>
+          <span class="control-label" id="effects-mode-label">Cinematic</span>
+        </button>
+
         <button type="button" class="btn-nav-ai" id="nav-ai-btn" aria-label="Open Nylarion AI Assistant">
           <span class="ai-sparkle" aria-hidden="true">✦</span> Ask AI
         </button>
@@ -553,7 +615,9 @@
                 <span class="game-genre">Mobile & PC Games</span>
                 <h3>Debut Titles</h3>
                 <p>The first chapter of Nylarion Studios — focused on engaging gameplay and original worlds that immerse players in unforgettable adventures.</p>
-                <span class="game-link">Stay Tuned <span aria-hidden="true">→</span></span>
+                <button type="button" class="game-link-btn" data-project-id="debut" aria-haspopup="dialog" aria-label="Explore Debut Titles project brief">
+                  Explore Project Brief <span aria-hidden="true">→</span>
+                </button>
               </div>
             </article>
 
@@ -569,7 +633,9 @@
                 <span class="game-genre">Creative Tech</span>
                 <h3>Interactive Experiences</h3>
                 <p>Exploring original digital concepts, clean design architectures, and experimental mechanics that push creative boundaries.</p>
-                <span class="game-link">In Development <span aria-hidden="true">→</span></span>
+                <button type="button" class="game-link-btn" data-project-id="interactive" aria-haspopup="dialog" aria-label="Explore Interactive Experiences project brief">
+                  Explore Project Brief <span aria-hidden="true">→</span>
+                </button>
               </div>
             </article>
 
@@ -585,7 +651,9 @@
                 <span class="game-genre">Future Roadmap</span>
                 <h3>Expanding Horizons</h3>
                 <p>Building a solid foundation for player-first gaming experiences designed to entertain and inspire players everywhere.</p>
-                <span class="game-link">Future Focus <span aria-hidden="true">→</span></span>
+                <button type="button" class="game-link-btn" data-project-id="horizons" aria-haspopup="dialog" aria-label="Explore Expanding Horizons project brief">
+                  Explore Project Brief <span aria-hidden="true">→</span>
+                </button>
               </div>
             </article>
           </div>
@@ -800,10 +868,72 @@
     </button>
   </div>
 
+  <!-- =============================================================
+       7. CINEMATIC PROJECT BRIEF MODAL DIALOG
+  ============================================================= -->
+  <div class="project-modal-backdrop" id="project-modal" role="dialog" aria-modal="true" aria-labelledby="project-modal-title" hidden>
+    <div class="project-modal-panel frosted-card" id="project-modal-panel">
+      <button type="button" class="project-modal-close" id="project-modal-close" aria-label="Close project brief">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m6 6 12 12M18 6 6 18"/></svg>
+      </button>
+
+      <div class="project-modal-header">
+        <div class="modal-badge-row">
+          <span class="project-modal-badge" id="project-modal-badge">Coming Soon</span>
+          <span class="project-modal-genre" id="project-modal-genre">Mobile & PC Games</span>
+        </div>
+        <h2 class="project-modal-title" id="project-modal-title">Debut Titles</h2>
+        <p class="project-modal-subtitle" id="project-modal-subtitle">The first chapter of Nylarion Studios — focused on engaging gameplay and original worlds.</p>
+      </div>
+
+      <div class="project-modal-media" id="project-modal-media">
+        <img src="assets/images/game-debut.jpg" alt="Project artwork" id="project-modal-img">
+        <div class="project-modal-gradient" aria-hidden="true"></div>
+      </div>
+
+      <div class="project-modal-body">
+        <div class="project-specs-grid">
+          <div class="spec-card">
+            <span class="spec-label">Target Platforms</span>
+            <span class="spec-val" id="project-modal-platforms">Mobile · PC</span>
+          </div>
+          <div class="spec-card">
+            <span class="spec-label">Development Status</span>
+            <span class="spec-val" id="project-modal-status">Active Production</span>
+          </div>
+          <div class="spec-card">
+            <span class="spec-label">Core Engine & Tech</span>
+            <span class="spec-val" id="project-modal-tech">Modern Game Engine</span>
+          </div>
+          <div class="spec-card">
+            <span class="spec-label">Creative Pillar</span>
+            <span class="spec-val" id="project-modal-pillar">Story-Driven Gameplay</span>
+          </div>
+        </div>
+
+        <div class="project-modal-desc-wrap">
+          <h4>Studio Vision & Philosophy</h4>
+          <p id="project-modal-desc">
+            Nylarion Studios is dedicated to building original, memorable titles crafted with technical precision and clean design. Player experience is at the heart of our development process.
+          </p>
+        </div>
+
+        <div class="project-modal-actions">
+          <a href="#contact" class="btn btn-primary" id="project-modal-contact-btn">
+            Connect With The Dev Team
+          </a>
+          <button type="button" class="btn btn-secondary" id="project-modal-dismiss">
+            Close Brief
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <!-- Realm Ascension Cinematic Engine -->
-  <script src="js/realm-ascension.js?v=4.0" defer></script>
+  <script src="js/realm-ascension.js?v=5.0" defer></script>
   <!-- Main JavaScript Bundle -->
-  <script src="js/main.js?v=3.2" defer></script>
+  <script src="js/main.js?v=5.0" defer></script>
 </body>
 
 </html>

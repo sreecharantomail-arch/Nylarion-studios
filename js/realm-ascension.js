@@ -91,6 +91,172 @@
     dom.sceneTag = document.getElementById('ascension-scene-tag');
     dom.scenes = Array.from(document.querySelectorAll('.world-scene'));
     dom.sceneBackdrops = Array.from(document.querySelectorAll('.scene-backdrop'));
+    dom.progressBar = document.getElementById('scroll-progress-bar');
+    dom.chapterRail = document.getElementById('realm-chapter-nav');
+    dom.chapterGlow = document.getElementById('chapter-nav-glow');
+    dom.chapterBtns = Array.from(document.querySelectorAll('.chapter-nav-btn'));
+    dom.soundToggle = document.getElementById('btn-sound-toggle');
+    dom.fxToggle = document.getElementById('btn-effects-toggle');
+  }
+
+  /**
+   * Web Audio Opt-in Ambient Soundscape Engine (Strictly Muted by Default)
+   */
+  const audio = {
+    ctx: null,
+    isPlaying: false,
+    masterGain: null,
+    droneNodes: [],
+    lastPlayedScene: -1
+  };
+
+  function initAudioContext() {
+    if (audio.ctx) return;
+    const AudioCtx = window.AudioContext || window.webkitAudioContext;
+    if (!AudioCtx) return;
+    try {
+      audio.ctx = new AudioCtx();
+      audio.masterGain = audio.ctx.createGain();
+      audio.masterGain.gain.setValueAtTime(0.0001, audio.ctx.currentTime);
+      audio.masterGain.connect(audio.ctx.destination);
+    } catch (e) {
+      console.warn('Web Audio not permitted in current context:', e);
+    }
+  }
+
+  function startSoundscape() {
+    if (!audio.ctx) initAudioContext();
+    if (!audio.ctx) return;
+    if (audio.ctx.state === 'suspended') {
+      audio.ctx.resume();
+    }
+
+    try {
+      audio.masterGain.gain.cancelScheduledValues(audio.ctx.currentTime);
+      audio.masterGain.gain.linearRampToValueAtTime(0.05, audio.ctx.currentTime + 1.8);
+
+      if (audio.droneNodes.length === 0) {
+        // Ethereal chord: A2 (110Hz), E3 (164.8Hz), A3 (220Hz), C#4 (277.2Hz)
+        const freqs = [110.0, 164.81, 220.0, 277.18];
+        freqs.forEach((freq, idx) => {
+          const osc = audio.ctx.createOscillator();
+          const filter = audio.ctx.createBiquadFilter();
+          const gain = audio.ctx.createGain();
+
+          osc.type = idx % 2 === 0 ? 'sine' : 'triangle';
+          osc.frequency.setValueAtTime(freq, audio.ctx.currentTime);
+
+          filter.type = 'lowpass';
+          filter.frequency.setValueAtTime(340 + idx * 50, audio.ctx.currentTime);
+
+          gain.gain.setValueAtTime(0.25 / freqs.length, audio.ctx.currentTime);
+
+          osc.connect(filter);
+          filter.connect(gain);
+          gain.connect(audio.masterGain);
+
+          osc.start();
+          audio.droneNodes.push(osc);
+        });
+      }
+
+      audio.isPlaying = true;
+      updateSoundUI(true);
+    } catch (e) {
+      console.warn('Could not start soundscape:', e);
+    }
+  }
+
+  function stopSoundscape() {
+    if (!audio.ctx || !audio.isPlaying) return;
+    try {
+      audio.masterGain.gain.cancelScheduledValues(audio.ctx.currentTime);
+      audio.masterGain.gain.linearRampToValueAtTime(0.0001, audio.ctx.currentTime + 1.0);
+      audio.isPlaying = false;
+      updateSoundUI(false);
+    } catch (e) {
+      console.warn('Could not stop soundscape:', e);
+    }
+  }
+
+  function playChapterChime(sceneIdx) {
+    if (!audio.ctx || !audio.isPlaying) return;
+    audio.lastPlayedScene = sceneIdx;
+    try {
+      const now = audio.ctx.currentTime;
+      // Pentatonic crystal chime notes
+      const notes = [554.37, 659.25, 739.99, 880.0, 1108.73];
+      const freq = notes[sceneIdx % notes.length];
+
+      const osc = audio.ctx.createOscillator();
+      const gain = audio.ctx.createGain();
+
+      osc.type = 'sine';
+      osc.frequency.setValueAtTime(freq, now);
+      osc.frequency.exponentialRampToValueAtTime(freq * 1.008, now + 0.12);
+
+      gain.gain.setValueAtTime(0.07, now);
+      gain.gain.exponentialRampToValueAtTime(0.0001, now + 1.6);
+
+      osc.connect(gain);
+      gain.connect(audio.ctx.destination);
+
+      osc.start(now);
+      osc.stop(now + 1.65);
+    } catch (e) {
+      // Audio chime error ignored
+    }
+  }
+
+  function updateSoundUI(active) {
+    if (!dom.soundToggle) return;
+    dom.soundToggle.classList.toggle('is-active', active);
+    dom.soundToggle.setAttribute('aria-pressed', active ? 'true' : 'false');
+    const icon = dom.soundToggle.querySelector('.sound-icon');
+    if (icon) icon.textContent = active ? '🔊' : '🔇';
+    const label = dom.soundToggle.querySelector('.control-label');
+    if (label) label.textContent = active ? 'Audio: ON' : 'Audio: OFF';
+    dom.soundToggle.title = active ? 'Cinematic Ambient Audio (Click to Mute)' : 'Cinematic Ambient Audio (Opt-in — Click to Enable)';
+  }
+
+  /**
+   * Graphics FX Mode (Cinematic vs Performance)
+   */
+  function initFXMode() {
+    const saved = localStorage.getItem('nylarion_fx_mode');
+    const isPerf = saved === 'performance' || state.reducedMotion;
+    setFXMode(isPerf);
+
+    if (dom.fxToggle) {
+      dom.fxToggle.addEventListener('click', () => {
+        const currentlyPerf = document.body.getAttribute('data-fx') === 'performance';
+        setFXMode(!currentlyPerf);
+      });
+    }
+  }
+
+  function setFXMode(performanceMode) {
+    if (performanceMode) {
+      document.body.setAttribute('data-fx', 'performance');
+      localStorage.setItem('nylarion_fx_mode', 'performance');
+      if (dom.fxToggle) {
+        dom.fxToggle.classList.add('is-performance');
+        dom.fxToggle.title = 'Graphics Mode: Performance (Click for Cinematic)';
+        dom.fxToggle.setAttribute('aria-label', 'Graphics Mode: Performance (Low-FX). Click to switch to Cinematic.');
+        const icon = dom.fxToggle.querySelector('.effects-icon');
+        if (icon) icon.textContent = '⚡';
+      }
+    } else {
+      document.body.removeAttribute('data-fx');
+      localStorage.setItem('nylarion_fx_mode', 'cinematic');
+      if (dom.fxToggle) {
+        dom.fxToggle.classList.remove('is-performance');
+        dom.fxToggle.title = 'Graphics Mode: Cinematic (Click for Performance)';
+        dom.fxToggle.setAttribute('aria-label', 'Graphics Mode: Cinematic. Click to switch to Performance mode.');
+        const icon = dom.fxToggle.querySelector('.effects-icon');
+        if (icon) icon.textContent = '✨';
+      }
+    }
   }
 
   /**
@@ -498,6 +664,7 @@
    */
   function updateWebGL(delta) {
     if (!webgl.scene || !webgl.renderer) return;
+    if (document.body.getAttribute('data-fx') === 'performance') return;
 
     // 1. Update 3D Horse Locomotion & Skeletal Animations
     updateLocomotion(delta);
@@ -554,6 +721,12 @@
     state.targetProgress = docHeight > 0 ? clamp(currentY / docHeight, 0, 1) : 0;
     state.scrollVelocity = currentY - state.lastScrollY;
     state.lastScrollY = currentY;
+
+    if (dom.progressBar) {
+      const pct = (state.targetProgress * 100).toFixed(2);
+      dom.progressBar.style.width = pct + '%';
+      dom.progressBar.setAttribute('aria-valuenow', Math.round(state.targetProgress * 100));
+    }
   }
 
   /**
@@ -726,9 +899,26 @@
       });
     }
 
-    // 4. UPDATE STORY HUD SCENE TAG
+    // 4. UPDATE STORY HUD SCENE TAG & CHAPTER NAVIGATOR RAIL
     if (dom.sceneTag && dom.sceneTag.textContent !== sceneName) {
       dom.sceneTag.textContent = sceneName;
+    }
+
+    if (dom.chapterBtns && dom.chapterBtns.length > 0) {
+      dom.chapterBtns.forEach((btn, idx) => {
+        const isActive = idx === activeSceneIdx;
+        btn.classList.toggle('active', isActive);
+        btn.setAttribute('aria-selected', isActive ? 'true' : 'false');
+      });
+    }
+
+    if (dom.chapterGlow) {
+      dom.chapterGlow.style.top = `${activeSceneIdx * 20}%`;
+    }
+
+    // Play subtle crystal chime on scene transition (only if audio active)
+    if (audio.isPlaying && audio.lastPlayedScene !== activeSceneIdx) {
+      playChapterChime(activeSceneIdx);
     }
   }
 
@@ -770,6 +960,32 @@
     // Scroll Listener (passive, non-blocking)
     window.addEventListener('scroll', updateScrollProgress, { passive: true });
 
+    // Chapter Rail Interactive Direct Navigation
+    if (dom.chapterBtns && dom.chapterBtns.length > 0) {
+      dom.chapterBtns.forEach((btn, idx) => {
+        btn.addEventListener('click', (e) => {
+          e.preventDefault();
+          if (dom.scenes && dom.scenes[idx]) {
+            dom.scenes[idx].scrollIntoView({ behavior: 'smooth', block: 'start' });
+          }
+        });
+      });
+    }
+
+    // Ambient Soundscape Toggle (Opt-in)
+    if (dom.soundToggle) {
+      dom.soundToggle.addEventListener('click', () => {
+        if (audio.isPlaying) {
+          stopSoundscape();
+        } else {
+          startSoundscape();
+        }
+      });
+    }
+
+    // Graphics FX Mode Toggle
+    initFXMode();
+
     // Pointer Parallax
     window.addEventListener('pointermove', (e) => {
       if (state.reducedMotion) return;
@@ -806,6 +1022,7 @@
     const motionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
     motionQuery.addEventListener?.('change', (e) => {
       state.reducedMotion = e.matches;
+      if (e.matches) setFXMode(true);
     });
   }
 

@@ -770,3 +770,136 @@ document.addEventListener('DOMContentLoaded', () => {
     launch.classList.add('ny-ai-reduced-motion');
   }
 });
+
+/* =============================================================
+   8. PROJECT ASCENSION 2.0 — ACCESSIBLE PROJECT BRIEF MODAL
+   Grounded strictly in authentic Nylarion Studios Data (nylarion-data.json)
+   ============================================================= */
+document.addEventListener('DOMContentLoaded', () => {
+  const modal = document.getElementById('project-modal');
+  if (!modal) return;
+
+  const backdrop = document.getElementById('project-modal-backdrop');
+  const closeBtn = document.getElementById('project-modal-close');
+  const dismissBtn = document.getElementById('project-modal-dismiss');
+  const contactBtn = document.getElementById('project-modal-contact-btn');
+
+  const badgeEl = document.getElementById('project-modal-badge');
+  const titleEl = document.getElementById('project-modal-title');
+  const imgEl = document.getElementById('project-modal-img');
+  const platformsEl = document.getElementById('project-modal-platforms');
+  const statusEl = document.getElementById('project-modal-status');
+  const techEl = document.getElementById('project-modal-tech');
+  const pillarEl = document.getElementById('project-modal-pillar');
+  const descEl = document.getElementById('project-modal-desc');
+
+  // Authentic project data catalog
+  const PROJECT_CATALOG = {
+    debut: {
+      badge: 'In Active Production // Chapter I',
+      title: 'Debut Titles',
+      img: 'assets/images/game-debut.jpg',
+      alt: 'Debut Titles concept art — futuristic game world',
+      platforms: 'Mobile · PC Platforms',
+      status: 'Coming Soon / In Development',
+      tech: 'Modern Game Engine',
+      pillar: 'Engaging Gameplay & Original Worlds',
+      desc: 'The inaugural chapter of Nylarion Studios — focused on engaging gameplay and original fantasy worlds that immerse players in unforgettable adventures. Built with technical precision, clean architecture, and player experience at the heart of our development process.'
+    },
+    interactive: {
+      badge: 'Creative Tech // Chapter II',
+      title: 'Interactive Experiences',
+      img: 'assets/images/game-interactive.jpg',
+      alt: 'Interactive Experiences concept art — digital innovation',
+      platforms: 'Web · Interactive Tech · PC',
+      status: 'In Active Development',
+      tech: 'Three.js / WebGL / Next-Gen Shaders',
+      pillar: 'Creative Exploration & Clean Architecture',
+      desc: 'Exploring original digital concepts, clean design architectures, and experimental mechanics that push creative boundaries. Crafted with quality, polished presentation, and innovative technology to deliver fresh experiences.'
+    },
+    horizons: {
+      badge: 'Future Roadmap // Chapter III',
+      title: 'Expanding Horizons',
+      img: 'assets/images/game-horizons.jpg',
+      alt: 'Expanding Horizons concept art — alien landscape',
+      platforms: 'Cross-Platform Ecosystem',
+      status: 'Roadmap & Concept Design',
+      tech: 'Scalable Game Infrastructure',
+      pillar: 'Player-First Experiences',
+      desc: 'Building a solid foundation for player-first gaming experiences designed to entertain and inspire players everywhere. From concept to completion, focusing on thoughtful design, technical excellence, and continuous innovation.'
+    }
+  };
+
+  let lastActiveTrigger = null;
+
+  function openModal(projectId, triggerBtn) {
+    const data = PROJECT_CATALOG[projectId] || PROJECT_CATALOG.debut;
+    lastActiveTrigger = triggerBtn || document.activeElement;
+
+    if (badgeEl) badgeEl.textContent = data.badge;
+    if (titleEl) titleEl.textContent = data.title;
+    if (imgEl) {
+      imgEl.src = data.img;
+      imgEl.alt = data.alt;
+    }
+    if (platformsEl) platformsEl.textContent = data.platforms;
+    if (statusEl) statusEl.textContent = data.status;
+    if (techEl) techEl.textContent = data.tech;
+    if (pillarEl) pillarEl.textContent = data.pillar;
+    if (descEl) descEl.textContent = data.desc;
+
+    modal.classList.add('is-open');
+    modal.setAttribute('aria-hidden', 'false');
+    document.body.style.overflow = 'hidden';
+
+    // Focus close button for accessibility
+    setTimeout(() => {
+      if (closeBtn) closeBtn.focus();
+    }, 60);
+
+    window.addEventListener('keydown', handleKeyDown);
+  }
+
+  function closeModal() {
+    if (!modal.classList.contains('is-open')) return;
+    modal.classList.remove('is-open');
+    modal.setAttribute('aria-hidden', 'true');
+    document.body.style.overflow = '';
+    window.removeEventListener('keydown', handleKeyDown);
+
+    if (lastActiveTrigger && typeof lastActiveTrigger.focus === 'function') {
+      lastActiveTrigger.focus();
+    }
+  }
+
+  function handleKeyDown(e) {
+    if (e.key === 'Escape' || e.key === 'Esc') {
+      closeModal();
+    }
+  }
+
+  // Hook all Project Brief buttons
+  const triggerBtns = document.querySelectorAll('.game-link-btn[data-project-id]');
+  triggerBtns.forEach((btn) => {
+    btn.addEventListener('click', (e) => {
+      e.preventDefault();
+      const id = btn.getAttribute('data-project-id');
+      openModal(id, btn);
+    });
+  });
+
+  if (closeBtn) closeBtn.addEventListener('click', closeModal);
+  if (dismissBtn) dismissBtn.addEventListener('click', closeModal);
+  if (backdrop) backdrop.addEventListener('click', closeModal);
+
+  if (contactBtn) {
+    contactBtn.addEventListener('click', () => {
+      closeModal();
+      const contactSection = document.getElementById('contact');
+      if (contactSection) {
+        contactSection.scrollIntoView({ behavior: 'smooth' });
+      }
+    });
+  }
+});
+
