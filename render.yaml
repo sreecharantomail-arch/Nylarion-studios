@@ -1,6 +1,6 @@
 services:
   - type: web
-    name: nylarion-studios-ai
+    name: nylarion-studios
     runtime: node
     plan: free
     buildCommand: npm install
@@ -10,4 +10,7 @@ services:
       - key: OPENAI_API_KEY
         sync: false
       - key: OPENAI_MODEL
-        value: gpt-6-luna
+        value: openai/gpt-oss-120b
+      - key: OPENAI_BASE_URL
+        value: https://api.groq.com/openai/v1
+
