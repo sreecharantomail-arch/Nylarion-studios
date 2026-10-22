@@ -44,8 +44,8 @@
     rel="stylesheet">
 
   <!-- Preload Critical Character & Environment Assets -->
-  <link rel="preload" href="assets/images/legendary-horse-cutout.png" as="image">
-  <link rel="preload" href="assets/images/realm-celestial-horizon.jpg" as="image">
+  <link rel="preload" href="assets/images/legendary-horse-cutout.webp" as="image" type="image/webp">
+  <link rel="preload" href="assets/images/realm-celestial-horizon.webp" as="image" type="image/webp">
 
   <!-- Custom CSS Stylesheet -->
   <link rel="stylesheet" href="css/styles.css?v=3.7">
@@ -91,16 +91,16 @@
   ============================================================= -->
   <div id="realm-stage" aria-hidden="true">
     <!-- Layer 1: Celestial Horizon Sky -->
-    <div class="realm-layer realm-sky" id="realm-sky" style="background-image: url('assets/images/realm-celestial-horizon.jpg');"></div>
+    <div class="realm-layer realm-sky" id="realm-sky" style="background-image: url('assets/images/realm-celestial-horizon.webp');"></div>
 
     <!-- Layer 2: Three.js WebGL Volumetric & Particle Canvas -->
     <canvas id="realm-webgl-canvas"></canvas>
 
     <!-- Layer 3: The Living Forest -->
-    <div class="realm-layer realm-forest" id="realm-forest" style="background-image: url('assets/images/realm-living-forest.jpg');"></div>
+    <div class="realm-layer realm-forest" id="realm-forest" style="background-image: url('assets/images/realm-living-forest.webp');"></div>
 
     <!-- Layer 4: The Forgotten Kingdom -->
-    <div class="realm-layer realm-kingdom" id="realm-kingdom" style="background-image: url('assets/images/realm-forgotten-kingdom.jpg');"></div>
+    <div class="realm-layer realm-kingdom" id="realm-kingdom" style="background-image: url('assets/images/realm-forgotten-kingdom.webp');"></div>
 
     <!-- Layer 5: Atmospheric Volumetric Fog -->
     <div class="realm-fog-layer" id="realm-fog">
@@ -112,12 +112,15 @@
     <div class="realm-character-wrapper" id="realm-character">
       <div class="horse-glow-radial"></div>
       <div class="horse-shadow-ellipse"></div>
-      <img src="assets/images/legendary-horse-cutout.png" alt="Legendary Celestial Warhorse" class="horse-sprite" id="horse-sprite" loading="eager" width="1024" height="682">
+      <picture>
+        <source srcset="assets/images/legendary-horse-cutout.webp" type="image/webp">
+        <img src="assets/images/legendary-horse-cutout.png" alt="Legendary Celestial Warhorse" class="horse-sprite" id="horse-sprite" loading="eager" width="1024" height="682" decoding="async">
+      </picture>
       <div class="horse-rim-aura"></div>
     </div>
 
     <!-- Layer 7: Foreground Parallax Foliage -->
-    <div class="realm-layer realm-foreground" id="realm-foreground" style="background-image: url('assets/images/realm-forest-foreground.png');"></div>
+    <div class="realm-layer realm-foreground" id="realm-foreground" style="background-image: url('assets/images/realm-forest-foreground.webp');"></div>
 
     <!-- Cinematic Ambient Lighting Scrim -->
     <div class="realm-vignette"></div>
@@ -352,7 +355,10 @@
         <div class="games-grid">
           <article class="game-card" data-reveal>
             <div class="game-media">
-              <img src="assets/images/game-debut.jpg" alt="Debut Titles concept art — futuristic cityscape" loading="lazy" width="600" height="338">
+              <picture>
+                <source srcset="assets/images/game-debut.webp" type="image/webp">
+                <img src="assets/images/game-debut.jpg" alt="Debut Titles concept art — futuristic cityscape" loading="lazy" decoding="async" width="600" height="338">
+              </picture>
               <span class="game-badge">Coming Soon</span>
             </div>
             <div class="game-body">
@@ -365,7 +371,10 @@
 
           <article class="game-card" data-reveal>
             <div class="game-media">
-              <img src="assets/images/game-interactive.jpg" alt="Interactive Experiences concept art — digital technology" loading="lazy" width="600" height="338">
+              <picture>
+                <source srcset="assets/images/game-interactive.webp" type="image/webp">
+                <img src="assets/images/game-interactive.jpg" alt="Interactive Experiences concept art — digital technology" loading="lazy" decoding="async" width="600" height="338">
+              </picture>
               <span class="game-badge">In Development</span>
             </div>
             <div class="game-body">
@@ -378,7 +387,10 @@
 
           <article class="game-card" data-reveal>
             <div class="game-media">
-              <img src="assets/images/game-horizons.jpg" alt="Expanding Horizons concept art — alien landscape" loading="lazy" width="600" height="338">
+              <picture>
+                <source srcset="assets/images/game-horizons.webp" type="image/webp">
+                <img src="assets/images/game-horizons.jpg" alt="Expanding Horizons concept art — alien landscape" loading="lazy" decoding="async" width="600" height="338">
+              </picture>
               <span class="game-badge">Future</span>
             </div>
             <div class="game-body">
@@ -584,7 +596,10 @@
   <div class="ny-ai-window" id="ny-ai-window" aria-live="polite">
     <div class="ny-ai-head">
       <div class="ny-ai-avatar-wrap">
-        <img class="ny-ai-avatar" src="assets/images/robot-avatar.png" alt="Nylarion AI Robot" width="42" height="42">
+        <picture>
+          <source srcset="assets/images/robot-avatar.webp" type="image/webp">
+          <img class="ny-ai-avatar" src="assets/images/robot-avatar.png" alt="Nylarion AI Robot" width="42" height="42" loading="lazy">
+        </picture>
         <span class="ny-ai-online-dot" aria-hidden="true"></span>
       </div>
       <div class="ny-ai-title">
