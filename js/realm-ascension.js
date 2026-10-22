@@ -92,9 +92,6 @@
     dom.scenes = Array.from(document.querySelectorAll('.world-scene'));
     dom.sceneBackdrops = Array.from(document.querySelectorAll('.scene-backdrop'));
     dom.progressBar = document.getElementById('scroll-progress-bar');
-    dom.chapterRail = document.getElementById('realm-chapter-nav');
-    dom.chapterGlow = document.getElementById('chapter-nav-glow');
-    dom.chapterBtns = Array.from(document.querySelectorAll('.chapter-nav-btn'));
     dom.soundToggle = document.getElementById('btn-sound-toggle');
     dom.fxToggle = document.getElementById('btn-effects-toggle');
   }
@@ -899,21 +896,9 @@
       });
     }
 
-    // 4. UPDATE STORY HUD SCENE TAG & CHAPTER NAVIGATOR RAIL
+    // 4. UPDATE STORY HUD SCENE TAG
     if (dom.sceneTag && dom.sceneTag.textContent !== sceneName) {
       dom.sceneTag.textContent = sceneName;
-    }
-
-    if (dom.chapterBtns && dom.chapterBtns.length > 0) {
-      dom.chapterBtns.forEach((btn, idx) => {
-        const isActive = idx === activeSceneIdx;
-        btn.classList.toggle('active', isActive);
-        btn.setAttribute('aria-selected', isActive ? 'true' : 'false');
-      });
-    }
-
-    if (dom.chapterGlow) {
-      dom.chapterGlow.style.top = `${activeSceneIdx * 20}%`;
     }
 
     // Play subtle crystal chime on scene transition (only if audio active)
@@ -959,18 +944,6 @@
   function attachListeners() {
     // Scroll Listener (passive, non-blocking)
     window.addEventListener('scroll', updateScrollProgress, { passive: true });
-
-    // Chapter Rail Interactive Direct Navigation
-    if (dom.chapterBtns && dom.chapterBtns.length > 0) {
-      dom.chapterBtns.forEach((btn, idx) => {
-        btn.addEventListener('click', (e) => {
-          e.preventDefault();
-          if (dom.scenes && dom.scenes[idx]) {
-            dom.scenes[idx].scrollIntoView({ behavior: 'smooth', block: 'start' });
-          }
-        });
-      });
-    }
 
     // Ambient Soundscape Toggle (Opt-in)
     if (dom.soundToggle) {
