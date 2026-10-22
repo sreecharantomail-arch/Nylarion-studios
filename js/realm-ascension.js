@@ -574,9 +574,9 @@
       const t = progress / 0.20;
       sceneName = 'The Arrival — Celestial Horizon';
 
-      charX = isMobile ? lerp(50, 50, t) : lerp(60, 58, t);
-      charY = isMobile ? lerp(68, 66, t) : lerp(56, 54, t);
-      charScale = isMobile ? lerp(0.58, 0.60, t) : lerp(0.76, 0.80, t);
+      charX = isMobile ? 50 : lerp(65, 62, t);
+      charY = isMobile ? 68 : lerp(58, 56, t);
+      charScale = isMobile ? lerp(0.58, 0.60, t) : lerp(0.76, 0.79, t);
       charOpacity = 1.0;
 
       skyOpacity = 1.0;
